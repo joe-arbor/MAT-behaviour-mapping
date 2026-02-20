@@ -1,0 +1,114 @@
+// Tabs — sizes (big, medium, small), alignment (left, center, right), active/inactive, panel
+// Screenshot spec: inactive light bg + border; active darker grey, no top border; panel connects below
+
+.ds-tabs {
+  font-family: var(--font-family-standard);
+  width: 100%;
+}
+
+.ds-tabs__list {
+  display: flex;
+  gap: var(--tabs-tab-item-spacing-gap-horizontal);
+  margin-bottom: 0;
+  border-bottom: var(--border-weight) solid var(--color-grey-200);
+
+  &--left {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+}
+
+.ds-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xsmall);
+  font-family: inherit;
+  font-weight: var(--font-weight-regular);
+  color: var(--tabs-tab-item-inactive-default-color-text);
+  background-color: var(--color-grey-050);
+  border: var(--border-weight) solid var(--color-grey-200);
+  border-bottom: none;
+  border-radius: var(--corner-radius) var(--corner-radius) 0 0;
+  cursor: pointer;
+  margin-bottom: -1px; // overlap with list border so active tab meets panel
+  padding: var(--tabs-tab-item-spacing-vertical) var(--tabs-tab-item-spacing-horizontal);
+  transition: background-color 0.15s ease, font-weight 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+
+  &--active {
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--tabs-tab-item-color-text);
+    background-color: var(--color-grey-100);
+    border-color: var(--color-grey-200);
+    padding-bottom: calc(var(--tabs-tab-item-spacing-vertical) + 1px); // extend into panel border
+  }
+
+  &--big {
+    font-size: var(--font-size-5-18);
+    padding: var(--spacing-small) var(--spacing-medium);
+  }
+
+  &--big.ds-tabs__tab--active {
+    padding-bottom: calc(var(--spacing-small) + 1px);
+  }
+
+  &--medium {
+    font-size: var(--font-size-3-14);
+  }
+
+  &--small {
+    font-size: var(--font-size-2-13);
+    padding: var(--spacing-xsmall) var(--spacing-small);
+  }
+
+  &--small.ds-tabs__tab--active {
+    padding-bottom: calc(var(--spacing-xsmall) + 1px);
+  }
+}
+
+.ds-tabs__tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.ds-tabs__tab-label {
+  line-height: 1.25;
+}
+
+.ds-tabs__panel {
+  padding: var(--spacing-large);
+  background-color: var(--color-grey-050);
+  border: var(--border-weight) solid var(--color-grey-200);
+  border-top: none;
+  border-radius: 0 0 var(--corner-radius) var(--corner-radius);
+  color: var(--color-grey-600);
+  font-size: var(--font-size-3-14);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--big {
+    padding: var(--spacing-xlarge);
+    font-size: var(--font-size-4-16);
+  }
+
+  &--small {
+    padding: var(--spacing-medium);
+    font-size: var(--font-size-2-13);
+    min-height: 60px;
+  }
+}

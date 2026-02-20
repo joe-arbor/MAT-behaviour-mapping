@@ -1,0 +1,262 @@
+// Button — aligned with arbor-btn reference CSS, design tokens where possible
+
+.ds-button {
+  font-size: inherit;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; // .btn-content gap in reference
+  max-width: 270px; // .arbor-btn reference
+  font-family: var(--font-family-buttons);
+  font-weight: var(--font-weight-bold);
+  border: var(--border-weight) solid transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &:disabled,
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5; // .arbor-btn &:disabled reference
+  }
+
+  &--active {
+    &.ds-button--secondary.ds-button--grey {
+      background-color: var(--color-grey-100);
+      border-color: var(--color-grey-500);
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    font-size: 14px;
+    line-height: 1em;
+
+    &--left {
+      margin-right: 2px;
+    }
+
+    &--right {
+      margin-left: 2px;
+    }
+  }
+
+  &--small &__icon {
+    width: 15px;
+    height: 15px;
+    font-size: 14px;
+  }
+
+  &__chevron {
+    margin-left: 2px;
+    font-size: 0.75em;
+    line-height: 1;
+  }
+
+  &__label {
+    line-height: inherit;
+  }
+
+  // ----- Sizes -----
+  box-sizing: border-box;
+  height: 2rem; /* 32px — global button height */
+  padding: 0 10px;
+  min-height: 0;
+
+  &--small {
+    font-size: var(--font-size-2-13);
+  }
+
+  &--medium {
+    font-size: var(--font-size-3-14);
+  }
+
+  // ----- Radius: 4px rounded corners (legacy = sharp) -----
+  border-radius: var(--border-radius-xsmall); // 4px
+
+  &--legacy {
+    border-radius: 0;
+  }
+
+  // Segmented: merge borders
+  &--segment-center {
+    margin-left: -1px;
+  }
+
+  &--segment-right {
+    margin-left: -1px;
+  }
+
+  // ----- Primary + color -----
+  &--primary.ds-button--grey {
+    background-color: var(--color-grey-100);
+    color: var(--color-grey-800);
+    border-color: var(--color-grey-100);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-grey-200);
+      border-color: var(--color-grey-200);
+    }
+  }
+
+  &--primary.ds-button--green {
+    background-color: var(--color-green);
+    color: var(--button-medium-primary-default-color-text);
+    border-color: var(--color-green);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-green-dark);
+      border-color: var(--color-green-dark);
+    }
+  }
+
+  &--primary.ds-button--orange {
+    background-color: var(--color-semantic-warning-500);
+    color: var(--color-mono-white);
+    border-color: var(--color-semantic-warning-500);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-semantic-warning-600);
+      border-color: var(--color-semantic-warning-600);
+    }
+  }
+
+  &--primary.ds-button--red {
+    background-color: var(--color-semantic-destructive-500);
+    color: var(--color-mono-white);
+    border-color: var(--color-semantic-destructive-500);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-semantic-destructive-600);
+      border-color: var(--color-semantic-destructive-600);
+    }
+  }
+
+  // ----- Secondary + color -----
+  &--secondary.ds-button--grey {
+    background-color: var(--color-mono-white);
+    color: var(--color-grey-800);
+    border-color: var(--color-grey-300);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-grey-050);
+      border-color: var(--color-grey-300);
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  &--secondary.ds-button--green {
+    background-color: var(--color-mono-white);
+    color: var(--color-green-dark);
+    border-color: var(--color-green);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-brand-050);
+      border-color: var(--color-green);
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  &--secondary.ds-button--orange {
+    background-color: var(--color-semantic-warning-050);
+    color: var(--color-semantic-warning-800);
+    border-color: var(--color-semantic-warning-500);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-semantic-warning-100);
+      border-color: var(--color-semantic-warning-500);
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  &--secondary.ds-button--red {
+    background-color: var(--color-semantic-destructive-050);
+    color: var(--color-semantic-destructive-800);
+    border-color: var(--color-semantic-destructive-500);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-semantic-destructive-100);
+      border-color: var(--color-semantic-destructive-500);
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  // ----- Secondary V1 (text link without underline) -----
+  &--secondaryV1 {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--color-grey-800);
+    height: auto;
+    padding: 2px 4px;
+    min-height: auto;
+    text-decoration: none;
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-grey-050);
+      text-decoration: none;
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  &--secondaryV1.ds-button--green {
+    color: var(--color-green-dark);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      color: var(--color-green);
+    }
+  }
+
+  // ----- Tertiary (text-link style) -----
+  &--tertiary {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--button-small-tertiary-default-color-text);
+    height: auto;
+    padding: 2px 4px;
+    min-height: auto;
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      background-color: var(--color-grey-050);
+      text-decoration: underline;
+    }
+
+    .ds-button__icon,
+    .ds-button__chevron {
+      color: inherit;
+    }
+  }
+
+  &--tertiary.ds-button--green {
+    color: var(--type-body-hyperlink-color);
+
+    &:hover:not(:disabled):not(.ds-button--disabled) {
+      color: var(--hyperlink-hover);
+    }
+  }
+}

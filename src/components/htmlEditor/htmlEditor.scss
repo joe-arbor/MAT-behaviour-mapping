@@ -1,0 +1,122 @@
+// HtmlEditor — form field with HTML value; toolbar, optional word counter & preview
+// Overrides Quill snow theme to use design tokens
+
+.ds-html-editor {
+  font-family: var(--font-family-standard);
+  width: 100%;
+  max-width: 100%;
+
+  &--disabled {
+    .ql-toolbar,
+    .ql-container {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: var(--form-field-spacing-vertical-gap);
+    font-size: var(--font-size-3-14);
+    font-weight: var(--font-weight-regular);
+    color: var(--form-field-label-color-text);
+  }
+
+  &__wrapper {
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    background: var(--form-field-text-default-color-background);
+    overflow: hidden;
+
+    &:focus-within {
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+  }
+
+  &__quill {
+    .ql-toolbar {
+      border: none;
+      border-bottom: var(--border-weight) solid var(--color-grey-200);
+      background: var(--color-grey-050);
+      padding: var(--spacing-xsmall) var(--spacing-small);
+      gap: 2px;
+    }
+
+    .ql-toolbar .ql-stroke {
+      stroke: var(--color-grey-400);
+    }
+
+    .ql-toolbar .ql-fill {
+      fill: var(--color-grey-600);
+    }
+
+    .ql-toolbar .ql-picker {
+      color: var(--color-grey-800);
+    }
+
+    .ql-toolbar button:hover .ql-stroke,
+    .ql-toolbar button.ql-active .ql-stroke {
+      stroke: var(--color-brand-600);
+    }
+
+    .ql-toolbar button:hover .ql-fill,
+    .ql-toolbar button.ql-active .ql-fill {
+      fill: var(--color-brand-600);
+    }
+
+    .ql-container {
+      border: none;
+      font-size: var(--font-size-3-14);
+      font-family: var(--font-family-standard);
+      color: var(--form-field-text-default-color-text);
+    }
+
+    .ql-editor {
+      min-height: 120px;
+      padding: var(--spacing-medium);
+      line-height: var(--line-height-default);
+
+      &.ql-blank::before {
+        color: var(--color-grey-500);
+        font-style: normal;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-small);
+    margin-top: var(--spacing-xsmall);
+    font-size: var(--font-size-2-13);
+    color: var(--color-grey-600);
+  }
+
+  &__counter {
+    flex-shrink: 0;
+  }
+
+  &__preview-btn {
+    margin-left: auto;
+    padding: var(--spacing-xsmall) var(--spacing-small);
+    font-size: var(--font-size-2-13);
+    font-family: var(--font-family-standard);
+    color: var(--color-brand-700);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-brand-800);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-radius: var(--corner-radius);
+      box-shadow: 0 0 0 2px var(--color-brand-100);
+    }
+  }
+}

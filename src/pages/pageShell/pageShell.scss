@@ -1,0 +1,170 @@
+// PageShell — layout for component showcase (Storybook-like)
+// Uses design tokens from src/tokens.scss (loaded on :root).
+
+$sidebar-width: 240px;
+
+.page-shell {
+  font-family: var(--font-family-standard);
+  display: flex;
+  min-height: 100vh;
+  background: var(--page-color-background);
+}
+
+.page-shell__sidebar {
+  width: $sidebar-width;
+  min-width: $sidebar-width;
+  background: var(--color-mono-white);
+  border-right: var(--border-weight) solid var(--page-base-color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.page-shell__sidebar-header {
+  padding: var(--spacing-large) var(--spacing-large) 0;
+  border-bottom: var(--border-weight) solid var(--page-base-color-border);
+  flex-shrink: 0;
+}
+
+.page-shell__sidebar-title {
+  margin: 0 0 var(--spacing-large);
+  font-size: var(--font-size-3-14);
+  font-weight: var(--font-weight-semi-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-grey-600);
+}
+
+.page-shell__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-large) 0;
+}
+
+.page-shell__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page-shell__nav-category {
+  margin: 0;
+}
+
+.page-shell__nav-category-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xsmall);
+  width: 100%;
+  padding: var(--spacing-small) var(--spacing-large);
+  text-align: left;
+  font-size: var(--font-size-3-14);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-grey-800);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--color-grey-050);
+  }
+
+  &--expanded {
+    color: var(--color-grey-900);
+  }
+}
+
+.page-shell__nav-category-chevron {
+  font-size: 0.6rem;
+  line-height: 1;
+  color: var(--color-grey-600);
+}
+
+.page-shell__nav-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.page-shell__nav-item {
+  margin: 0;
+}
+
+.page-shell__nav-link {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-small) var(--spacing-large) var(--spacing-small) calc(var(--spacing-large) + 1ch);
+  text-align: left;
+  font-size: var(--font-size-3-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-grey-900);
+  background: transparent;
+  border: none;
+  border-left: var(--focus-border) solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: var(--color-grey-050);
+  }
+
+  &--active {
+    background: var(--color-grey-100);
+    border-left-color: var(--color-brand-600);
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+.page-shell__canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-xxlarge);
+  background: var(--color-mono-white);
+}
+
+.page-shell__canvas-inner {
+  max-width: 900px;
+  min-width: 0; /* allow shrink so grid/cards never overflow */
+}
+
+.page-shell__canvas-header {
+  margin-bottom: var(--spacing-xxlarge);
+  padding-bottom: var(--spacing-large);
+  border-bottom: var(--border-weight) solid var(--page-base-color-border);
+}
+
+.page-shell__canvas-title {
+  margin: 0 0 var(--spacing-xsmall);
+  font-size: var(--type-headings-h2-size);
+  font-weight: var(--type-headings-h2-weight);
+  font-family: var(--type-headings-h2-family);
+  line-height: var(--type-headings-h2-line-height);
+  color: var(--color-grey-900);
+}
+
+.page-shell__canvas-description {
+  margin: 0;
+  font-size: var(--type-body-p-size);
+  font-family: var(--type-body-p-family);
+  font-weight: var(--type-body-p-weight);
+  line-height: var(--type-body-line-height);
+  color: var(--color-grey-600);
+}
+
+.page-shell__canvas-content {
+  min-height: 120px;
+  min-width: 0; /* allow shrink so grid/cards never overflow */
+  color: var(--color-grey-900);
+}
+
+.page-shell__canvas-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--color-grey-600);
+}

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__figma__get_screenshot",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_code_connect_map",
+      "Bash(yarn check-types:*)",
+      "Bash(yarn eslint:*)",
+      "Bash(yarn style-lint:*)",
+      "Skill(create-page)",
+      "mcp__figma-remote-mcp__get_screenshot",
+      "mcp__figma-remote-mcp__get_metadata",
+      "mcp__figma-remote-mcp__get_code_connect_map",
+      "mcp__figma-remote-mcp__get_design_context",
+      "Bash(grep:*)",
+      "WebFetch(domain:www.figma.com)",
+      "mcp__figma-remote-mcp__get_variable_defs",
+      "Bash(yarn tsc:*)",
+      "Bash(ls:*)",
+      "Bash(yarn test:coverage:*)",
+      "Bash(yarn vitest run:*)",
+      "Bash(yarn test:*)"
+    ]
+  }
+}

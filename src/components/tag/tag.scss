@@ -1,0 +1,51 @@
+// Tag — student-style tags, aligned with .mis-tag reference
+
+.ds-tag {
+  cursor: default;
+  display: inline-block;
+  border: var(--border-weight) solid var(--color-grey-200);
+  border-radius: var(--tag-radius);
+  background: var(--color-mono-white);
+  color: var(--color-grey-900);
+  font-family: var(--font-family-standard);
+
+  &--default {
+    padding: 3px 6px;
+    font-size: 14px;
+  }
+
+  &--big {
+    padding: 4px 7px;
+    font-size: 17px;
+  }
+
+  &--small {
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+
+  &--destructive {
+    background-color: var(--color-semantic-destructive-500);
+    color: var(--color-mono-white);
+    border-color: var(--color-semantic-destructive-500);
+  }
+
+  &--info {
+    background-color: var(--color-semantic-info-500);
+    color: var(--color-mono-white);
+    border-color: var(--color-semantic-info-500);
+  }
+
+  &--success {
+    background-color: var(--color-semantic-success-500);
+    color: var(--color-mono-white);
+    border-color: var(--color-semantic-success-500);
+  }
+}
+
+.ds-tags {
+  .ds-tag {
+    margin-right: 8px;
+    margin-bottom: 7px;
+  }
+}

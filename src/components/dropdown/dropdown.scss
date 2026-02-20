@@ -1,0 +1,98 @@
+// Dropdown — trigger button + menu, aligned with reference (light grey trigger, 5px radius, white menu, selected highlight)
+
+.ds-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  font-family: var(--font-family-standard);
+
+  &__label {
+    font-size: var(--font-size-3-14);
+    color: var(--form-field-label-color-text);
+    cursor: default;
+  }
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xsmall);
+    min-width: 100px;
+    padding: 6px 10px;
+    font-size: var(--font-size-3-14);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey-900);
+    background-color: var(--color-grey-100);
+    border: var(--border-weight) solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-200);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--focus-color-focus);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &__trigger-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  &__caret {
+    flex-shrink: 0;
+    font-size: 0.7em;
+    line-height: 1;
+    color: var(--color-grey-700);
+
+    &--up {
+      transform: scaleY(-1);
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    margin: 0;
+    padding: var(--spacing-xsmall) 0;
+    list-style: none;
+    background: var(--color-mono-white);
+    border: var(--border-weight) solid var(--color-grey-200);
+    border-top: none;
+    border-radius: 0 0 var(--corner-radius) var(--corner-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-width: 100%;
+  }
+
+  &__item {
+    padding: 6px 10px;
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-900);
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+
+    &:hover {
+      background-color: var(--color-grey-050);
+    }
+
+    &--selected {
+      background-color: var(--color-semantic-info-050);
+      font-weight: var(--font-weight-semi-bold);
+    }
+  }
+}

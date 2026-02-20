@@ -1,0 +1,187 @@
+// Section — container used throughout Arbor MIS; plain, warning/important, expandable, rows
+// Header aligned with .x-panel-header / .x-panel-header-default (Ext panel reference)
+
+$section-header-border: #dfdcdb;
+$section-header-bg: #efeeed;
+
+.ds-section {
+  font-family: var(--font-family-standard);
+  background-color: var(--section-container-color-background);
+  border-radius: var(--section-container-radius);
+  border: 1px solid $section-header-border;
+  overflow: hidden;
+
+  &--subsection {
+    margin-top: var(--spacing-small);
+    border-radius: var(--section-subsection-radius);
+    box-shadow: none; // avoid inner/double border effect
+  }
+}
+
+.ds-section--subsection .ds-section__header {
+  border: none;
+  box-shadow: none;
+}
+
+.ds-section__header {
+  display: flex;
+  align-items: center;
+  gap: var(--section-heading-spacing-gap);
+  padding: 7px 10px;
+  background-image: none;
+  background-color: $section-header-bg;
+  font-size: 20px;
+  border: none;
+  border-radius: var(--corner-radius) var(--corner-radius) 0 0;
+}
+
+.ds-section--warning .ds-section__header {
+  background-color: var(--color-semantic-warning-050);
+}
+
+.ds-section--important .ds-section__header {
+  background-color: var(--color-semantic-destructive-050);
+}
+
+.ds-section__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  margin-left: auto; /* right-align caret in header */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--section-heading-color-icon);
+  font-size: var(--font-size-3-14);
+
+  &:focus {
+    outline: none;
+    border-radius: var(--border-radius-xsmall);
+    box-shadow: 0 0 0 2px var(--focus-color-focus);
+  }
+}
+
+.ds-section__caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  line-height: 1;
+}
+
+.ds-section__title {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--section-heading-color-text);
+  text-align: left;
+}
+
+.ds-section--subsection .ds-section__title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ds-section__action {
+  flex-shrink: 0;
+}
+
+.ds-section__body {
+  padding: var(--section-container-spacing-vertical) var(--section-container-spacing-horizontal);
+}
+
+.ds-section__empty {
+  margin: 0;
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-500);
+  text-align: right;
+}
+
+// Section rows (list of rows; can be collapsible)
+.ds-section-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-xsmall) 0;
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-900);
+  border-bottom: 1px solid var(--color-grey-100);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--collapsible {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.ds-section-row__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xsmall);
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+
+  &:focus {
+    outline: none;
+    text-decoration: underline;
+  }
+}
+
+.ds-section-row__caret {
+  font-size: 1em;
+  line-height: 1;
+  color: var(--color-grey-600);
+}
+
+.ds-section-row__label {
+  flex: 0 0 10rem;
+  min-width: 8rem;
+  color: var(--color-grey-700);
+}
+
+.ds-section-row__value {
+  flex: 1;
+}
+
+.ds-section-row__content {
+  padding-left: var(--spacing-large);
+  padding-top: var(--spacing-xsmall);
+}
+
+// Property rows (label left, value/action right)
+.ds-section-property-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-xsmall) 0;
+  font-size: var(--font-size-3-14);
+  border-bottom: 1px solid var(--color-grey-100);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ds-section-property-row__label {
+  flex: 0 0 10rem;
+  min-width: 8rem;
+  color: var(--color-grey-700);
+}
+
+.ds-section-property-row__value {
+  flex: 1;
+  color: var(--color-grey-900);
+}

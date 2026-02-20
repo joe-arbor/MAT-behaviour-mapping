@@ -1,0 +1,181 @@
+// Date picker — form field with calendar dropdown
+
+.ds-date-picker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--form-field-spacing-vertical-gap);
+  font-family: var(--font-family-standard);
+  min-width: 160px;
+  max-width: 100%;
+
+  &__label {
+    font-size: var(--font-size-3-14);
+    color: var(--form-field-label-color-text);
+    cursor: default;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: var(--form-field-text-medium-height);
+    padding: 0 var(--spacing-small) 0 var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    color: var(--form-field-text-default-color-text);
+    background-color: var(--form-field-text-default-color-background);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--corner-radius);
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+      outline: none;
+      border-color: var(--focus-color-focus);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+  }
+
+  &--disabled .ds-date-picker__trigger {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: var(--color-grey-050);
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 0;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    &::placeholder {
+      color: var(--color-grey-500);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &__caret {
+    flex-shrink: 0;
+    margin-left: var(--spacing-xsmall);
+    font-size: 0.7em;
+    line-height: 1;
+    color: var(--color-grey-600);
+  }
+
+  &__calendar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    margin-top: 2px;
+    padding: var(--spacing-small);
+    background: var(--color-mono-white);
+    border: var(--border-weight) solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-width: 240px;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-small);
+  }
+
+  &__nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-grey-700);
+    cursor: pointer;
+    border-radius: var(--corner-radius);
+
+    &:hover {
+      background-color: var(--color-grey-100);
+      color: var(--color-grey-900);
+    }
+  }
+
+  &__month-year {
+    font-size: var(--font-size-3-14);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-grey-900);
+  }
+
+  &__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: var(--spacing-xsmall);
+  }
+
+  &__weekday {
+    font-size: var(--font-size-2-13);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-grey-600);
+    text-align: center;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  &__day {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: var(--font-size-2-13);
+    font-family: inherit;
+    color: var(--color-grey-900);
+    background: none;
+    border: none;
+    border-radius: var(--corner-radius);
+    cursor: pointer;
+
+    &:hover:not(&--disabled):not(&--pad) {
+      background-color: var(--color-grey-100);
+    }
+
+    &--selected {
+      background-color: var(--color-semantic-info-500);
+      color: var(--color-mono-white);
+      font-weight: var(--font-weight-semi-bold);
+
+      &:hover {
+        background-color: var(--color-semantic-info-600);
+      }
+    }
+
+    &--disabled {
+      color: var(--color-grey-400);
+      cursor: not-allowed;
+    }
+
+    &--pad {
+      cursor: default;
+      visibility: hidden;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+/* Base font from design tokens */
+html,
+body,
+#root {
+  font-family: var(--font-family-standard);
+}

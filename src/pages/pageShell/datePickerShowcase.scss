@@ -1,0 +1,47 @@
+// Date picker showcase layout
+
+.date-picker-showcase {
+  &__section {
+    margin-bottom: var(--spacing-xxlarge);
+  }
+
+  &__heading {
+    margin: 0 0 var(--spacing-small);
+    font-size: var(--type-headings-h3-size);
+    font-weight: var(--type-headings-h3-weight);
+    font-family: var(--type-headings-h3-family);
+    line-height: var(--type-headings-h3-line-height);
+    color: var(--color-grey-900);
+  }
+
+  &__intro {
+    margin: 0 0 var(--spacing-large);
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-700);
+  }
+
+  &__subheading {
+    margin: var(--spacing-xlarge) 0 var(--spacing-small);
+    font-size: var(--type-headings-h4-size);
+    font-weight: var(--font-weight-semi-bold);
+    font-family: var(--font-family-standard);
+    color: var(--color-grey-900);
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  &__row {
+    margin-bottom: var(--spacing-large);
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .ds-date-picker {
+      width: 100%;
+    }
+  }
+}

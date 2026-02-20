@@ -1,0 +1,118 @@
+// Page-specific styles
+// NOTE: Pages don't use the ds- prefix (that's for library components)
+// Use a descriptive page name instead
+
+.page-name {
+  // Page container
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-8;
+  background-color: $color-background-primary;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  // Header section
+  &__header {
+    margin-bottom: $space-6;
+    padding-bottom: $space-4;
+    border-bottom: 1px solid $color-border-primary;
+  }
+
+  &__title {
+    font-size: $text-heading-1-size;
+    font-weight: $text-heading-1-weight;
+    line-height: $text-heading-1-line-height;
+    color: $color-text-primary;
+    margin: 0 0 $space-2;
+  }
+
+  &__subtitle {
+    font-size: $text-body-size;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  // Main content
+  &__content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 2fr; // Adjust based on your layout
+    gap: $space-6;
+    margin-bottom: $space-6;
+  }
+
+  &__section-title {
+    font-size: $text-heading-2-size;
+    font-weight: $text-heading-2-weight;
+    color: $color-text-primary;
+    margin: 0 0 $space-4;
+  }
+
+  // Form section
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    padding: $space-4;
+    background-color: $color-background-secondary;
+    border-radius: $border-radius-medium;
+  }
+
+  // Data section
+  &__data {
+    padding: $space-4;
+    background-color: $color-background-secondary;
+    border-radius: $border-radius-medium;
+  }
+
+  // Footer section
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: $space-3;
+    padding-top: $space-4;
+    border-top: 1px solid $color-border-primary;
+  }
+
+  // Responsive breakpoints
+  @media (width <= 1024px) {
+    padding: $space-6;
+
+    &__content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (width <= 768px) {
+    padding: $space-4;
+
+    &__header {
+      margin-bottom: $space-4;
+    }
+
+    &__title {
+      font-size: $text-heading-2-size;
+    }
+
+    &__content {
+      gap: $space-4;
+    }
+
+    &__form,
+    &__data {
+      padding: $space-3;
+    }
+
+    &__footer {
+      flex-direction: column-reverse;
+      gap: $space-2;
+
+      // Make buttons full width on mobile
+      > button {
+        width: 100%;
+      }
+    }
+  }
+}

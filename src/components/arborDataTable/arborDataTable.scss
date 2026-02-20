@@ -1,0 +1,482 @@
+// ArborDataTable — toolbar, footer, and Arbor theme overrides for AG Grid
+// Import AG Grid base and theme in the component; this file adds toolbar/footer and row styling.
+// Design tokens (var(--*)) are assumed on :root.
+
+.ds-arbor-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-small);
+  padding: var(--spacing-small) 0;
+  border-bottom: 1px solid var(--color-grey-200);
+  margin-bottom: var(--spacing-xsmall);
+
+  &__left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-small);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+  }
+
+  &__bulk {
+    display: inline-flex;
+    align-items: stretch;
+    position: relative;
+    .ds-arbor-table-toolbar__caret {
+      margin-left: -1px;
+      padding: 0 var(--spacing-xsmall);
+      border: 1px solid var(--color-grey-300);
+      border-radius: 0 var(--corner-radius) var(--corner-radius) 0;
+      background: var(--color-grey-100);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__caret-inline {
+    margin-left: var(--spacing-xsmall);
+    vertical-align: middle;
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: var(--spacing-xsmall);
+    list-style: none;
+    background: var(--color-mono-white);
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    min-width: 160px;
+    li button {
+      display: block;
+      width: 100%;
+      padding: var(--spacing-xsmall) var(--spacing-small);
+      text-align: left;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: var(--font-size-3-14);
+      color: var(--color-grey-900);
+      border-radius: 2px;
+      &:hover {
+        background: var(--color-grey-100);
+      }
+    }
+  }
+
+  &__search {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+    height: 32px;
+    box-sizing: border-box;
+    padding: 0 var(--spacing-small);
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    background: var(--color-mono-white);
+    min-width: 200px;
+    font-family: var(--font-family-standard);
+  }
+
+  &__search-input {
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: var(--font-size-3-14);
+    outline: none;
+    flex: 1;
+    min-width: 0;
+    &::placeholder {
+      color: var(--color-grey-500);
+    }
+  }
+
+  &__download {
+    position: relative;
+  }
+
+  &__hide-cols {
+    position: relative;
+  }
+
+  &__menu--right {
+    left: auto;
+    right: 0;
+  }
+
+  &__menu-section {
+    padding: var(--spacing-xsmall) var(--spacing-small);
+    font-size: var(--font-size-2-13);
+    font-weight: 600;
+    color: var(--color-grey-600);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--color-grey-100);
+    margin-bottom: var(--spacing-xsmall);
+  }
+
+  &__menu-item {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-xsmall) var(--spacing-small);
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-900);
+    border-radius: 2px;
+
+    &:hover {
+      background: var(--color-grey-100);
+    }
+
+    &--checkbox {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-small);
+      cursor: pointer;
+
+      input {
+        margin: 0;
+      }
+    }
+  }
+
+  &__settings {
+    position: relative;
+  }
+
+  &__settings-menu {
+    min-width: 180px;
+    padding: var(--spacing-small);
+  }
+
+  /* 32×32px icon-only buttons (Undo, Redo, Tips, Settings, Help, Full screen) */
+  &__icon-32 {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    background: var(--color-grey-100);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-grey-700);
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+      background: var(--color-grey-200);
+      color: var(--color-grey-900);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--active {
+      background: var(--color-brand-100);
+      border-color: var(--color-brand-500);
+      color: var(--color-brand-700);
+      &:hover {
+        background: var(--color-brand-200);
+        color: var(--color-brand-800);
+      }
+    }
+  }
+
+  &__icon {
+    padding: var(--spacing-xsmall);
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    background: var(--color-mono-white);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-grey-700);
+    &:hover {
+      background: var(--color-grey-100);
+      color: var(--color-grey-900);
+    }
+  }
+}
+
+.ds-arbor-table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-small);
+  padding: var(--spacing-small) 0;
+  border-top: 1px solid var(--color-grey-200);
+  margin-top: var(--spacing-xsmall);
+
+  &__left,
+  &__right {
+    flex: 0 0 auto;
+  }
+
+  &__center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  &__status {
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-600);
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+  }
+
+  &__page-btn {
+    padding: var(--spacing-xsmall) var(--spacing-small);
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    background: var(--color-mono-white);
+    cursor: pointer;
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-800);
+    &:hover:not(:disabled) {
+      background: var(--color-grey-100);
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__page-info {
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-700);
+  }
+
+  &__page-size {
+    padding: var(--spacing-xsmall) var(--spacing-small);
+    border: 1px solid var(--color-grey-200);
+    border-radius: var(--corner-radius);
+    font-size: var(--font-size-3-14);
+    background: var(--color-mono-white);
+    color: var(--color-grey-800);
+    cursor: pointer;
+  }
+}
+
+// Arbor theme overrides for AG Grid: zebra striping + blue row hover
+.ds-arbor-table-wrapper {
+  --ag-row-hover-color: var(--color-extended-colours-blue-050, #e1eef5);
+  .ag-row-odd {
+    background: var(--color-mono-white);
+  }
+  .ag-row-even {
+    background: var(--color-grey-050);
+  }
+  .ag-row-hover {
+    background: var(--ag-row-hover-color) !important;
+  }
+}
+
+// --- Extra AG Grid cell and table styling (Content) ---
+
+.ds-arbor-table-wrapper {
+  .ag-cell-normal-height > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .ag-cell-auto-height .ag-cell-value > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .ag-cell-not-inline-editing {
+    ul,
+    ol {
+      margin: 0;
+      padding-inline-start: 20px;
+    }
+  }
+
+  .checkbox-column-cell {
+    padding: 0 !important;
+    padding-left: 10px !important;
+    cursor: pointer;
+
+    .ag-selection-checkbox {
+      pointer-events: none;
+    }
+  }
+
+  .checkbox-column-header {
+    padding: 0 !important;
+    padding-left: 11px !important;
+  }
+
+  .ag-pinned-left-cols-container .ag-row-selected {
+    box-shadow: inset 3px 0 0 0 var(--color-extended-colours-blue-800);
+  }
+
+  .ag-header-cell .ag-header-cell-label {
+    padding-right: 4px;
+  }
+
+  .ag-header-cell .ag-icon-menu {
+    font-family: ArborCustom, var(--font-family-standard);
+    font-size: 8px;
+
+    &::before {
+      content: '\f062';
+    }
+
+    position: absolute;
+    right: 6px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 0 3px;
+  }
+
+  .table--vertical-header-text .ag-header-cell-label .ag-header-cell-text {
+    max-height: 200px;
+    writing-mode: sideways-lr;
+    text-wrap: balance;
+    text-align: center;
+    flex-shrink: 0;
+    min-width: fit-content;
+  }
+
+  .ag-menu .ag-tab .ag-icon {
+    font-size: 18px;
+  }
+
+  .ag-cell .profile-picture-circle {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+  }
+
+  .ag-center-aligned-cell {
+    text-align: center;
+  }
+
+  .ag-right-aligned-cell {
+    text-align: right;
+  }
+
+  .table--disable-alternate-row .ag-row-odd {
+    background-color: var(--ag-background-color);
+  }
+
+  .ag-row.ag-row-last {
+    border-bottom: 1px solid var(--color-grey-200);
+  }
+
+  .table--cell-container .mis-cell-enhanced-person {
+    display: flex;
+    --image-height: 38px;
+
+    .mis-cell-enhanced-person-image {
+      width: var(--image-height);
+      height: var(--image-height);
+      margin: auto 6px auto 0;
+
+      img {
+        height: var(--image-height);
+      }
+    }
+
+    .mis-cell-enhanced-person-content {
+      display: flex;
+      align-items: center;
+      vertical-align: top;
+      width: calc(100% - var(--image-height));
+
+      .mis-cell-enhanced-person-name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .mis-cell-enhanced-person-overlay {
+        display: none;
+      }
+    }
+  }
+
+  .ag-theme-alpine--normal .table--cell-container .mis-cell-enhanced-person {
+    --image-height: 30px;
+  }
+
+  &.ag-theme-alpine--condensed,
+  &.ag-theme-alpine--super-condensed {
+    .table--cell-container .mis-cell-enhanced-person-content {
+      width: 100%;
+    }
+    .mis-cell-enhanced-person-image {
+      display: none;
+    }
+  }
+
+  .ag-menu-option-part {
+    padding: 5px !important;
+  }
+
+  .ag-fill-handle {
+    z-index: 1;
+  }
+
+  .ag-tooltip {
+    max-width: 300px;
+  }
+
+  .table__resize-button {
+    background-color: var(--color-grey-100);
+
+    &--hidden {
+      visibility: hidden;
+    }
+  }
+
+  .table--hide-status-bar .ag-status-bar {
+    display: none;
+  }
+
+  .table--column-borders .ag-cell {
+    border-right: 1px solid var(--color-grey-200);
+  }
+
+  .table--cell-borders .ag-cell {
+    border: 1px solid var(--color-grey-200);
+  }
+}

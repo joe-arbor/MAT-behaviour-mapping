@@ -1,0 +1,271 @@
+// Form field — shared label, tooltip, error and input styling
+
+.ds-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-field-spacing-vertical-gap);
+  font-family: var(--font-family-standard);
+  max-width: 100%;
+
+  &__label-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+  }
+
+  &__label {
+    font-size: var(--font-size-3-14);
+    color: var(--form-field-label-color-text);
+    cursor: default;
+
+    &--sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+
+  &__tooltip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    color: var(--form-field-label-color-icon);
+    cursor: help;
+    flex-shrink: 0;
+
+    &:hover {
+      color: var(--color-brand-600);
+    }
+  }
+
+  &__error {
+    font-size: var(--font-size-2-13);
+    color: var(--color-semantic-destructive-600);
+  }
+
+  // Shared input base (text, number, etc.)
+  &__input-wrap {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: var(--form-field-text-medium-height);
+    background-color: var(--form-field-text-default-color-background);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+      outline: none;
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: 0 var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    font-family: var(--font-family-standard);
+    color: var(--form-field-text-default-color-text);
+    background: none;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: var(--color-grey-500);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  &__prefix {
+    display: flex;
+    align-items: center;
+    padding-left: var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-700);
+  }
+
+  &__suffix {
+    display: flex;
+    align-items: center;
+    padding-right: var(--form-field-spacing-horizontal);
+    color: var(--color-grey-500);
+  }
+
+  &--disabled &__input-wrap {
+    cursor: not-allowed;
+    background-color: var(--color-grey-050);
+    opacity: 0.8;
+  }
+
+  &--error &__input-wrap {
+    border-color: var(--color-semantic-destructive-500);
+  }
+
+  // Textarea
+  &__textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: var(--form-field-spacing-vertical) var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    font-family: var(--font-family-standard);
+    color: var(--form-field-text-default-color-text);
+    background-color: var(--form-field-text-default-color-background);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    resize: vertical;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: var(--color-grey-500);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: var(--color-grey-050);
+      opacity: 0.8;
+    }
+  }
+
+  // Checkbox / Radio
+  &__choice-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    cursor: pointer;
+  }
+
+  &__choice-input {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: var(--color-brand-600);
+    cursor: pointer;
+  }
+
+  &__choice-label {
+    font-size: var(--font-size-3-14);
+    color: var(--form-field-text-default-color-text);
+  }
+
+  &__choice-row--disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &__choice-tooltip {
+    display: inline-flex;
+    margin-left: var(--spacing-xsmall);
+    color: var(--color-grey-500);
+    cursor: help;
+  }
+
+  // File upload row
+  &__file-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    width: 100%;
+  }
+
+  &__file-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0 var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    font-family: var(--font-family-standard);
+    color: var(--form-field-text-default-color-text);
+    background-color: var(--form-field-text-default-color-background);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    min-height: var(--form-field-text-medium-height);
+    cursor: default;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+  }
+
+  &__file-browse {
+    flex-shrink: 0;
+  }
+
+  // Color picker row
+  &__color-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    width: 100%;
+  }
+
+  &__color-swatch {
+    position: relative;
+    width: var(--form-field-text-medium-height);
+    height: var(--form-field-text-medium-height);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    flex-shrink: 0;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  &__color-input-native {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    /* Never receive pointer events so sidebar/navigation clicks cannot open the picker */
+    pointer-events: none;
+  }
+
+  &__color-text {
+    flex: 1;
+    min-width: 0;
+    padding: 0 var(--form-field-spacing-horizontal);
+    font-size: var(--font-size-3-14);
+    font-family: var(--font-family-standard);
+    color: var(--form-field-text-default-color-text);
+    background-color: var(--form-field-text-default-color-background);
+    border: var(--border-weight) solid var(--form-field-text-default-color-border);
+    border-radius: var(--form-field-radius);
+    min-height: var(--form-field-text-medium-height);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-050);
+    }
+  }
+
+  &__color-dropdown {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-xsmall);
+    color: var(--color-grey-500);
+    pointer-events: none;
+  }
+}

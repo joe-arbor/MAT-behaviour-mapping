@@ -1,0 +1,108 @@
+// Modal — overlay + dialog panel with header (optional icon + title), body, footer
+// Uses design tokens from tokens.scss (--modal-*).
+
+.ds-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-large);
+  background: var(--modal-overlay-color-background);
+  overflow-y: auto;
+}
+
+.ds-modal {
+  position: relative;
+  width: 100%;
+  max-width: 90vw;
+  min-width: var(--modal-min-width);
+  max-height: calc(100vh - 2 * var(--spacing-large));
+  display: flex;
+  flex-direction: column;
+  background: var(--modal-color-background);
+  border-radius: var(--modal-radius);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.ds-modal__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  padding: var(--modal-header-spacing-padding);
+  background: var(--modal-header-color-background);
+  border-radius: var(--modal-radius) var(--modal-radius) 0 0;
+  flex-shrink: 0;
+}
+
+.ds-modal__header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--modal-header-color-icon);
+}
+
+.ds-modal__title {
+  margin: 0;
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-5-18);
+  font-weight: var(--font-weight-bold);
+  color: var(--modal-header-color-text);
+  line-height: 1.3;
+}
+
+.ds-modal__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--modal-header-spacing-padding);
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-900);
+  line-height: 1.5;
+
+  p {
+    margin: 0 0 var(--spacing-small);
+  }
+
+  p:last-child,
+  ul:last-child {
+    margin-bottom: 0;
+  }
+
+  ul {
+    margin: 0 0 var(--spacing-small);
+    padding-left: 1.25em;
+  }
+
+  li {
+    margin-bottom: var(--spacing-xsmall);
+  }
+
+  a {
+    color: var(--color-semantic-info-600);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-semantic-info-700);
+    }
+  }
+}
+
+.ds-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-small);
+  padding: var(--modal-footer-spacing-padding);
+  background: var(--modal-footer-color-background);
+  border-radius: 0 0 var(--modal-radius) var(--modal-radius);
+  flex-shrink: 0;
+}

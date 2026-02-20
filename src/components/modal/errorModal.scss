@@ -1,0 +1,12 @@
+// Error modal — destructive (red) icon in header
+
+.ds-modal__header-icon--destructive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--border-radius-round);
+  background-color: var(--color-semantic-destructive-500);
+  color: var(--color-mono-white);
+}

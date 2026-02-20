@@ -1,0 +1,121 @@
+// Slideover — panel from right, full height, overlay; header (back + title), body, optional footer
+
+.ds-slideover-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background: var(--slideover-overlay-color-background);
+  animation: ds-slideover-overlay-in 0.2s ease-out;
+}
+
+@keyframes ds-slideover-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ds-slideover {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--colour-white, #FFF);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  outline: none;
+  animation: ds-slideover-in 0.25s ease-out;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@keyframes ds-slideover-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.ds-slideover__header {
+  display: flex;
+  padding: 10px 15px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  background: var(--colour-white, #FFF);
+  border-bottom: 1px solid var(--colour-grey_system, #EFEEED);
+}
+
+.ds-slideover__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xsmall);
+  padding: var(--spacing-xsmall) var(--spacing-small);
+  border: none;
+  background: var(--color-grey-200);
+  color: var(--color-grey-800);
+  font-size: var(--font-size-3-14);
+  font-family: var(--font-family-standard);
+  border-radius: var(--corner-radius);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--color-grey-300);
+    color: var(--color-grey-900);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+}
+
+.ds-slideover__title {
+  margin: 0;
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-5-18);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-grey-900);
+  line-height: 1.3;
+  flex: 1;
+  text-align: center;
+  padding: 0 var(--spacing-small);
+}
+
+.ds-slideover__body {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+  align-self: stretch;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--colour-white, #FFF);
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-900);
+  line-height: 1.5;
+}
+
+.ds-slideover__footer {
+  display: flex;
+  padding: 10px 15px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  flex-shrink: 0;
+  border-top: 1px solid var(--colour-grey_system, #EFEEED);
+  background: var(--colour-white, #FFF);
+}

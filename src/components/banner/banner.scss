@@ -1,0 +1,71 @@
+// Banner — system, info, warning, error; not dismissible; title, icon, actions
+
+.ds-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--banner-spacing-gap, var(--spacing-large));
+  padding: var(--banner-spacing-vertical, var(--spacing-large)) var(--banner-spacing-horizontal, var(--spacing-large));
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-3-14);
+  border-radius: var(--banner-radius);
+  line-height: var(--line-height-default);
+
+  &__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: inherit;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 var(--spacing-xsmall);
+    font-size: var(--font-size-4-16);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: var(--line-height-tight);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__body {
+    margin: 0;
+  }
+
+  &__actions {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-small);
+    align-items: center;
+  }
+
+  // Variants
+  &--system {
+    background-color: var(--color-grey-050);
+    color: var(--color-grey-900);
+  }
+
+  &--info {
+    background-color: var(--color-semantic-info-050);
+    color: var(--color-semantic-info-800);
+  }
+
+  &--warning {
+    background-color: var(--color-semantic-warning-050);
+    color: var(--color-semantic-warning-800);
+  }
+
+  &--error {
+    background-color: var(--color-semantic-destructive-050);
+    color: var(--color-semantic-destructive-800);
+  }
+}

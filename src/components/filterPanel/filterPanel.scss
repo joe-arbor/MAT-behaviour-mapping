@@ -1,0 +1,105 @@
+// Filter Panel — edit filter and display settings for a target component (e.g. Table)
+// Collapsed state matches .x-panel-header.x-panel-header-collapsed / .x-panel-header-filter-panel reference.
+
+$filter-panel-header-border: #dfdcdb;
+$filter-panel-header-bg: #f9f8f8;
+
+.ds-filter-panel {
+  font-family: var(--font-family-standard);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-large);
+
+  // ----- Collapsed: preview bar (x-panel-header.x-panel-header-collapsed) -----
+  &__preview {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    font-family: var(--font-family-standard);
+    color: var(--color-grey-800);
+    background-image: none;
+    background-color: $filter-panel-header-bg;
+    border: 1px solid $filter-panel-header-border;
+    border-radius: var(--corner-radius);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--color-grey-100);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--focus-color-focus);
+    }
+  }
+
+  &__preview-icon {
+    flex-shrink: 0;
+    color: var(--color-green);
+  }
+
+  &__preview-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__preview-change {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+    flex-shrink: 0;
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-green-dark);
+
+    svg {
+      color: var(--color-green);
+    }
+  }
+
+  // ----- Expanded: sits within a section; form fields in padded container, no overlapping -----
+  &__section {
+    margin-bottom: 0;
+    min-width: 0;
+  }
+
+  &__filter-title,
+  &__display-title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+
+    svg {
+      flex-shrink: 0;
+      color: var(--color-green);
+    }
+  }
+
+  &__filter-section,
+  &__display-section {
+    margin-bottom: 0;
+  }
+
+  &__filter-fields,
+  &__display-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-medium);
+    min-width: 0;
+
+    > * {
+      min-width: 0;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-medium);
+    padding: var(--spacing-medium) 0 var(--spacing-small);
+  }
+}

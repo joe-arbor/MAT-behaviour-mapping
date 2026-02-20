@@ -1,0 +1,62 @@
+// Card showcase — single Card component, all variants in one grid
+// Strict containment: cards must NEVER overlap.
+
+.card-showcase {
+  &__section {
+    margin-bottom: var(--spacing-xxlarge);
+  }
+
+  &__heading {
+    margin: 0 0 var(--spacing-small);
+    font-size: var(--type-headings-h3-size);
+    font-weight: var(--type-headings-h3-weight);
+    font-family: var(--type-headings-h3-family);
+    line-height: var(--type-headings-h3-line-height);
+    color: var(--color-grey-900);
+  }
+
+  &__intro {
+    margin: 0 0 var(--spacing-large);
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-700);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-xlarge);
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden; /* strict: nothing escapes the grid cell */
+    box-sizing: border-box;
+  }
+
+  &__label {
+    font-size: var(--font-size-2-13);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-grey-600);
+  }
+
+  &__vi-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: var(--font-size-2-13);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-brand-600);
+    background: var(--color-brand-050);
+    border-radius: var(--corner-radius);
+  }
+}

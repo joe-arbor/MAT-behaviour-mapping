@@ -1,0 +1,97 @@
+// Tooltip — hover over trigger; simple (content only) or advanced (title + content + action)
+// Renders below trigger with upward-pointing arrow. Uses var(--corner-radius).
+
+.ds-tooltip-trigger {
+  display: inline-flex;
+  cursor: default;
+}
+
+.ds-tooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 320px;
+  font-family: var(--font-family-standard);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-900);
+  background: var(--color-mono-white);
+  border-radius: var(--corner-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+}
+
+.ds-tooltip__arrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--color-mono-white);
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.06));
+}
+
+.ds-tooltip__inner {
+  padding: var(--spacing-small) var(--spacing-medium);
+  position: relative;
+}
+
+// Simple: single content block, text can be centered
+.ds-tooltip__content {
+  text-align: left;
+}
+
+.ds-tooltip:not(.ds-tooltip--advanced) .ds-tooltip__content {
+  text-align: center;
+}
+
+// Advanced: title, divider, content row (content + action)
+.ds-tooltip--advanced .ds-tooltip__title {
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-grey-900);
+  margin: 0 0 var(--spacing-xsmall);
+}
+
+.ds-tooltip__divider {
+  height: 1px;
+  background: var(--color-grey-200);
+  margin: 0 calc(var(--spacing-medium) * -1);
+  margin-bottom: var(--spacing-xsmall);
+}
+
+.ds-tooltip__content-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-medium);
+}
+
+.ds-tooltip__content-row .ds-tooltip__content {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.ds-tooltip__action {
+  flex-shrink: 0;
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-green);
+  cursor: pointer;
+  text-align: right;
+
+  a,
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

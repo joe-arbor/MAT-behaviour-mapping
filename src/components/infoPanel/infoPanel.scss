@@ -1,0 +1,124 @@
+// Info Panel — section + section header (avatar, name, reference) + list (rows, tags)
+
+.ds-info-panel {
+  .ds-section__title {
+    font-size: inherit;
+    font-weight: inherit;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .ds-section__body {
+    padding-top: var(--spacing-small);
+    padding-bottom: var(--spacing-small);
+  }
+}
+
+.ds-info-panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  width: 100%;
+  min-width: 0;
+
+  &__avatar {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--border-radius-round);
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-grey-100);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__name {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--font-size-3-14);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--section-heading-color-text);
+  }
+
+  &__reference {
+    flex-shrink: 0;
+    font-size: var(--font-size-3-14);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-grey-600);
+  }
+}
+
+.ds-info-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.ds-info-panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-medium);
+  width: 100%;
+  padding: var(--spacing-xsmall) 0;
+  text-align: left;
+  font-size: var(--font-size-3-14);
+  font-family: var(--font-family-standard);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-grey-100);
+  color: inherit;
+  cursor: default;
+  min-width: 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--clickable {
+    cursor: pointer;
+
+    &:hover .ds-info-panel-row__value {
+      text-decoration: underline;
+    }
+  }
+
+  &__label {
+    flex: 0 1 auto;
+    min-width: 0;
+    color: var(--color-grey-600);
+  }
+
+  &__value {
+    flex: 1;
+    min-width: 0;
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-grey-900);
+    text-align: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-xsmall);
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    color: var(--color-grey-500);
+  }
+}
+
+.ds-info-panel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xsmall);
+  padding: var(--spacing-small) 0 0;
+}

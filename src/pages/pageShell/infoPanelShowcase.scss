@@ -1,0 +1,17 @@
+.info-panel-showcase {
+  &__title {
+    margin: 0 0 var(--spacing-xxlarge);
+    font-size: var(--type-headings-h2-size);
+    font-weight: var(--type-headings-h2-weight);
+    font-family: var(--type-headings-h2-family);
+    color: var(--color-grey-900);
+  }
+
+  .ds-info-panel {
+    margin-bottom: var(--spacing-medium);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

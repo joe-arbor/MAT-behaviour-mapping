@@ -1,0 +1,66 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary "Showcase navigation" [ref=e4]:
+    - heading "Components" [level=2] [ref=e6]
+    - navigation [ref=e7]:
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - button "Foundations" [expanded] [ref=e10] [cursor=pointer]:
+            - generic [ref=e11]: ▼
+            - text: Foundations
+          - list [ref=e12]:
+            - listitem [ref=e13]:
+              - button "Welcome" [ref=e14] [cursor=pointer]
+            - listitem [ref=e15]:
+              - button "Buttons" [ref=e16] [cursor=pointer]
+            - listitem [ref=e17]:
+              - button "Typography" [ref=e18] [cursor=pointer]
+            - listitem [ref=e19]:
+              - button "Colours" [ref=e20] [cursor=pointer]
+            - listitem [ref=e21]:
+              - button "Icons" [ref=e22] [cursor=pointer]
+        - listitem [ref=e23]:
+          - button "Content" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]: ▶
+            - text: Content
+        - listitem [ref=e26]:
+          - button "Input" [ref=e27] [cursor=pointer]:
+            - generic [ref=e28]: ▶
+            - text: Input
+        - listitem [ref=e29]:
+          - button "Navigation" [ref=e30] [cursor=pointer]:
+            - generic [ref=e31]: ▶
+            - text: Navigation
+        - listitem [ref=e32]:
+          - button "Surfaces" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]: ▶
+            - text: Surfaces
+        - listitem [ref=e35]:
+          - button "Progress & Validation" [ref=e36] [cursor=pointer]:
+            - generic [ref=e37]: ▶
+            - text: Progress & Validation
+  - main "Component preview" [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - heading "Welcome" [level=1] [ref=e41]
+        - paragraph [ref=e42]: Use the sidebar to switch between component sections.
+      - generic [ref=e44]:
+        - paragraph [ref=e45]:
+          - text: Add sections in
+          - code [ref=e46]: showcaseSections.tsx
+          - text: to showcase components here.
+        - paragraph [ref=e47]:
+          - text: Each section has an
+          - code [ref=e48]: id
+          - text: ","
+          - code [ref=e49]: name
+          - text: ","
+          - code [ref=e50]: category
+          - text: ", optional"
+          - code [ref=e51]: description
+          - text: ", and a"
+          - code [ref=e52]: render()
+          - text: function.
+```

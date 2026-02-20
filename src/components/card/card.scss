@@ -1,0 +1,155 @@
+// Card — from Arbor DSM Figma (Cards & Tiles)
+// Supports: title, subtitle, description, icon, right element, action, selected, inactive
+
+.ds-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-spacing-gap-vertical);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box; /* padding/border stay inside width, no overflow */
+  padding: var(--card-spacing-vertical) var(--card-spacing-horizontal);
+  font-family: var(--font-family-standard);
+  text-align: left;
+  background-color: var(--card-default-color-background);
+  border: 1px solid var(--card-default-color-border);
+  border-radius: var(--card-radius);
+  color: var(--card-default-color-text);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &--selected {
+    border-color: var(--card-selected-color-border);
+    border-width: 2px;
+    padding: calc(var(--card-spacing-vertical) - 1px) calc(var(--card-spacing-horizontal) - 1px);
+  }
+
+  &--inactive {
+    background-color: var(--color-grey-100);
+    color: var(--color-grey-500);
+
+    .ds-card__subtitle,
+    .ds-card__description {
+      color: var(--color-grey-500);
+    }
+
+    .ds-card__icon,
+    .ds-card__right {
+      opacity: 0.6;
+    }
+  }
+
+  &--interactive {
+    cursor: pointer;
+
+    &:hover:not(.ds-card--inactive) {
+      border-color: var(--color-grey-300);
+      background-color: var(--color-grey-050);
+    }
+
+    &:active:not(.ds-card--inactive) {
+      background-color: var(--color-grey-100);
+      border-color: var(--color-grey-400);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-brand-600);
+      box-shadow: 0 0 0 2px var(--color-brand-100);
+    }
+  }
+}
+
+button.ds-card {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.ds-card__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--card-spacing-gap-horizontal);
+  min-width: 0;
+}
+
+.ds-card__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-brand-600);
+
+  svg {
+    display: block;
+  }
+}
+
+.ds-card__content {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.ds-card__subtitle {
+  margin: 0 0 var(--spacing-xsmall);
+  font-size: var(--font-size-2-13);
+  font-weight: var(--font-weight-regular);
+  color: var(--card-default-color-text-subtitle);
+  line-height: var(--line-height-default);
+}
+
+.ds-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xsmall);
+  margin-bottom: var(--spacing-xsmall);
+}
+
+.ds-card__title {
+  margin: 0;
+  font-size: var(--font-size-4-16);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-tight);
+  color: inherit;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.ds-card__title-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--card-default-color-text-secondary);
+  cursor: help;
+
+  svg {
+    display: block;
+  }
+}
+
+.ds-card__description {
+  margin: 0 0 var(--spacing-xsmall);
+  font-size: var(--font-size-3-14);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--card-default-color-text-secondary);
+}
+
+.ds-card__right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  padding-top: 2px; /* align with first line of title */
+  color: var(--card-default-color-icon);
+}
+
+.ds-card__action {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,27 @@
+.ds-button-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-small);
+
+  &--segmented {
+    gap: 0;
+
+    .ds-button {
+      border-radius: 0;
+
+      &:first-child {
+        border-top-left-radius: var(--border-radius-xsmall);
+        border-bottom-left-radius: var(--border-radius-xsmall);
+      }
+
+      &:last-child {
+        border-top-right-radius: var(--border-radius-xsmall);
+        border-bottom-right-radius: var(--border-radius-xsmall);
+      }
+
+      &:not(:first-child) {
+        margin-left: -1px;
+      }
+    }
+  }
+}

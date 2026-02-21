@@ -1,0 +1,111 @@
+// HomePanels — horizontal collection: To Do, Alerts, School Notices.
+
+.ds-home-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-large);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.ds-home-panels__panel {
+  background: var(--color-mono-white);
+  border: var(--border-weight) solid var(--color-grey-200);
+  border-radius: var(--corner-radius);
+  padding: var(--spacing-large);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ds-home-panels__header {
+  margin-bottom: var(--spacing-small);
+}
+
+.ds-home-panels__title {
+  margin: 0;
+  font-size: var(--font-size-4-16);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-grey-900);
+}
+
+.ds-home-panels__body {
+  flex: 1;
+  min-height: 0;
+}
+
+.ds-home-panels__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-home-panels__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xsmall);
+  padding: var(--spacing-small) 0;
+  border-bottom: var(--border-weight) solid var(--color-grey-100);
+  font-size: var(--font-size-3-14);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ds-home-panels__link {
+  color: var(--color-grey-900);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xsmall);
+
+  &:hover {
+    color: var(--color-brand-600);
+    text-decoration: underline;
+  }
+}
+
+.ds-home-panels__item-title {
+  color: var(--color-grey-900);
+}
+
+.ds-home-panels__meta {
+  font-size: var(--font-size-2-13);
+  color: var(--color-grey-500);
+}
+
+.ds-home-panels__empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-large) 0;
+  text-align: center;
+}
+
+.ds-home-panels__empty-icon {
+  color: var(--color-grey-300);
+  flex-shrink: 0;
+}
+
+.ds-home-panels__empty {
+  margin: 0;
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-600);
+  line-height: 1.5;
+}
+
+.ds-home-panels__help-link {
+  color: var(--color-brand-600);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-brand-800);
+  }
+}
+
+@media (max-width: 900px) {
+  .ds-home-panels {
+    grid-template-columns: 1fr;
+  }
+}

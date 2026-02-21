@@ -28,6 +28,7 @@ import { BreadcrumbsShowcase } from './BreadcrumbsShowcase';
 import { KpiShowcase } from './KpiShowcase';
 import { TableShowcase } from './TableShowcase';
 import { WelcomeShowcase } from './WelcomeShowcase';
+import { WidgetsShowcase } from './WidgetsShowcase';
 
 /** Category for sidebar grouping. Order matches display order. */
 export const COMPONENT_CATEGORIES = [
@@ -37,6 +38,7 @@ export const COMPONENT_CATEGORIES = [
   'Navigation',
   'Surfaces',
   'Progress & Validation',
+  'Widgets',
 ] as const;
 
 export type ComponentCategory = (typeof COMPONENT_CATEGORIES)[number];
@@ -275,5 +277,12 @@ export const showcaseSections: ShowcaseSection[] = [
         <h3 style={{ margin: 0, fontSize: 18 }}>Heading 3</h3>
       </div>
     ),
+  },
+  {
+    id: 'widgets',
+    name: 'Widgets',
+    category: 'Widgets',
+    description: 'Favourites, My Calendar, and To Do / Alerts / School Notices panels for the homepage.',
+    render: () => <WidgetsShowcase />,
   },
 ];

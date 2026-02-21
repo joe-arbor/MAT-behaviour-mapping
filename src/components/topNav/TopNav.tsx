@@ -1,7 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import { Search, Sparkles, ChevronDown } from 'lucide-react';
+import { Sparkles, ChevronDown } from 'lucide-react';
+import { GlobalSearchInput } from '../globalSearch';
 import './topNav.scss';
+
+const DEBUG_LOG = (data: Record<string, unknown>) => {
+  const payload = { sessionId: '130f04', location: 'TopNav.tsx', message: 'TopNav layout', data, timestamp: Date.now() };
+  fetch('http://127.0.0.1:7622/ingest/8c9a920c-e800-47b1-bcc4-72c12ff2d909', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '130f04' },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
+};
 
 export interface TopNavMenuItem {
   id: string;
@@ -33,10 +44,10 @@ const defaultMenuItems: TopNavMenuItem[] = [
   { id: 'system', label: 'System' },
 ];
 
-/** Arbor wordmark + four-circles icon. */
+/** Arbor wordmark + four-circles icon; links to home. */
 function ArborLogo() {
   return (
-    <div className="ds-top-nav__arbor-logo" aria-hidden>
+    <Link to="/templates/home" className="ds-top-nav__arbor-logo" aria-label="Arbor home">
       <svg
         className="ds-top-nav__arbor-icon"
         width="28"
@@ -52,7 +63,7 @@ function ArborLogo() {
         <circle cx="10" cy="10" r="7" fill="var(--color-brand-600)" opacity="0.9" />
       </svg>
       <span className="ds-top-nav__arbor-text">Arbor</span>
-    </div>
+    </Link>
   );
 }
 
@@ -82,7 +93,6 @@ export const TopNav: React.FC<TopNavProps> = ({
   onAskArborClick,
   className,
 }) => {
-  const [searchValue, setSearchValue] = useState('');
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
 
@@ -97,10 +107,73 @@ export const TopNav: React.FC<TopNavProps> = ({
     return () => document.removeEventListener('click', handleClickOutside);
   }, [openMenuId]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch?.(searchValue.trim());
-  };
+  // #region agent log
+  useLayoutEffect(() => {
+    const measure = () => {
+      const nav = navRef.current;
+      if (!nav) return;
+      const inner = nav.querySelector('.ds-top-nav__inner') as HTMLElement | null;
+      const start = nav.querySelector('.ds-top-nav__start') as HTMLElement | null;
+      const right = nav.querySelector('.ds-top-nav__right') as HTMLElement | null;
+      const searchEl = right?.querySelector('.ds-global-search') as HTMLElement | null;
+      const askBtn = right?.querySelector('.ds-top-nav__ask-btn') as HTMLElement | null;
+      const logoEl = right?.querySelector('.ds-top-nav__arbor-logo') as HTMLElement | null;
+      const vw = typeof window !== 'undefined' ? window.innerWidth : 0;
+      const navR = nav.getBoundingClientRect();
+      const innerR = inner?.getBoundingClientRect();
+      const startR = start?.getBoundingClientRect();
+      const rightR = right?.getBoundingClientRect();
+      const searchR = searchEl?.getBoundingClientRect();
+      const askR = askBtn?.getBoundingClientRect();
+      const logoR = logoEl?.getBoundingClientRect();
+      const rightGap = 10;
+      const rightContentSum = (searchR?.width ?? 0) + rightGap + (askR?.width ?? 0) + rightGap + (logoR?.width ?? 0);
+      DEBUG_LOG({
+        hypothesisId: 'A',
+        viewportWidth: vw,
+        navWidth: navR.width,
+        innerWidth: innerR?.width,
+        startWidth: startR?.width,
+        rightWidth: rightR?.width,
+        rightContentSum,
+        rightOverflows: (rightR?.width ?? 0) > (innerR?.width ?? 0) - (startR?.width ?? 0) - 10,
+      });
+      DEBUG_LOG({
+        hypothesisId: 'B',
+        startWidth: startR?.width,
+        spaceForRight: (innerR?.width ?? 0) - (startR?.width ?? 0) - 10,
+        rightNeeds: rightContentSum + 10,
+        insufficientSpace: (innerR?.width ?? 0) - (startR?.width ?? 0) - 10 < rightContentSum + 10,
+      });
+      DEBUG_LOG({
+        hypothesisId: 'C',
+        searchWidth: searchR?.width,
+        askWidth: askR?.width,
+        logoWidth: logoR?.width,
+        rightTotal: rightContentSum + 10,
+      });
+      DEBUG_LOG({
+        hypothesisId: 'D',
+        logoRight: logoR?.right,
+        viewportWidth: vw,
+        logoOffPage: (logoR?.right ?? 0) > vw,
+        innerRight: innerR?.right,
+        navRight: navR.right,
+      });
+      DEBUG_LOG({
+        hypothesisId: 'E',
+        rightFlexShrink: right ? getComputedStyle(right).flexShrink : null,
+        askFlexShrink: askBtn ? getComputedStyle(askBtn).flexShrink : null,
+        logoFlexShrink: logoEl ? getComputedStyle(logoEl).flexShrink : null,
+        searchFlexShrink: searchEl ? getComputedStyle(searchEl).flexShrink : null,
+      });
+    };
+    measure();
+    const ro = typeof window !== 'undefined' && window.ResizeObserver ? new ResizeObserver(measure) : null;
+    if (navRef.current && ro) ro.observe(navRef.current);
+    return () => ro?.disconnect();
+  }, []);
+  // #endregion
 
   return (
     <nav
@@ -163,18 +236,12 @@ export const TopNav: React.FC<TopNavProps> = ({
           </ul>
         </div>
 
-        <div className="ds-top-nav__center">
-          <form className="ds-top-nav__search-form" onSubmit={handleSearchSubmit} role="search">
-            <Search size={18} className="ds-top-nav__search-icon" aria-hidden />
-            <input
-              type="search"
-              className="ds-top-nav__search-input"
-              placeholder={searchPlaceholder}
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              aria-label="Search"
-            />
-          </form>
+        <div className="ds-top-nav__right">
+          <GlobalSearchInput
+            variant="topNav"
+            placeholder={searchPlaceholder}
+            onSearch={onSearch}
+          />
           <button
             type="button"
             className="ds-top-nav__ask-btn"
@@ -184,9 +251,6 @@ export const TopNav: React.FC<TopNavProps> = ({
             <Sparkles size={18} className="ds-top-nav__ask-icon" aria-hidden />
             <span>Ask Arbor</span>
           </button>
-        </div>
-
-        <div className="ds-top-nav__end">
           <ArborLogo />
         </div>
       </div>

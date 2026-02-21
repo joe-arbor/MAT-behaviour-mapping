@@ -10,6 +10,11 @@ export interface TemplateRoute {
 
 export const TEMPLATE_ROUTES: TemplateRoute[] = [
   {
+    id: 'home',
+    name: 'Home',
+    description: 'Homepage: widgets (Favourites, My Calendar), To Do / Alerts / School Notices, and KPI panels.',
+  },
+  {
     id: 'daily-attendance',
     name: 'Daily Attendance',
     description: 'Standard Arbor page: global nav, module nav (Attendance), content with breadcrumbs and attendance registers table.',

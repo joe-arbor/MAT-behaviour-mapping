@@ -37,20 +37,27 @@ export const FavouritesWidget: React.FC<FavouritesWidgetProps> = ({
         </button>
       </header>
       <ul className="ds-widget__list" role="list">
-        {items.map((item) => (
-          <li key={item.id} className="ds-widget__item">
-            <Star size={16} className="ds-widget__star" aria-hidden />
-            {item.href.startsWith('/') ? (
-              <Link to={item.href} className="ds-widget__link">
-                {item.label}
-              </Link>
-            ) : (
-              <a href={item.href} className="ds-widget__link">
-                {item.label}
-              </a>
-            )}
-          </li>
-        ))}
+        {items.map((item) => {
+          const content = (
+            <>
+              <Star size={16} className="ds-widget__star" aria-hidden />
+              <span className="ds-widget__link-text">{item.label}</span>
+            </>
+          );
+          return (
+            <li key={item.id} className="ds-widget__item">
+              {item.href.startsWith('/') ? (
+                <Link to={item.href} className="ds-widget__link">
+                  {content}
+                </Link>
+              ) : (
+                <a href={item.href} className="ds-widget__link">
+                  {content}
+                </a>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -58,7 +65,7 @@ export const FavouritesWidget: React.FC<FavouritesWidgetProps> = ({
 
 const DEFAULT_FAVOURITES: FavouriteItem[] = [
   { id: '1', label: 'All School Communications', href: '#' },
-  { id: '2', label: 'Attendance', href: '#' },
+  { id: '2', label: 'Attendance', href: '/templates/daily-attendance' },
   { id: '3', label: 'Behavioural Incidents Reporting', href: '#' },
   { id: '4', label: 'Browse Staff', href: '#' },
   { id: '5', label: 'Browse Students', href: '#' },

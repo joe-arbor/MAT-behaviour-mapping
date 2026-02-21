@@ -48,11 +48,22 @@
 }
 
 .ds-widget__item {
+  margin: 0;
+  padding: 0;
+}
+
+.ds-widget__link {
   display: flex;
   align-items: center;
   gap: var(--spacing-small);
-  margin: 0;
   padding: var(--spacing-xsmall) 0;
+  font-size: var(--font-size-3-14);
+  color: var(--color-brand-600);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .ds-widget__star {
@@ -60,18 +71,11 @@
   color: var(--color-grey-500);
 }
 
-.ds-widget__link {
-  font-size: var(--font-size-3-14);
-  color: var(--color-brand-600);
-  text-decoration: none;
+.ds-widget__link-text {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 .ds-widget__body {

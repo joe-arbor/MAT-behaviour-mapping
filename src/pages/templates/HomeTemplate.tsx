@@ -54,10 +54,6 @@ export function HomeTemplate() {
 
         <main className="template-page__content">
           <div className="template-page__content-inner">
-            <header className="home-content__header">
-              <h1 className="home-content__title">Home</h1>
-            </header>
-
             <HomePanels />
 
             <div className="home-kpi">

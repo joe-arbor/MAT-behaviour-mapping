@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Info } from 'lucide-react';
+import { Section } from '../section/Section';
 import './widgets.scss';
 
 export interface FavouriteItem {
@@ -23,19 +24,23 @@ export const FavouritesWidget: React.FC<FavouritesWidgetProps> = ({
   onInfoClick,
   className,
 }) => {
+  const infoButton = (
+    <button
+      type="button"
+      className="ds-widget__info"
+      onClick={onInfoClick}
+      aria-label="More information about Favourites"
+    >
+      <Info size={16} aria-hidden />
+    </button>
+  );
+
   return (
-    <section className={`ds-widget ds-widget--favourites ${className ?? ''}`} aria-label="Favourites">
-      <header className="ds-widget__header">
-        <h2 className="ds-widget__title">Favourites</h2>
-        <button
-          type="button"
-          className="ds-widget__info"
-          onClick={onInfoClick}
-          aria-label="More information about Favourites"
-        >
-          <Info size={16} aria-hidden />
-        </button>
-      </header>
+    <Section
+      title="Favourites"
+      headerAction={infoButton}
+      className={`ds-widget ds-widget--favourites ${className ?? ''}`}
+    >
       <ul className="ds-widget__list" role="list">
         {items.map((item) => {
           const content = (
@@ -59,7 +64,7 @@ export const FavouritesWidget: React.FC<FavouritesWidgetProps> = ({
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 };
 
@@ -75,4 +80,5 @@ const DEFAULT_FAVOURITES: FavouriteItem[] = [
   { id: '9', label: 'Create event', href: '#' },
   { id: '10', label: 'Create intervention', href: '#' },
   { id: '11', label: 'Daily Attendance', href: '/templates/daily-attendance' },
+  { id: '12', label: 'KS3 Mathematics: Year 8: 8y/Ma1', href: '/templates/class' },
 ];

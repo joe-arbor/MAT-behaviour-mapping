@@ -29,6 +29,8 @@ import { KpiShowcase } from './KpiShowcase';
 import { TableShowcase } from './TableShowcase';
 import { WelcomeShowcase } from './WelcomeShowcase';
 import { WidgetsShowcase } from './WidgetsShowcase';
+import { CourseHeaderShowcase } from './CourseHeaderShowcase';
+import { CourseActionSidebarShowcase } from './CourseActionSidebarShowcase';
 
 /** Category for sidebar grouping. Order matches display order. */
 export const COMPONENT_CATEGORIES = [
@@ -264,6 +266,20 @@ export const showcaseSections: ShowcaseSection[] = [
     category: 'Progress & Validation',
     description: 'System, info, warning, error. Title, icon, and one or two actions. Not dismissible.',
     render: () => <BannerShowcase />,
+  },
+  {
+    id: 'course-header',
+    name: 'Course Header',
+    category: 'Content',
+    description: 'Course icon, title, and meta lines (Academic Level, Parent Course, By Teacher). Used on the class/course overview page.',
+    render: () => <CourseHeaderShowcase />,
+  },
+  {
+    id: 'course-action-sidebar',
+    name: 'Course Action Sidebar',
+    category: 'Surfaces',
+    description: 'Right sidebar for class page: Ask Arbor, Attachments upload, and actions (Download Student List, Communications, Browse Student Profiles, Delete Course).',
+    render: () => <CourseActionSidebarShowcase />,
   },
   {
     id: 'placeholder-heading',

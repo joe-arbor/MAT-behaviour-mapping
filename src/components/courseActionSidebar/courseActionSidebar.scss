@@ -1,0 +1,30 @@
+// CourseActionSidebar — right column: Ask Arbor, Attachments, action buttons
+
+.ds-course-action-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xlarge);
+  min-width: 0;
+}
+
+.ds-course-action-sidebar__ask {
+  .ds-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.ds-course-action-sidebar__attachments {
+  // Attachment has its own card/section styling
+}
+
+.ds-course-action-sidebar__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+
+  .ds-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

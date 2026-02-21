@@ -24,4 +24,9 @@ export const TEMPLATE_ROUTES: TemplateRoute[] = [
     name: 'Behaviour',
     description: 'Behaviour / conduct template (MIS-style page).',
   },
+  {
+    id: 'class',
+    name: 'Class (Course Overview)',
+    description: 'Course overview: breadcrumbs, course nav (Overview, Attendance, Timetable, etc.), CourseHeader, Admin/Academic Lead/Modules/Classes & Lessons/Enrolled Students/Linked Curriculums/Assessments, right sidebar with Ask Arbor, Attachments, actions.',
+  },
 ];

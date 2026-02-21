@@ -1,0 +1,60 @@
+// CourseHeader — course icon, title, and meta lines (e.g. Academic Level, Parent Course).
+
+.ds-course-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-large);
+  margin-bottom: var(--spacing-xlarge);
+}
+
+.ds-course-header__icon {
+  flex-shrink: 0;
+}
+
+.ds-course-header__icon-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-grey-200);
+  color: var(--color-grey-600);
+}
+
+.ds-course-header__icon-svg {
+  flex-shrink: 0;
+}
+
+.ds-course-header__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-course-header__title {
+  margin: 0 0 var(--spacing-small);
+  font-size: var(--font-size-6-22);
+  font-weight: var(--font-weight-semi-bold);
+  font-family: var(--font-family-standard);
+  color: var(--color-grey-900);
+}
+
+.ds-course-header__meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-700);
+}
+
+.ds-course-header__meta-item {
+  margin: 0;
+}
+
+.ds-course-header__meta-label {
+  color: var(--color-grey-600);
+}
+
+.ds-course-header__meta-value {
+  color: var(--color-grey-800);
+}

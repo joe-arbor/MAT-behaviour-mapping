@@ -1,26 +1,8 @@
 // Widgets — Favourites, My Calendar (vertical column on homepage).
 
+// When Section is used for widget heading, Section provides border/header; widget adds margin.
 .ds-widget {
-  background: var(--color-mono-white);
-  border: var(--border-weight) solid var(--color-grey-200);
-  border-radius: var(--corner-radius);
-  padding: var(--spacing-medium);
   margin-bottom: var(--spacing-large);
-}
-
-.ds-widget__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-small);
-  margin-bottom: var(--spacing-small);
-}
-
-.ds-widget__title {
-  margin: 0;
-  font-size: var(--font-size-4-16);
-  font-weight: var(--font-weight-semi-bold);
-  color: var(--color-grey-900);
 }
 
 .ds-widget__info {

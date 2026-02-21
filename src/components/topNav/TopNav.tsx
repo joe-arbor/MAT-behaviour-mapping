@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { Sparkles, ChevronDown } from 'lucide-react';
 import { GlobalSearchInput } from '../globalSearch';
+import { FloatingNav } from '../floatingNav';
+import type { FloatingNavItem } from '../floatingNav';
 import './topNav.scss';
 
 const DEBUG_LOG = (data: Record<string, unknown>) => {
@@ -14,17 +16,26 @@ const DEBUG_LOG = (data: Record<string, unknown>) => {
   }).catch(() => {});
 };
 
+export interface TopNavMenuChild {
+  id?: string;
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  /** Show right-pointing arrow (submenu indicator) */
+  hasSubmenu?: boolean;
+}
+
 export interface TopNavMenuItem {
   id: string;
   label: string;
-  /** Optional: links or actions for the dropdown. Omit for now to show chevron only. */
-  children?: { label: string; href?: string; onClick?: () => void }[];
+  /** Optional: items for the floating nav dropdown. */
+  children?: TopNavMenuChild[];
 }
 
 export interface TopNavProps {
   /** School logo: image URL or ReactNode (e.g. placeholder). */
   schoolLogo?: React.ReactNode;
-  /** Main nav items (My Items, Students, School, Reporting, System). */
+  /** Main nav items (My Items, Students, School, Reporting). */
   menuItems?: TopNavMenuItem[];
   /** Search placeholder text. */
   searchPlaceholder?: string;
@@ -37,11 +48,79 @@ export interface TopNavProps {
 }
 
 const defaultMenuItems: TopNavMenuItem[] = [
-  { id: 'my-items', label: 'My Items' },
-  { id: 'students', label: 'Students' },
-  { id: 'school', label: 'School' },
-  { id: 'reporting', label: 'Reporting' },
-  { id: 'system', label: 'System' },
+  {
+    id: 'my-items',
+    label: 'My Items',
+    children: [
+      { id: 'my-account', label: 'My Account', href: '#' },
+      { id: 'my-arbor-ai', label: 'My Arbor AI', href: '#' },
+      { id: 'my-calendar', label: 'My Calendar', href: '#', hasSubmenu: true },
+      { id: 'my-classes', label: 'My Classes', href: '#' },
+      { id: 'my-communications', label: 'My Communications', href: '#' },
+      { id: 'my-cover', label: 'My Cover', href: '#' },
+      { id: 'my-covid', label: 'My Covid-19 Tests', href: '#' },
+      { id: 'my-homepage', label: 'My Homepage', href: '/templates/home' },
+      { id: 'my-departments', label: 'My Departments', href: '#' },
+      { id: 'my-incomplete', label: 'My Incomplete Registers', href: '#' },
+      { id: 'my-notifications', label: 'My Notifications', href: '#' },
+      { id: 'my-payments', label: 'My Payments', href: '#' },
+      { id: 'my-permissions', label: 'My Permissions', href: '#' },
+      { id: 'assessment', label: 'Assessment Data Collections', href: '#' },
+    ],
+  },
+  {
+    id: 'students',
+    label: 'Students',
+    children: [
+      { id: 'all-students', label: 'All Students', href: '#' },
+      { id: 'assessments', label: 'Assessments', href: '#', hasSubmenu: true },
+      { id: 'assignments', label: 'Assignments', href: '#', hasSubmenu: true },
+      { id: 'attendance', label: 'Attendance', href: '#', hasSubmenu: true },
+      { id: 'behaviour', label: 'Behaviour', href: '#', hasSubmenu: true },
+      { id: 'bursaries', label: 'Bursaries', href: '#' },
+      { id: 'demographics', label: 'Demographics & Educational Needs', href: '#', hasSubmenu: true },
+      { id: 'enrolment', label: 'Enrolment', href: '#', hasSubmenu: true },
+      { id: 'examinations', label: 'Examinations', href: '#' },
+      { id: 'in-house-exams', label: 'In-house Exams', href: '#' },
+      { id: 'interventions', label: 'Interventions', href: '#', hasSubmenu: true },
+      { id: 'medical', label: 'Medical', href: '#', hasSubmenu: true },
+      { id: 'parents-guardians', label: 'Parents & Guardians', href: '#', hasSubmenu: true },
+      { id: 'report-cards', label: 'Report Cards', href: '#', hasSubmenu: true },
+      { id: 'student-portal', label: 'Student Portal', href: '#', hasSubmenu: true },
+    ],
+  },
+  {
+    id: 'school',
+    label: 'School',
+    children: [
+      { id: 'activities', label: 'Activities', href: '#', hasSubmenu: true },
+      { id: 'all-staff', label: 'All Staff', href: '#', hasSubmenu: true },
+      { id: 'arbor-ai', label: 'Arbor AI', href: '#' },
+      { id: 'arbor-labs', label: 'Arbor Labs', href: '#' },
+      { id: 'bi-viewer', label: 'BI Viewer', href: '#', hasSubmenu: true },
+      { id: 'communications', label: 'Communications', href: '#', hasSubmenu: true },
+      { id: 'custom-report-writer', label: 'Custom Report Writer', href: '#' },
+      { id: 'data', label: 'Data', href: '#', hasSubmenu: true },
+      { id: 'emergency-alerts', label: 'Emergency Alerts', href: '#', hasSubmenu: true },
+      { id: 'linked-orgs', label: 'Linked Organisations', href: '#', hasSubmenu: true },
+      { id: 'meals', label: 'Meals', href: '#' },
+      { id: 'payments', label: 'Payments', href: '#', hasSubmenu: true },
+      { id: 'programmes', label: 'Programmes', href: '#', hasSubmenu: true },
+      { id: 'school-details', label: 'School Details', href: '#', hasSubmenu: true },
+      { id: 'school-structure', label: 'School Structure', href: '#', hasSubmenu: true },
+      { id: 'timetable', label: 'Timetable', href: '#', hasSubmenu: true },
+      { id: 'users-security', label: 'Users & Security', href: '#', hasSubmenu: true },
+    ],
+  },
+  {
+    id: 'reporting',
+    label: 'Reporting',
+    children: [
+      { id: 'report-library', label: 'Report Library', href: '#' },
+      { id: 'template-library', label: 'Template Library', href: '#' },
+      { id: 'smart-reports', label: 'Smart Reports', href: '#', hasSubmenu: true },
+    ],
+  },
 ];
 
 /** Arbor wordmark + four-circles icon; links to home. */
@@ -205,30 +284,19 @@ export const TopNav: React.FC<TopNavProps> = ({
                     {item.label}
                     <ChevronDown size={14} className="ds-top-nav__chevron" aria-hidden />
                   </button>
-                  {hasDropdown && isOpen && item.children && (
-                    <ul className="ds-top-nav__dropdown" role="menu">
-                      {item.children.map((child, i) => (
-                        <li key={i} role="none">
-                          {child.href ? (
-                            <a href={child.href} className="ds-top-nav__dropdown-link" role="menuitem">
-                              {child.label}
-                            </a>
-                          ) : (
-                            <button
-                              type="button"
-                              className="ds-top-nav__dropdown-link"
-                              onClick={() => {
-                                child.onClick?.();
-                                setOpenMenuId(null);
-                              }}
-                              role="menuitem"
-                            >
-                              {child.label}
-                            </button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                  {hasDropdown && item.children && (
+                    <FloatingNav
+                      open={isOpen}
+                      onClose={() => setOpenMenuId(null)}
+                      items={item.children.map((c): FloatingNavItem => ({
+                        id: c.id,
+                        label: c.label,
+                        href: c.href,
+                        onClick: c.onClick,
+                        hasSubmenu: c.hasSubmenu,
+                      }))}
+                      ariaLabel={`${item.label} menu`}
+                    />
                   )}
                 </li>
               );

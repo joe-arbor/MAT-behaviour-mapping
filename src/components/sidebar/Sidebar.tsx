@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 import {
   Home,
   Star,
@@ -20,7 +21,7 @@ export interface SidebarItemConfig {
 }
 
 const DEFAULT_ITEMS: SidebarItemConfig[] = [
-  { id: 'home', label: 'Home', icon: Home },
+  { id: 'home', label: 'Home', icon: Home, href: '/templates/home' },
   { id: 'favourites', label: 'Favourites', icon: Star },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'my-calendar', label: 'My Calendar', icon: Calendar },
@@ -51,14 +52,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ items = DEFAULT_ITEMS, classNa
             return (
               <li key={item.id} className="ds-sidebar__item">
                 {item.href ? (
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="ds-sidebar__link"
                     onClick={item.onClick}
                     aria-label={item.label}
                   >
                     {content}
-                  </a>
+                  </Link>
                 ) : (
                   <button
                     type="button"

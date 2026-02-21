@@ -1,5 +1,6 @@
 import React from 'react';
 import { Coffee } from 'lucide-react';
+import { Section } from '../section/Section';
 import './homePanels.scss';
 
 export interface PanelItem {
@@ -31,12 +32,7 @@ export const HomePanels: React.FC<HomePanelsProps> = ({
 }) => {
   return (
     <div className={`ds-home-panels ${className ?? ''}`} role="region" aria-label="To do, alerts, and notices">
-      <section className="ds-home-panels__panel" aria-labelledby="home-panel-todo-title">
-        <header className="ds-home-panels__header">
-          <h2 id="home-panel-todo-title" className="ds-home-panels__title">
-            To Do ({toDoItems.length})
-          </h2>
-        </header>
+      <Section title={`To Do (${toDoItems.length})`} className="ds-home-panels__panel" id="home-panel-todo">
         <ul className="ds-home-panels__list" role="list">
           {toDoItems.map((item) => (
             <li key={item.id} className="ds-home-panels__item">
@@ -54,14 +50,9 @@ export const HomePanels: React.FC<HomePanelsProps> = ({
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
 
-      <section className="ds-home-panels__panel" aria-labelledby="home-panel-alerts-title">
-        <header className="ds-home-panels__header">
-          <h2 id="home-panel-alerts-title" className="ds-home-panels__title">
-            Alerts ({alertItems.length})
-          </h2>
-        </header>
+      <Section title={`Alerts (${alertItems.length})`} className="ds-home-panels__panel" id="home-panel-alerts">
         <div className="ds-home-panels__body">
           {alertItems.length === 0 ? (
             <div className="ds-home-panels__empty-state">
@@ -84,14 +75,9 @@ export const HomePanels: React.FC<HomePanelsProps> = ({
             </ul>
           )}
         </div>
-      </section>
+      </Section>
 
-      <section className="ds-home-panels__panel" aria-labelledby="home-panel-notices-title">
-        <header className="ds-home-panels__header">
-          <h2 id="home-panel-notices-title" className="ds-home-panels__title">
-            School Notices ({noticeItems.length})
-          </h2>
-        </header>
+      <Section title={`School Notices (${noticeItems.length})`} className="ds-home-panels__panel" id="home-panel-notices">
         <ul className="ds-home-panels__list" role="list">
           {noticeItems.map((item) => (
             <li key={item.id} className="ds-home-panels__item">
@@ -109,7 +95,7 @@ export const HomePanels: React.FC<HomePanelsProps> = ({
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
     </div>
   );
 };

@@ -4,11 +4,13 @@ import { TEMPLATE_ROUTES } from './templateRoutes';
 import { HomeTemplate } from './HomeTemplate';
 import { DailyAttendanceTemplate } from './DailyAttendanceTemplate';
 import { BehaviourTemplate } from './BehaviourTemplate';
+import { ClassTemplate } from './ClassTemplate';
 
 const TEMPLATE_COMPONENTS: Record<string, React.FC> = {
   home: HomeTemplate,
   'daily-attendance': DailyAttendanceTemplate,
   behaviour: BehaviourTemplate,
+  class: ClassTemplate,
 };
 
 /**

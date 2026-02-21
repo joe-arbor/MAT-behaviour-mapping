@@ -7,25 +7,11 @@
   margin-bottom: var(--spacing-xlarge);
 }
 
-.ds-home-panels__panel {
-  background: var(--color-mono-white);
-  border: var(--border-weight) solid var(--color-grey-200);
-  border-radius: var(--corner-radius);
-  padding: var(--spacing-large);
+// Section component provides heading and border; panel only needs layout for content.
+.ds-home-panels__panel.ds-section {
   display: flex;
   flex-direction: column;
   min-width: 0;
-}
-
-.ds-home-panels__header {
-  margin-bottom: var(--spacing-small);
-}
-
-.ds-home-panels__title {
-  margin: 0;
-  font-size: var(--font-size-4-16);
-  font-weight: var(--font-weight-semi-bold);
-  color: var(--color-grey-900);
 }
 
 .ds-home-panels__body {

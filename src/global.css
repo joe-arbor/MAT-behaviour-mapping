@@ -1,6 +1,7 @@
-/* Base font from design tokens */
+/* Base font from design tokens; full height so flex children (e.g. .app__main) can expand */
 html,
 body,
 #root {
   font-family: var(--font-family-standard);
+  height: 100%;
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Home,
   Star,
@@ -6,6 +7,7 @@ import {
   Calendar,
   HelpCircle,
   LogOut,
+  Users,
 } from 'lucide-react';
 import { TopNav } from '../../components/topNav';
 import { Sidebar } from '../../components/sidebar';
@@ -54,6 +56,12 @@ export function HomeTemplate() {
 
         <main className="template-page__content">
           <div className="template-page__content-inner">
+            <div className="home-shortcuts">
+              <Link to="/templates/browse-students" className="home-shortcuts__link">
+                <Users size={20} className="home-shortcuts__icon" aria-hidden />
+                <span>Browse Students</span>
+              </Link>
+            </div>
             <HomePanels />
 
             <div className="home-kpi">

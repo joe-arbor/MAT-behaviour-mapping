@@ -5,6 +5,10 @@
   min-height: 0;
 }
 
+.template-page__content-inner > .ds-section + .ds-section {
+  margin-top: 10px;
+}
+
 .template-page__inner {
   flex: 1;
   width: 100%;

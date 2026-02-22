@@ -29,14 +29,18 @@
   width: 100%;
   max-width: min(1600px, 100%);
   margin: 0 auto;
+  margin-left: 0;
+  margin-right: 0;
   box-sizing: border-box;
+  min-width: 0; /* allow flex children to shrink and avoid overflow/overlap */
 }
 
 .ds-top-nav__start {
   display: flex;
   align-items: center;
   gap: var(--spacing-xlarge);
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0; /* allow menu to shrink so search and right-group don’t overlap */
 }
 
 .ds-top-nav__school-logo {
@@ -100,28 +104,43 @@
   opacity: 0.85;
 }
 
+.ds-top-nav__right-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto; /* don’t shrink so Ask Arbor + logo stay visible and don’t overlap search */
+  min-width: 0;
+  margin-left: auto;
+
+  /* 10px gap between search and the right block (Ask Arbor + logo) */
+  & > * + * {
+    margin-left: 10px !important;
+  }
+}
+
 .ds-top-nav__right {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex: 0 1 auto;
   min-width: 0;
+
+  /* 10px horizontal gap between Ask Arbor and logo */
+  & > * + * {
+    margin-left: 10px !important;
+  }
 }
 
-// Search wrapper: shrink before Ask Arbor; never overlap (no overflow:hidden so panel can open).
-.ds-top-nav__right .ds-global-search {
+// Search: right-aligned in top nav, shrink before right block (no overflow:hidden so panel can open).
+.ds-top-nav__right-group .ds-global-search {
   flex: 1 1 0;
   min-width: 0;
   max-width: 220px;
 }
 
-// Form must be able to shrink so search doesn’t overlap Ask Arbor.
-.ds-top-nav__right .ds-global-search__form {
+.ds-top-nav__right-group .ds-global-search__form {
   min-width: 0;
 }
 
-// Input: force shrink in TopNav (override browser default min-width on inputs).
-.ds-top-nav__right .ds-global-search .ds-global-search__input {
+.ds-top-nav__right-group .ds-global-search .ds-global-search__input {
   min-width: 0 !important;
 }
 
@@ -184,7 +203,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 36px;
+  height: 30px;
   padding: 0 var(--spacing-medium);
   background: var(--top-nav-ask-bg);
   color: var(--top-nav-ask-text);

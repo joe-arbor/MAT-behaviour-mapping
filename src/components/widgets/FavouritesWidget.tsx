@@ -73,7 +73,7 @@ const DEFAULT_FAVOURITES: FavouriteItem[] = [
   { id: '2', label: 'Attendance', href: '/templates/daily-attendance' },
   { id: '3', label: 'Behavioural Incidents Reporting', href: '#' },
   { id: '4', label: 'Browse Staff', href: '#' },
-  { id: '5', label: 'Browse Students', href: '#' },
+  { id: '5', label: 'Browse Students', href: '/templates/browse-students' },
   { id: '6', label: 'Canvas', href: '#' },
   { id: '7', label: 'Create ad hoc intervention', href: '#' },
   { id: '8', label: 'Create assignment', href: '#' },
@@ -81,4 +81,5 @@ const DEFAULT_FAVOURITES: FavouriteItem[] = [
   { id: '10', label: 'Create intervention', href: '#' },
   { id: '11', label: 'Daily Attendance', href: '/templates/daily-attendance' },
   { id: '12', label: 'KS3 Mathematics: Year 8: 8y/Ma1', href: '/templates/class' },
+  { id: '13', label: 'Report Library', href: '/templates/report-library' },
 ];

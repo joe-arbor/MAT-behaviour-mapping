@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PanelLeftClose, ChevronRight } from 'lucide-react';
+import classnames from 'classnames';
+import { PanelLeftClose, PanelRightOpen, ChevronRight } from 'lucide-react';
 import { TopNav } from '../../components/topNav';
 import { Sidebar } from '../../components/sidebar';
 import { SideMenu, SideMenuItem } from '../../components/sideMenu';
@@ -123,6 +124,7 @@ function DetailRow({ label = '', value }: { label?: string; value?: string }) {
 export function ClassTemplate() {
   const [askArborOpen, setAskArborOpen] = useState(false);
   const [menuItems, setMenuItems] = useState(CLASS_PAGE_MENU_ITEMS);
+  const [sideMenuOpen, setSideMenuOpen] = useState(true);
 
   const handleToggleFavorite = (id: string) => {
     setMenuItems((prev) =>
@@ -134,10 +136,11 @@ export function ClassTemplate() {
     <button
       type="button"
       className="ds-breadcrumbs__leading-btn"
-      aria-label="Collapse sidebar"
-      title="Collapse sidebar"
+      aria-label={sideMenuOpen ? 'Collapse side navigation' : 'Expand side navigation'}
+      title={sideMenuOpen ? 'Collapse side navigation' : 'Expand side navigation'}
+      onClick={() => setSideMenuOpen((prev) => !prev)}
     >
-      <PanelLeftClose size={18} aria-hidden />
+      {sideMenuOpen ? <PanelLeftClose size={18} aria-hidden /> : <PanelRightOpen size={18} aria-hidden />}
     </button>
   );
 
@@ -148,7 +151,7 @@ export function ClassTemplate() {
         onAskArborClick={() => setAskArborOpen(true)}
       />
 
-      <div className="template-page__body">
+      <div className={classnames('template-page__body', !sideMenuOpen && 'template-page__body--side-nav-closed')}>
         <Sidebar className="template-page__sidebar" />
         <SideMenu
           className="template-page__side-menu"

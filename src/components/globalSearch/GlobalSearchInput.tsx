@@ -23,6 +23,9 @@ function getMockResultGroups(
   ];
   const allPages: SearchResultItem[] = [
     { id: 'p0', label: 'Home', breadcrumb: 'Homepage', href: '/templates/home' },
+    { id: 'report-library', label: 'Report Library', breadcrumb: 'Reporting', href: '/templates/report-library' },
+    { id: 'browse-students', label: 'Browse Students', breadcrumb: 'Students', href: '/templates/browse-students' },
+    { id: 'class-ks3-ma1', label: 'KS3 Mathematics: Year 8: 8y/Ma1', breadcrumb: 'School > Timetable > Class', href: '/templates/class' },
     { id: 'p1', label: 'Attendance', breadcrumb: 'Students', href: '#' },
     { id: 'p2', label: 'Attendance Fines', breadcrumb: 'Students > Attendance > Absentees', href: '#' },
     { id: 'p3', label: 'Attendance Over Time', breadcrumb: 'Students > Attendance', href: '#' },

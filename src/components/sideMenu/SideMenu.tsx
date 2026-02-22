@@ -157,7 +157,7 @@ function SideMenuRow({
                     'ds-side-menu__star-icon--filled': isFavorite,
                   })}
                   aria-hidden
-                  fill={isFavorite ? 'currentColor' : 'none'}
+                  fill="none"
                 />
               </button>
             </span>

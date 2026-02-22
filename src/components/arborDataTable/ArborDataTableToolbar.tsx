@@ -34,8 +34,8 @@ export interface ArborDataTableToolbarProps {
   redoDisabled?: boolean;
   /** Search — on the right */
   showSearch?: boolean;
-  searchValue: string;
-  onSearchChange: (value: string) => void;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
   /** Tips button (32×32, disabled) */
   showTips?: boolean;
   tipsDisabled?: boolean;
@@ -84,8 +84,8 @@ export function ArborDataTableToolbar({
   undoDisabled,
   redoDisabled,
   showSearch,
-  searchValue,
-  onSearchChange,
+  searchValue = '',
+  onSearchChange = () => {},
   showTips = true,
   tipsDisabled = true,
   onTipsClick,

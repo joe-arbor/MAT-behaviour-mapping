@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { Search } from 'lucide-react';
 import type { SearchCategory, SearchResultGroup } from './globalSearchTypes';
@@ -183,24 +184,39 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
                   )}
                 </div>
                 <ul className="ds-global-search__group-list" role="list">
-                  {group.items.map((item) => (
-                    <li key={item.id}>
-                      <a
-                        href={item.href ?? '#'}
-                        className="ds-global-search__result-link"
-                        onClick={() => {
-                          onResultSelect?.();
-                          onClose();
-                        }}
-                      >
+                  {group.items.map((item) => {
+                    const href = item.href ?? '#';
+                    const isInternal = href.startsWith('/') && !href.startsWith('//');
+                    const linkContent = (
+                      <>
                         {item.isCustomReport && '**** '}
                         <span className="ds-global-search__result-label">{highlightQuery(item.label, query)}</span>
                         {item.breadcrumb && (
                           <span className="ds-global-search__result-breadcrumb">{highlightQuery(item.breadcrumb, query)}</span>
                         )}
-                      </a>
-                    </li>
-                  ))}
+                      </>
+                    );
+                    const linkProps = {
+                      className: 'ds-global-search__result-link',
+                      onClick: () => {
+                        onResultSelect?.();
+                        onClose();
+                      },
+                    };
+                    return (
+                      <li key={item.id}>
+                        {isInternal ? (
+                          <Link to={href} {...linkProps}>
+                            {linkContent}
+                          </Link>
+                        ) : (
+                          <a href={href} {...linkProps}>
+                            {linkContent}
+                          </a>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

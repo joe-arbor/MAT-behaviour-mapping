@@ -72,6 +72,7 @@ const defaultMenuItems: TopNavMenuItem[] = [
     id: 'students',
     label: 'Students',
     children: [
+      { id: 'browse-students', label: 'Browse Students', href: '/templates/browse-students' },
       { id: 'all-students', label: 'All Students', href: '#' },
       { id: 'assessments', label: 'Assessments', href: '#', hasSubmenu: true },
       { id: 'assignments', label: 'Assignments', href: '#', hasSubmenu: true },
@@ -116,7 +117,7 @@ const defaultMenuItems: TopNavMenuItem[] = [
     id: 'reporting',
     label: 'Reporting',
     children: [
-      { id: 'report-library', label: 'Report Library', href: '#' },
+      { id: 'report-library', label: 'Report Library', href: '/templates/report-library' },
       { id: 'template-library', label: 'Template Library', href: '#' },
       { id: 'smart-reports', label: 'Smart Reports', href: '#', hasSubmenu: true },
     ],
@@ -174,6 +175,7 @@ export const TopNav: React.FC<TopNavProps> = ({
 }) => {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const openMenuButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!openMenuId) return;
@@ -194,7 +196,7 @@ export const TopNav: React.FC<TopNavProps> = ({
       const inner = nav.querySelector('.ds-top-nav__inner') as HTMLElement | null;
       const start = nav.querySelector('.ds-top-nav__start') as HTMLElement | null;
       const right = nav.querySelector('.ds-top-nav__right') as HTMLElement | null;
-      const searchEl = right?.querySelector('.ds-global-search') as HTMLElement | null;
+      const searchEl = inner?.querySelector('.ds-global-search') as HTMLElement | null;
       const askBtn = right?.querySelector('.ds-top-nav__ask-btn') as HTMLElement | null;
       const logoEl = right?.querySelector('.ds-top-nav__arbor-logo') as HTMLElement | null;
       const vw = typeof window !== 'undefined' ? window.innerWidth : 0;
@@ -273,6 +275,7 @@ export const TopNav: React.FC<TopNavProps> = ({
               return (
                 <li key={item.id} className="ds-top-nav__menu-item" role="none">
                   <button
+                    ref={isOpen ? (el) => { openMenuButtonRef.current = el; } : undefined}
                     type="button"
                     className={classnames('ds-top-nav__menu-btn', { 'ds-top-nav__menu-btn--open': isOpen })}
                     onClick={() => setOpenMenuId(hasDropdown ? (isOpen ? null : item.id) : undefined)}
@@ -288,6 +291,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                     <FloatingNav
                       open={isOpen}
                       onClose={() => setOpenMenuId(null)}
+                      anchorRef={openMenuButtonRef}
                       items={item.children.map((c): FloatingNavItem => ({
                         id: c.id,
                         label: c.label,
@@ -304,22 +308,24 @@ export const TopNav: React.FC<TopNavProps> = ({
           </ul>
         </div>
 
-        <div className="ds-top-nav__right">
-          <GlobalSearchInput
-            variant="topNav"
-            placeholder={searchPlaceholder}
-            onSearch={onSearch}
-          />
-          <button
-            type="button"
-            className="ds-top-nav__ask-btn"
-            onClick={onAskArborClick}
-            aria-label="Ask Arbor"
-          >
-            <Sparkles size={18} className="ds-top-nav__ask-icon" aria-hidden />
-            <span>Ask Arbor</span>
-          </button>
-          <ArborLogo />
+        <GlobalSearchInput
+          variant="topNav"
+          placeholder={searchPlaceholder}
+          onSearch={onSearch}
+        />
+        <div className="ds-top-nav__right-group">
+          <div className="ds-top-nav__right">
+            <button
+              type="button"
+              className="ds-top-nav__ask-btn"
+              onClick={onAskArborClick}
+              aria-label="Ask Arbor"
+            >
+              <Sparkles size={18} className="ds-top-nav__ask-icon" aria-hidden />
+              <span>Ask Arbor</span>
+            </button>
+            <ArborLogo />
+          </div>
         </div>
       </div>
     </nav>

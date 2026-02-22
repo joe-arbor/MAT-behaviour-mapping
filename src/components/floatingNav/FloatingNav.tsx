@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import './floatingNav.scss';
@@ -77,16 +78,35 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
         {items.map((item, i) => (
           <li key={item.id ?? i} className="ds-floating-nav__item" role="none">
             {item.href != null ? (
-              <a
-                href={item.href}
-                className="ds-floating-nav__link"
-                role="menuitem"
-              >
-                <span className="ds-floating-nav__label">{item.label}</span>
-                {item.hasSubmenu && (
-                  <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
-                )}
-              </a>
+              (() => {
+                const isInternal = item.href.startsWith('/') && !item.href.startsWith('//');
+                const linkContent = (
+                  <>
+                    <span className="ds-floating-nav__label">{item.label}</span>
+                    {item.hasSubmenu && (
+                      <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
+                    )}
+                  </>
+                );
+                return isInternal ? (
+                  <Link
+                    to={item.href}
+                    className="ds-floating-nav__link"
+                    role="menuitem"
+                    onClick={onClose}
+                  >
+                    {linkContent}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    className="ds-floating-nav__link"
+                    role="menuitem"
+                  >
+                    {linkContent}
+                  </a>
+                );
+              })()
             ) : (
               <button
                 type="button"

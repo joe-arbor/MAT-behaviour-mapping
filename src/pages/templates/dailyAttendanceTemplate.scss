@@ -8,6 +8,10 @@
     overflow: hidden;
   }
 
+  .template-page__body--side-nav-closed .template-page__side-menu {
+    display: none;
+  }
+
   .template-page__sidebar {
     flex-shrink: 0;
   }
@@ -84,4 +88,88 @@
 .template-page__content .ds-arbor-table-wrapper {
   flex: 1;
   min-height: 300px;
+}
+
+// Daily attendance: plain table so data always shows (no AG Grid persistence issues)
+.daily-attendance-table {
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--corner-radius);
+  background: var(--color-mono-white);
+}
+
+.daily-attendance-table__scroll {
+  flex: 1;
+  min-height: 280px;
+  overflow: auto;
+}
+
+.daily-attendance-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-3-14);
+}
+
+.daily-attendance-table__table th,
+.daily-attendance-table__table td {
+  padding: var(--spacing-small) var(--spacing-medium);
+  text-align: left;
+  border-bottom: 1px solid var(--color-grey-200);
+}
+
+.daily-attendance-table__table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.daily-attendance-table__table th {
+  background: var(--color-grey-100);
+  font-weight: var(--font-weight-semi-bold);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-800);
+  border-bottom: 2px solid var(--color-grey-300);
+  white-space: nowrap;
+}
+
+.daily-attendance-table__th-checkbox,
+.daily-attendance-table__td-checkbox {
+  width: 40px;
+  min-width: 40px;
+  text-align: center;
+  vertical-align: middle;
+
+  input[type='checkbox'] {
+    cursor: pointer;
+    margin: 0;
+  }
+}
+
+.daily-attendance-table__table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.daily-attendance-table__table tbody tr:hover {
+  background: var(--color-extended-colours-green-050, #e8f5e9);
+}
+
+.daily-attendance-table__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-top: 1px solid var(--color-grey-200);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-600);
+}
+
+.daily-attendance-table__footer-count {
+  flex: 1;
+}
+
+.daily-attendance-table__footer-pagination,
+.daily-attendance-table__footer-pagesize {
+  flex-shrink: 0;
 }

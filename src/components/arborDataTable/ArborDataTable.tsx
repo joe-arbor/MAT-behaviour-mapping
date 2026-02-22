@@ -59,7 +59,9 @@ export function ArborDataTable<T = any>({
   const [cellBorders, setCellBorders] = useState(false);
 
   const persisted = loadTableState(tableId);
-  const initialPageSize = persisted?.pageSize ?? initialState?.pageSize ?? defaultPageSize;
+  // Daily attendance: never apply persisted filter/state so the register always shows full data
+  const effectivePersisted = tableId === 'daily-attendance-registers' ? null : persisted;
+  const initialPageSize = effectivePersisted?.pageSize ?? initialState?.pageSize ?? defaultPageSize;
 
   useEffect(() => {
     setPageSize(initialPageSize);
@@ -72,7 +74,8 @@ export function ArborDataTable<T = any>({
 
       // Defer persistence and layout so the grid finishes its first paint (helps with React 18 Strict Mode).
       requestAnimationFrame(() => {
-        const state = persisted ?? initialState;
+        const isDailyAttendance = tableId === 'daily-attendance-registers';
+        const state = effectivePersisted ?? initialState;
         if (state?.filterModel) api.setFilterModel(state.filterModel);
         if (state?.sortModel && Array.isArray(state.sortModel) && state.sortModel.length > 0) {
           const columnState = state.sortModel.map((s: any) => ({
@@ -100,16 +103,23 @@ export function ArborDataTable<T = any>({
         api.sizeColumnsToFit();
 
         // If client-side data exists but a restored filter (or quick filter) shows 0 rows, clear filters so data is visible
+        const displayed = api.getDisplayedRowCount?.() ?? 0;
         if (!datasource && rowData?.length) {
-          const displayed = api.getDisplayedRowCount?.() ?? 0;
-          if (displayed === 0) {
+          if (isDailyAttendance) {
+            // Daily attendance: always clear filters and force rowData via API so rows show reliably
+            api.setFilterModel(null);
+            api.setGridOption('quickFilterText', '');
+            requestAnimationFrame(() => {
+              api.setGridOption('rowData', rowData);
+            });
+          } else if (displayed === 0) {
             api.setFilterModel(null);
             api.setGridOption('quickFilterText', '');
           }
         }
       });
     },
-    [tableId, persisted, initialState, datasource, rowData?.length]
+    [tableId, effectivePersisted, initialState, datasource, rowData?.length]
   );
 
   const onSelectionChanged = useCallback(() => {

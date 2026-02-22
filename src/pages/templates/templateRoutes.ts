@@ -29,4 +29,14 @@ export const TEMPLATE_ROUTES: TemplateRoute[] = [
     name: 'Class (Course Overview)',
     description: 'Course overview: breadcrumbs, course nav (Overview, Attendance, Timetable, etc.), CourseHeader, Admin/Academic Lead/Modules/Classes & Lessons/Enrolled Students/Linked Curriculums/Assessments, right sidebar with Ask Arbor, Attachments, actions.',
   },
+  {
+    id: 'report-library',
+    name: 'Report Library',
+    description: 'Reporting hub: filters (Arbor/My/Other), category pills, search, and a responsive grid of report cards with Load More.',
+  },
+  {
+    id: 'browse-students',
+    name: 'Browse Students',
+    description: 'Students section: side nav (Browse Students, Leavers, Birthdays, etc.), search toolbar, 2-col student cards grid, pagination.',
+  },
 ];

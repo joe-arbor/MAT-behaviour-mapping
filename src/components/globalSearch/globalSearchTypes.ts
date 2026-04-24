@@ -1,10 +1,4 @@
-export type SearchCategory =
-  | 'students'
-  | 'staff'
-  | 'guardians'
-  | 'customReports'
-  | 'pages'
-  | 'helpCentre';
+export type SearchCategory = 'staff' | 'pages' | 'helpCentre' | 'favourites';
 
 export interface SearchResultItem {
   id: string;

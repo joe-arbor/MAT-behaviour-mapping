@@ -5,7 +5,6 @@ import {
   Home,
   Star,
   Bell,
-  Calendar,
   HelpCircle,
   LogOut,
   LucideIcon,
@@ -26,13 +25,12 @@ const DEFAULT_ITEMS: SidebarItemConfig[] = [
   { id: 'home', label: 'Home', icon: Home, description: 'Go to Homepage', href: '/templates/home' },
   { id: 'favourites', label: 'Favourites', icon: Star, description: 'Quick access to saved pages' },
   { id: 'notifications', label: 'Notifications', icon: Bell, description: 'Check your personal alerts' },
-  { id: 'my-calendar', label: 'My Calendar', icon: Calendar, description: "View today's events in your calendar" },
   { id: 'help', label: 'Help & Learn with Arbor', icon: HelpCircle, description: 'Arbor HQ, Help Centre, and training resource' },
   { id: 'sign-out', label: 'Sign Out', icon: LogOut, description: 'Sign out of your account' },
 ];
 
 export interface SidebarProps {
-  /** Override default items. Default: Home, Favourites, Notifications, My Calendar, Help & Learn with Arbor, Sign Out. */
+  /** Override default items. Default: Home, Favourites, Notifications, Help & Learn with Arbor, Sign Out. */
   items?: SidebarItemConfig[];
   /** Optional class for the root. */
   className?: string;

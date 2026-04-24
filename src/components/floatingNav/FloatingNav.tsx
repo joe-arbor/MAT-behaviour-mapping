@@ -74,58 +74,60 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
       role="menu"
       aria-label={ariaLabel}
     >
-      <ul className="ds-floating-nav__list" role="none">
-        {items.map((item, i) => (
-          <li key={item.id ?? i} className="ds-floating-nav__item" role="none">
-            {item.href != null ? (
-              (() => {
-                const isInternal = item.href.startsWith('/') && !item.href.startsWith('//');
-                const linkContent = (
-                  <>
-                    <span className="ds-floating-nav__label">{item.label}</span>
-                    {item.hasSubmenu && (
-                      <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
-                    )}
-                  </>
-                );
-                return isInternal ? (
-                  <Link
-                    to={item.href}
-                    className="ds-floating-nav__link"
-                    role="menuitem"
-                    onClick={onClose}
-                  >
-                    {linkContent}
-                  </Link>
-                ) : (
-                  <a
-                    href={item.href}
-                    className="ds-floating-nav__link"
-                    role="menuitem"
-                  >
-                    {linkContent}
-                  </a>
-                );
-              })()
-            ) : (
-              <button
-                type="button"
-                className="ds-floating-nav__link"
-                role="menuitem"
-                onClick={() => {
-                  item.onClick?.();
-                  onClose();
-                }}
-              >
-                <span className="ds-floating-nav__label">{item.label}</span>
-                {item.hasSubmenu && (
-                  <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
-                )}
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="ds-floating-nav__body">
+        <ul className="ds-floating-nav__list" role="none">
+          {items.map((item, i) => (
+            <li key={item.id ?? i} className="ds-floating-nav__item" role="none">
+              {item.href != null ? (
+                (() => {
+                  const isInternal = item.href.startsWith('/') && !item.href.startsWith('//');
+                  const linkContent = (
+                    <>
+                      <span className="ds-floating-nav__label">{item.label}</span>
+                      {item.hasSubmenu && (
+                        <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
+                      )}
+                    </>
+                  );
+                  return isInternal ? (
+                    <Link
+                      to={item.href}
+                      className="ds-floating-nav__link"
+                      role="menuitem"
+                      onClick={onClose}
+                    >
+                      {linkContent}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="ds-floating-nav__link"
+                      role="menuitem"
+                    >
+                      {linkContent}
+                    </a>
+                  );
+                })()
+              ) : (
+                <button
+                  type="button"
+                  className="ds-floating-nav__link"
+                  role="menuitem"
+                  onClick={() => {
+                    item.onClick?.();
+                    onClose();
+                  }}
+                >
+                  <span className="ds-floating-nav__label">{item.label}</span>
+                  {item.hasSubmenu && (
+                    <ChevronRight size={14} className="ds-floating-nav__chevron" aria-hidden />
+                  )}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

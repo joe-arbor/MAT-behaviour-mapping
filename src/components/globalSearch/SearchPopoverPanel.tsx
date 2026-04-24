@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import { Search } from 'lucide-react';
 import type { SearchCategory, SearchResultGroup } from './globalSearchTypes';
 import './globalSearch.scss';
 
@@ -28,22 +27,13 @@ function highlightQuery(text: string, query: string): React.ReactNode {
 }
 
 const CATEGORY_LABELS: Record<SearchCategory, string> = {
-  students: 'Students',
   staff: 'Staff',
-  guardians: 'Guardians',
-  customReports: 'Custom Reports',
   pages: 'Pages',
   helpCentre: 'Help Centre articles',
+  favourites: 'Favourites',
 };
 
-const CATEGORY_ORDER: SearchCategory[] = [
-  'students',
-  'staff',
-  'guardians',
-  'customReports',
-  'pages',
-  'helpCentre',
-];
+const CATEGORY_ORDER: SearchCategory[] = ['staff', 'pages', 'helpCentre', 'favourites'];
 
 export interface SearchPopoverPanelProps {
   open: boolean;
@@ -53,23 +43,14 @@ export interface SearchPopoverPanelProps {
   onCategoryChange: (category: SearchCategory) => void;
   currentOnly: boolean;
   onCurrentOnlyChange: (value: boolean) => void;
-  showFavouritesFirst: boolean;
-  /** Grouped results (e.g. Favourites, Pages, Custom Report). Empty when no query = empty state. */
+  /** Grouped results; empty when no query = empty state. */
   resultGroups: SearchResultGroup[];
-  onViewAllResults: () => void;
   /** Called when user clicks a result (panel should close after) */
   onResultSelect?: () => void;
   /** Ref of the anchor (search input) for positioning */
   anchorRef: React.RefObject<HTMLElement | null>;
   className?: string;
 }
-
-const EMPTY_STATE_MESSAGE = (
-  <>
-    Search for students, staff, pages and more. Or, start typing a question to browse Help Centre results.{' '}
-    <a href="#" className="ds-global-search__help-link">Learn what you can search for in this Help Centre article.</a>
-  </>
-);
 
 export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
   open,
@@ -79,9 +60,7 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
   onCategoryChange,
   currentOnly,
   onCurrentOnlyChange,
-  showFavouritesFirst,
   resultGroups,
-  onViewAllResults,
   onResultSelect,
   anchorRef,
   className,
@@ -121,10 +100,11 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
 
   return (
     <div
+      id="global-search-panel"
       ref={panelRef}
       className={classnames('ds-global-search__panel', className)}
       role="dialog"
-      aria-label="Search results"
+      aria-label="Search"
     >
       <div className="ds-global-search__tabs">
         {CATEGORY_ORDER.map((cat) => (
@@ -141,14 +121,6 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
         ))}
       </div>
 
-      {showFavouritesFirst && (
-        <div className="ds-global-search__pill-row">
-          <button type="button" className="ds-global-search__pill ds-global-search__pill--active">
-            Favourites
-          </button>
-        </div>
-      )}
-
       <div className="ds-global-search__filters">
         <label className="ds-global-search__checkbox-label">
           <input
@@ -162,11 +134,8 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
       </div>
 
       <div className="ds-global-search__body">
-        {isEmpty && (
-          <p className="ds-global-search__empty-text">{EMPTY_STATE_MESSAGE}</p>
-        )}
         {!isEmpty && !hasResults && (
-          <p className="ds-global-search__empty-text">No results for "{query}".</p>
+          <p className="ds-global-search__empty-hint">No results for &quot;{query}&quot;.</p>
         )}
         {!isEmpty && hasResults && (
           <div className="ds-global-search__results">
@@ -223,22 +192,6 @@ export const SearchPopoverPanel: React.FC<SearchPopoverPanelProps> = ({
           </div>
         )}
       </div>
-
-      {!isEmpty && (
-        <footer className="ds-global-search__footer">
-          <button
-            type="button"
-            className="ds-global-search__view-all"
-            onClick={() => {
-              onViewAllResults();
-              onClose();
-            }}
-          >
-            <Search size={16} aria-hidden />
-            View all results
-          </button>
-        </footer>
-      )}
     </div>
   );
 };

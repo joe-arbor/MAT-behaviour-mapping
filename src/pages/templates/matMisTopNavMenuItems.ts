@@ -1,7 +1,7 @@
 import type { TopNavMenuItem } from '../../components/topNav';
 
 /**
- * MAT MIS top navigation (multi-academy / trust). Replace placeholder children with real routes as needed.
+ * MAT MIS top navigation (multi-academy / trust). Replace placeholder `href` values with real routes as needed.
  */
 export const matMisTopNavMenuItems: TopNavMenuItem[] = [
   {
@@ -9,7 +9,6 @@ export const matMisTopNavMenuItems: TopNavMenuItem[] = [
     label: 'My Items',
     children: [
       { id: 'mat-my-account', label: 'My Account', href: '#' },
-      { id: 'mat-my-homepage', label: 'My Homepage', href: '#' },
       { id: 'mat-my-permissions', label: 'My Permissions', href: '#' },
     ],
   },
@@ -17,42 +16,59 @@ export const matMisTopNavMenuItems: TopNavMenuItem[] = [
     id: 'analytics',
     label: 'Analytics',
     children: [
-      { id: 'mat-analytics-overview', label: 'Overview', href: '#' },
-      { id: 'mat-analytics-cohorts', label: 'Cohorts', href: '#' },
-      { id: 'mat-analytics-reports', label: 'Reports', href: '#' },
+      { id: 'mat-analytics-group-context', label: 'Group Context', href: '#' },
+      { id: 'mat-analytics-attendance', label: 'Attendance', href: '#' },
+      { id: 'mat-analytics-behaviour', label: 'Behaviour', href: '#', hasSubmenu: true },
+      { id: 'mat-analytics-assessment', label: 'Assessment', href: '#', hasSubmenu: true },
+      { id: 'mat-analytics-staff-hr', label: 'Staff/HR', href: '#', hasSubmenu: true },
+      { id: 'mat-analytics-custom-report-writer', label: 'Custom Report Writer', href: '#' },
+      { id: 'mat-analytics-live-feeds', label: 'Live Feeds', href: '#' },
+      { id: 'mat-analytics-thresholds', label: 'Thresholds', href: '#' },
+      { id: 'mat-analytics-census-audit', label: 'Census Audit', href: '#' },
+      { id: 'mat-analytics-parental-engagement', label: 'Parental Engagement', href: '#' },
+      { id: 'mat-analytics-school-year-setup-audit', label: 'School Year Setup Audit', href: '#' },
+      { id: 'mat-analytics-bi-viewer', label: 'BI Viewer', href: '#', hasSubmenu: true },
     ],
   },
   {
     id: 'administration',
     label: 'Administration',
     children: [
-      { id: 'mat-admin-users', label: 'Users & Security', href: '#' },
-      { id: 'mat-admin-data', label: 'Data & Integrations', href: '#' },
-      { id: 'mat-admin-billing', label: 'Billing', href: '#' },
+      { id: 'mat-admin-academic-years', label: 'Academic Years', href: '#' },
+      { id: 'mat-admin-arbor-workflows', label: 'Arbor Workflows', href: '#', hasSubmenu: true },
+      { id: 'mat-admin-assessment', label: 'Assessment', href: '#', hasSubmenu: true },
+      { id: 'mat-admin-communications', label: 'Communications', href: '#', hasSubmenu: true },
+      { id: 'mat-admin-entity-import', label: 'Entity Import', href: '#' },
+      { id: 'mat-admin-group-details', label: 'Group Details', href: '#' },
+      { id: 'mat-admin-pushdowns', label: 'Pushdowns', href: '#', hasSubmenu: true },
+      { id: 'mat-admin-user-defined-fields', label: 'User Defined Fields', href: '#' },
     ],
   },
   {
     id: 'institutions',
     label: 'Institutions',
     children: [
-      { id: 'mat-inst-schools', label: 'Schools & Academies', href: '#' },
-      { id: 'mat-inst-structure', label: 'Group Structure', href: '#' },
+      { id: 'mat-inst-browse', label: 'Browse Institutions', href: '#' },
+      { id: 'mat-inst-clusters', label: 'Clusters', href: '#' },
+      { id: 'mat-inst-data-sharing', label: 'Data Sharing Agreements', href: '#' },
+      { id: 'mat-inst-linked-orgs', label: 'Linked Organisations', href: '#' },
+      { id: 'mat-inst-login-mis', label: 'Login to MIS', href: '#' },
+      { id: 'mat-inst-ofsted', label: 'Ofsted Inspections', href: '#' },
     ],
   },
   {
     id: 'group-staff',
     label: 'Group Staff',
     children: [
-      { id: 'mat-staff-directory', label: 'Directory', href: '#' },
-      { id: 'mat-staff-roles', label: 'Roles', href: '#' },
-    ],
-  },
-  {
-    id: 'system',
-    label: 'System',
-    children: [
-      { id: 'mat-sys-settings', label: 'System Settings', href: '#' },
-      { id: 'mat-sys-audit', label: 'Audit', href: '#' },
+      { id: 'mat-staff-absences', label: 'Absences', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-access-control', label: 'Access Control', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-add-new', label: 'Add New Staff Member', href: '#' },
+      { id: 'mat-staff-browse', label: 'Browse Staff', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-hr-admin', label: 'HR Admin', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-positions', label: 'Positions', href: '#' },
+      { id: 'mat-staff-scr', label: 'Single Central Record', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-development', label: 'Staff Development', href: '#', hasSubmenu: true },
+      { id: 'mat-staff-users-security', label: 'Users & Security', href: '#', hasSubmenu: true },
     ],
   },
 ];

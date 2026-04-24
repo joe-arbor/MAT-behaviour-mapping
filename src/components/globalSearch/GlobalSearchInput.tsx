@@ -5,12 +5,8 @@ import { SearchPopoverPanel } from './SearchPopoverPanel';
 import type { SearchCategory, SearchResultGroup, SearchResultItem } from './globalSearchTypes';
 import './globalSearch.scss';
 
-/** Mock: filter items by query (simple substring match) and optionally scope to category. */
-function getMockResultGroups(
-  query: string,
-  _category: SearchCategory,
-  showFavouritesFirst: boolean
-): SearchResultGroup[] {
+/** Mock: filter items by query (simple substring match) and scope to active tab. */
+function getMockResultGroups(query: string, category: SearchCategory): SearchResultGroup[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
@@ -28,53 +24,44 @@ function getMockResultGroups(
     { id: 'class-ks3-ma1', label: 'KS3 Mathematics: Year 8: 8y/Ma1', breadcrumb: 'School > Timetable > Class', href: '/templates/class' },
     { id: 'p1', label: 'Attendance', breadcrumb: 'Students', href: '#' },
     { id: 'p2', label: 'Attendance Fines', breadcrumb: 'Students > Attendance > Absentees', href: '#' },
-    { id: 'p3', label: 'Attendance Over Time', breadcrumb: 'Students > Attendance', href: '#' },
-    { id: 'p4', label: 'Raw Attendance Marks', breadcrumb: 'Students > Attendance > Admin', href: '#' },
-    { id: 'p5', label: 'Daily Attendance', breadcrumb: 'Students > Attendance > Registers', href: '#' },
-    { id: 'p6', label: 'Daily Attendance', breadcrumb: 'Students > Behaviour > Internal Exclusions', href: '#' },
-    { id: 'p7', label: 'Course Attendance', breadcrumb: 'School > All Staff > Staff Development > Training Courses', href: '#' },
-    { id: 'p8', label: 'Dashboard', breadcrumb: 'Students > Attendance', href: '#' },
-    { id: 'p9', label: 'Behaviour', breadcrumb: 'Students', href: '#' },
-    { id: 'p10', label: 'Behaviour Setup', breadcrumb: 'Students > Behaviour', href: '#' },
-    { id: 'p11', label: 'Recorded Behaviour', breadcrumb: 'School > All Staff', href: '#' },
-    { id: 'p12', label: 'Dashboard', breadcrumb: 'Students > Behaviour > Incidents', href: '#' },
-    { id: 'p13', label: 'Reporting', breadcrumb: 'Students > Behaviour > Incidents', href: '#' },
-    { id: 'p14', label: 'Dashboard', breadcrumb: 'Students > Behaviour > Detentions', href: '#' },
-    { id: 'p15', label: 'Report', breadcrumb: 'Students > Behaviour > Detentions', href: '#' },
-    { id: 'p16', label: 'Today', breadcrumb: 'Students > Behaviour > Detentions', href: '#' },
   ];
-  const allCustomReports: SearchResultItem[] = [
-    { id: 'c1', label: 'Attendance : Pupil Data Over Time', isCustomReport: true, href: '#' },
-    { id: 'c2', label: 'GB Report : Attendance Whole School and Yr Group', isCustomReport: true, href: '#' },
-    { id: 'c3', label: 'Attendance Report with Calculated fields', isCustomReport: true, href: '#' },
-    { id: 'c4', label: 'Behaviour Today', isCustomReport: true, href: '#' },
-    { id: 'c5', label: 'Governors Behaviour Report', isCustomReport: true, href: '#' },
+  const allHelp: SearchResultItem[] = [
+    { id: 'h1', label: 'How to take attendance from a register', href: '#' },
+    { id: 'h2', label: 'Inviting guardians to the app', href: '#' },
+    { id: 'h3', label: 'What you can search for in Arbor', href: '#' },
+  ];
+  const allStaff: SearchResultItem[] = [
+    { id: 'st1', label: 'Alex Johnson', breadcrumb: 'Class Teacher', href: '#' },
+    { id: 'st2', label: 'Pat Kelly', breadcrumb: 'SENCO', href: '#' },
   ];
 
   const match = (item: SearchResultItem) =>
     item.label.toLowerCase().includes(q) ||
     (item.breadcrumb?.toLowerCase().includes(q) ?? false);
 
-  const favourites = allFavourites.filter(match);
-  const pages = allPages.filter(match);
-  const customReports = allCustomReports.filter(match);
-
-  const groups: SearchResultGroup[] = [];
-  if (showFavouritesFirst && favourites.length > 0) {
-    groups.push({ title: 'Favourites', count: favourites.length, items: favourites });
+  if (category === 'favourites') {
+    const items = allFavourites.filter(match);
+    if (!items.length) return [];
+    return [{ title: 'Favourites', count: items.length, items: items.slice(0, 8) }];
   }
-  if (pages.length > 0) {
-    groups.push({ title: 'Pages', count: pages.length, items: pages.slice(0, 8), showAllHref: '#' });
+  if (category === 'pages') {
+    const items = allPages.filter(match);
+    if (!items.length) return [];
+    return [{ title: 'Pages', count: items.length, items: items.slice(0, 8), showAllHref: '#' }];
   }
-  if (customReports.length > 0) {
-    groups.push({ title: 'Custom Report', count: customReports.length, items: customReports });
+  if (category === 'helpCentre') {
+    const items = allHelp.filter(match);
+    if (!items.length) return [];
+    return [{ title: 'Help Centre articles', count: items.length, items: items.slice(0, 8) }];
   }
-  return groups;
+  const items = allStaff.filter(match);
+  if (!items.length) return [];
+  return [{ title: 'Staff', count: items.length, items: items.slice(0, 8) }];
 }
 
 export interface GlobalSearchInputProps {
   placeholder?: string;
-  /** Called when user submits (Enter) or clicks "View all results" */
+  /** Called when user submits (Enter) or selects a result */
   onSearch?: (value: string) => void;
   /** Called when user selects a result (navigate); panel closes */
   onResultSelect?: () => void;
@@ -93,17 +80,16 @@ export const GlobalSearchInput: React.FC<GlobalSearchInputProps> = ({
 }) => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<SearchCategory>('pages');
+  const [activeCategory, setActiveCategory] = useState<SearchCategory>('staff');
   const [currentOnly, setCurrentOnly] = useState(true);
-  const [showFavouritesFirst] = useState(true);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isPanelOpen = isFocused || query.length >= 1;
 
   const resultGroups = useMemo(
-    () => getMockResultGroups(query, activeCategory, showFavouritesFirst),
-    [query, activeCategory, showFavouritesFirst]
+    () => getMockResultGroups(query, activeCategory),
+    [query, activeCategory]
   );
 
   const handleClear = () => {
@@ -117,10 +103,6 @@ export const GlobalSearchInput: React.FC<GlobalSearchInputProps> = ({
       onSearch?.(query.trim());
       setIsFocused(false);
     }
-  };
-
-  const handleViewAllResults = () => {
-    if (query.trim()) onSearch?.(query.trim());
   };
 
   return (
@@ -167,9 +149,7 @@ export const GlobalSearchInput: React.FC<GlobalSearchInputProps> = ({
         onCategoryChange={setActiveCategory}
         currentOnly={currentOnly}
         onCurrentOnlyChange={setCurrentOnly}
-        showFavouritesFirst={showFavouritesFirst}
         resultGroups={resultGroups}
-        onViewAllResults={handleViewAllResults}
         onResultSelect={onResultSelect}
         anchorRef={wrapperRef}
       />

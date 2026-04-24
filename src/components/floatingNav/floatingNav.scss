@@ -1,20 +1,27 @@
 // FloatingNav — dark floating dropdown for top nav (e.g. My Items).
 // Positioned by parent (e.g. top: 100%; left: 0 on a relative menu item).
+// Scrolling is on .ds-floating-nav__body so the outer panel is not a scrollport that clips carets (overflow-y:auto forces overflow-x to clip).
 
 .ds-floating-nav {
   position: absolute;
   top: 100%;
   left: 0;
   margin-top: 0;
-  min-width: 240px;
+  min-width: 280px;
   max-width: 360px;
-  max-height: min(80vh, 480px);
-  overflow-y: auto;
   background: var(--color-grey-800);
   border: 1px solid var(--color-grey-700);
   border-radius: 0 0 var(--corner-radius) var(--corner-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   z-index: 200;
+}
+
+.ds-floating-nav__body {
+  max-height: min(80vh, 480px);
+  overflow-y: auto;
+  overflow-x: clip;
+  min-width: 0;
+  width: 100%;
 }
 
 .ds-floating-nav__list {
@@ -28,11 +35,13 @@
 }
 
 .ds-floating-nav__link {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-small);
   width: 100%;
+  min-width: 0;
   padding: var(--spacing-small) var(--spacing-medium);
   text-align: left;
   color: var(--color-mono-white);

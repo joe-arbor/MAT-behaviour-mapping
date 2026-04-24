@@ -41,7 +41,7 @@ export interface TopNavProps {
   searchPlaceholder?: string;
   /** Called when user submits search or focuses and presses Enter. */
   onSearch?: (value: string) => void;
-  /** Called when "Ask Arbor" is clicked — use to open the AI slideover. */
+  /** If set, shows the "Ask Arbor" button and calls this when it is clicked (e.g. open AI slideover). */
   onAskArborClick?: () => void;
   /** Optional class for the root. */
   className?: string;
@@ -308,22 +308,24 @@ export const TopNav: React.FC<TopNavProps> = ({
           </ul>
         </div>
 
-        <GlobalSearchInput
-          variant="topNav"
-          placeholder={searchPlaceholder}
-          onSearch={onSearch}
-        />
         <div className="ds-top-nav__right-group">
           <div className="ds-top-nav__right">
-            <button
-              type="button"
-              className="ds-top-nav__ask-btn"
-              onClick={onAskArborClick}
-              aria-label="Ask Arbor"
-            >
-              <Sparkles size={18} className="ds-top-nav__ask-icon" aria-hidden />
-              <span>Ask Arbor</span>
-            </button>
+            {onAskArborClick ? (
+              <button
+                type="button"
+                className="ds-top-nav__ask-btn"
+                onClick={onAskArborClick}
+                aria-label="Ask Arbor"
+              >
+                <Sparkles size={18} className="ds-top-nav__ask-icon" aria-hidden />
+                <span>Ask Arbor</span>
+              </button>
+            ) : null}
+            <GlobalSearchInput
+              variant="topNav"
+              placeholder={searchPlaceholder}
+              onSearch={onSearch}
+            />
             <ArborLogo />
           </div>
         </div>

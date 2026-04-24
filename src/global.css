@@ -1,7 +1,19 @@
-/* Base font from design tokens; full height so flex children (e.g. .app__main) can expand */
+/* Base font; full height so #root and template flex layouts can expand */
+/* Reset default browser margin so the app is flush to the viewport (no white frame). */
 html,
-body,
-#root {
+body {
+  margin: 0;
+  padding: 0;
   font-family: var(--font-family-standard);
   height: 100%;
+  background: var(--page-color-background);
+}
+
+#root {
+  font-family: var(--font-family-standard);
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-color-background);
 }

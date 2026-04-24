@@ -156,6 +156,12 @@
     &--diverging {
       grid-template-columns: auto 1fr auto;
     }
+
+    &--unavailable {
+      .ds-kpi-box__bar-label {
+        color: var(--color-grey-500);
+      }
+    }
   }
 
   &__bar-label {
@@ -186,6 +192,11 @@
     &--right {
       margin-left: auto;
       margin-right: 0;
+    }
+
+    &--unavailable {
+      min-width: 0;
+      background-color: var(--color-grey-300);
     }
   }
 

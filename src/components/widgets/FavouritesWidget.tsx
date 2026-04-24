@@ -45,8 +45,8 @@ export const FavouritesWidget: React.FC<FavouritesWidgetProps> = ({
         {items.map((item) => {
           const content = (
             <>
-              <Star size={16} className="ds-widget__star" aria-hidden />
               <span className="ds-widget__link-text">{item.label}</span>
+              <Star size={16} className="ds-widget__star" aria-hidden />
             </>
           );
           return (

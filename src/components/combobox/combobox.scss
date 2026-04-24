@@ -9,6 +9,10 @@
   min-width: 160px;
   max-width: 100%;
 
+  &--open {
+    z-index: 20;
+  }
+
   &__label {
     font-size: var(--font-size-3-14);
     color: var(--form-field-label-color-text);

@@ -1,0 +1,101 @@
+// School performance dashboard (MAT MIS main / homepage)
+
+.mat-mis-dashboard {
+  width: 100%;
+  min-width: 0;
+  font-family: var(--font-family-standard);
+}
+
+.mat-mis-dashboard__tabs {
+  margin-bottom: var(--spacing-small);
+}
+
+.mat-mis-dashboard__showing {
+  margin: 0 0 var(--spacing-medium);
+  font-size: var(--font-size-3-14);
+  color: var(--color-grey-800);
+  font-weight: 500;
+}
+
+.mat-mis-dashboard__filters {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--spacing-xlarge);
+  row-gap: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  background: var(--color-grey-050);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--border-radius-small, 4px);
+  box-sizing: border-box;
+}
+
+.mat-mis-dashboard__combobox {
+  flex: 0 1 280px;
+  min-width: 0;
+  max-width: 280px;
+}
+
+.mat-mis-dashboard__filter-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: var(--spacing-small);
+  align-items: center;
+  margin-left: auto;
+}
+
+.mat-mis-dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-large);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .mat-mis-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mat-mis-dashboard__panel {
+  min-width: 0;
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--border-radius-small, 4px);
+  background: var(--kpi-color-background, #fff);
+  box-sizing: border-box;
+}
+
+.mat-mis-dashboard__panel-title {
+  margin: 0;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-3-14);
+  font-weight: 600;
+  color: var(--color-grey-900);
+  background: var(--color-grey-100);
+  border-bottom: 1px solid var(--color-grey-200);
+  border-radius: var(--border-radius-small, 4px) var(--border-radius-small, 4px) 0 0;
+}
+
+.mat-mis-dashboard__kpi-grid {
+  --kpi-box-grid-columns: 1;
+  padding: var(--spacing-small);
+  gap: var(--spacing-small);
+  box-sizing: border-box;
+}
+
+.mat-mis-dashboard__kpi {
+  .ds-kpi-box__date:empty {
+    display: none;
+  }
+
+  .ds-kpi-box__header {
+    .ds-kpi-box__date {
+      min-width: 0;
+    }
+  }
+}
+
+// Reserve space for tab panel-free layout: tabs are followed by the rest in-flow

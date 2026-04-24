@@ -14,9 +14,9 @@ if (root) {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<Navigate to="/components" replace />} />
+            <Route index element={<Navigate to="/templates/mat-mis" replace />} />
             <Route path="components" element={<PageShell />} />
-            <Route path="templates" element={<Navigate to="/templates/home" replace />} />
+            <Route path="templates" element={<Navigate to="/templates/mat-mis" replace />} />
             <Route path="templates/:pageId" element={<TemplatePage />} />
           </Route>
         </Routes>

@@ -8,6 +8,10 @@ export type KpiComparisonDirection = 'up' | 'down' | 'neutral';
 export interface KpiBarSegment {
   label: string;
   value: number;
+  /** Renders in the value column; defaults to `value` when missing. */
+  valueLabel?: React.ReactNode;
+  /** No bar width; value excluded from max; shows "N/A" in the value column. */
+  isUnavailable?: boolean;
   color?: string;
   /** For diverging charts: which side of center. Ignored for simple bar chart. */
   direction?: 'left' | 'right';
@@ -94,7 +98,7 @@ export const KpiBox: React.FC<KpiBoxProps> = ({
 
   const maxBarValue =
     variant === 'barChart' && bars.length > 0
-      ? Math.max(...bars.map((b) => b.value), 1)
+      ? Math.max(...bars.filter((b) => !b.isUnavailable).map((b) => b.value), 1)
       : 1;
   const maxDivergingValue =
     variant === 'barChartDiverging' && bars.length > 0
@@ -139,21 +143,36 @@ export const KpiBox: React.FC<KpiBoxProps> = ({
             {value != null && <p className={valueClassName}>{value}</p>}
             {variant === 'barChart' && (
               <div className="ds-kpi-box__bars ds-kpi-box__bars--simple">
-                {bars.map((bar, i) => (
-                  <div key={i} className="ds-kpi-box__bar-row">
-                    <span className="ds-kpi-box__bar-label">{bar.label}</span>
-                    <div className="ds-kpi-box__bar-track">
-                      <div
-                        className="ds-kpi-box__bar-fill"
-                        style={{
-                          width: `${(bar.value / maxBarValue) * 100}%`,
-                          backgroundColor: bar.color,
-                        }}
-                      />
+                {bars.map((bar, i) => {
+                  const widthPct = bar.isUnavailable
+                    ? 0
+                    : (bar.value / maxBarValue) * 100;
+                  const display = bar.isUnavailable
+                    ? 'N/A'
+                    : (bar.valueLabel != null ? bar.valueLabel : bar.value);
+                  return (
+                    <div
+                      key={i}
+                      className={classnames('ds-kpi-box__bar-row', {
+                        'ds-kpi-box__bar-row--unavailable': bar.isUnavailable,
+                      })}
+                    >
+                      <span className="ds-kpi-box__bar-label">{bar.label}</span>
+                      <div className="ds-kpi-box__bar-track">
+                        <div
+                          className={classnames('ds-kpi-box__bar-fill', {
+                            'ds-kpi-box__bar-fill--unavailable': bar.isUnavailable,
+                          })}
+                          style={{
+                            width: `${widthPct}%`,
+                            backgroundColor: bar.color,
+                          }}
+                        />
+                      </div>
+                      <span className="ds-kpi-box__bar-value">{display}</span>
                     </div>
-                    <span className="ds-kpi-box__bar-value">{bar.value}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
             {variant === 'barChartDiverging' && (

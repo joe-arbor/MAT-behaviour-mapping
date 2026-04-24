@@ -32,12 +32,16 @@
 .ds-widget__item {
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .ds-widget__link {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-small);
+  width: 100%;
+  box-sizing: border-box;
   padding: var(--spacing-xsmall) 0;
   font-size: var(--font-size-3-14);
   color: var(--color-brand-600);

@@ -1,23 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { TEMPLATE_ROUTES } from './templateRoutes';
-import { HomeTemplate } from './HomeTemplate';
-import { DailyAttendanceTemplate } from './DailyAttendanceTemplate';
-import { BehaviourTemplate } from './BehaviourTemplate';
-import { ClassTemplate } from './ClassTemplate';
-import { ReportLibraryTemplate } from './ReportLibraryTemplate';
-import { BrowseStudentsTemplate } from './BrowseStudentsTemplate';
+import { MatMisTemplate } from './MatMisTemplate';
 
 const TEMPLATE_COMPONENTS: Record<string, React.FC> = {
-  home: HomeTemplate,
-  'daily-attendance': DailyAttendanceTemplate,
-  behaviour: BehaviourTemplate,
-  class: ClassTemplate,
-  'report-library': ReportLibraryTemplate,
-  'browse-students': BrowseStudentsTemplate,
+  'mat-mis': MatMisTemplate,
 };
 
-/** Normalise URL segment to template id (trim, lowercase) so /templates/Report-Library still resolves. */
+/** Normalise URL segment to template id (trim, lowercase) so /templates/MAT-MIS still resolves. */
 function normalisePageId(pageId: string): string {
   return pageId.trim().toLowerCase().replace(/\s+/g, '-');
 }

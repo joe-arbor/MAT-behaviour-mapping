@@ -107,14 +107,9 @@
 .ds-top-nav__right-group {
   display: flex;
   align-items: center;
-  flex: 0 0 auto; /* don’t shrink so Ask Arbor + logo stay visible and don’t overlap search */
+  flex: 0 0 auto; /* don’t shrink the right cluster (Ask, search, logo) */
   min-width: 0;
   margin-left: auto;
-
-  /* 10px gap between search and the right block (Ask Arbor + logo) */
-  & > * + * {
-    margin-left: 10px !important;
-  }
 }
 
 .ds-top-nav__right {
@@ -122,25 +117,27 @@
   align-items: center;
   flex: 0 1 auto;
   min-width: 0;
-
-  /* 10px horizontal gap between Ask Arbor and logo */
-  & > * + * {
-    margin-left: 10px !important;
-  }
+  /* 12px clears the search pill’s box-shadow on focus; keeps gap from the Arbor mark */
+  gap: 12px;
 }
 
-// Search: right-aligned in top nav, shrink before right block (no overflow:hidden so panel can open).
-.ds-top-nav__right-group .ds-global-search {
+// Search: beside Arbor logo in the right row (no overflow:hidden on wrapper so the popover panel is not clipped).
+.ds-top-nav__right .ds-global-search {
   flex: 1 1 0;
   min-width: 0;
   max-width: 220px;
+  /* Override &--topNav `width: fit-content` so the flex slot, not min-content, governs the pill */
+  width: 100%;
 }
 
-.ds-top-nav__right-group .ds-global-search__form {
+.ds-top-nav__right .ds-global-search__form {
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.ds-top-nav__right-group .ds-global-search .ds-global-search__input {
+.ds-top-nav__right .ds-global-search .ds-global-search__input {
   min-width: 0 !important;
 }
 
@@ -239,6 +236,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
   color: var(--top-nav-text);
   text-decoration: none;
   transition: opacity 0.15s ease;

@@ -1,7 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { ChevronDown, ChevronRight, Star } from 'lucide-react';
 import './sideMenu.scss';
+
+function isInternalAppPath(href: string | undefined): boolean {
+  return Boolean(href?.startsWith('/') && !href.startsWith('//'));
+}
 
 export interface SideMenuItem {
   id: string;
@@ -57,9 +62,9 @@ function SideMenuRow({
   selectedId,
   onSelect,
   onToggleFavorite,
-  groupHasSelected,
+  groupHasSelected: _groupHasSelected,
 }: SideMenuRowProps) {
-  const hasChildren = item.children && item.children.length > 0;
+  const hasChildren = Boolean(item.children?.length);
   const [expanded, setExpanded] = useState(true);
   const selected = isSelected(item, selectedId);
   const isFavorite = item.isFavorite === true;
@@ -122,16 +127,29 @@ function SideMenuRow({
           )}
 
           {item.href && !hasChildren ? (
-            <a
-              href={item.href}
-              className="ds-side-menu__link"
-              onClick={(e) => {
-                if ((e.target as HTMLElement).closest('.ds-side-menu__star-wrap')) return;
-                onSelect(item.id, item);
-              }}
-            >
-              {item.label}
-            </a>
+            isInternalAppPath(item.href) ? (
+              <Link
+                to={item.href}
+                className="ds-side-menu__link"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest('.ds-side-menu__star-wrap')) return;
+                  onSelect(item.id, item);
+                }}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                href={item.href}
+                className="ds-side-menu__link"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest('.ds-side-menu__star-wrap')) return;
+                  onSelect(item.id, item);
+                }}
+              >
+                {item.label}
+              </a>
+            )
           ) : (
             <button
               type="button"

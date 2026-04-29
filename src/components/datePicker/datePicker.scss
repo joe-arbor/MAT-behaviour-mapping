@@ -2,12 +2,14 @@
 
 .ds-date-picker {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: var(--form-field-spacing-vertical-gap);
-  font-family: var(--font-family-standard);
-  min-width: 160px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
+  font-family: var(--font-family-standard);
 
   &__label {
     font-size: var(--font-size-3-14);
@@ -16,6 +18,7 @@
   }
 
   &__trigger {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     width: 100%;

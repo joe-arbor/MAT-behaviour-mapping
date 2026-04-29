@@ -26,6 +26,20 @@ export interface TopNavMenuChild {
   onClick?: () => void;
   /** Show right-pointing arrow (submenu indicator) */
   hasSubmenu?: boolean;
+  /** Nested items for multi-column floating nav */
+  children?: TopNavMenuChild[];
+}
+
+function mapMenuChildToFloatingItem(c: TopNavMenuChild): FloatingNavItem {
+  const hasNested = Boolean(c.children?.length);
+  return {
+    id: c.id,
+    label: c.label,
+    href: c.href,
+    onClick: c.onClick,
+    hasSubmenu: hasNested || Boolean(c.hasSubmenu),
+    children: c.children?.map(mapMenuChildToFloatingItem),
+  };
 }
 
 export interface TopNavMenuItem {
@@ -275,7 +289,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                     ref={isOpen ? (el) => { openMenuButtonRef.current = el; } : undefined}
                     type="button"
                     className={classnames('ds-top-nav__menu-btn', { 'ds-top-nav__menu-btn--open': isOpen })}
-                    onClick={() => setOpenMenuId(hasDropdown ? (isOpen ? null : item.id) : undefined)}
+                    onClick={() => setOpenMenuId(hasDropdown ? (isOpen ? null : item.id) : null)}
                     aria-haspopup={hasDropdown ? 'menu' : undefined}
                     aria-expanded={hasDropdown ? isOpen : undefined}
                     aria-current={isOpen ? 'true' : undefined}
@@ -289,13 +303,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                       open={isOpen}
                       onClose={() => setOpenMenuId(null)}
                       anchorRef={openMenuButtonRef}
-                      items={item.children.map((c): FloatingNavItem => ({
-                        id: c.id,
-                        label: c.label,
-                        href: c.href,
-                        onClick: c.onClick,
-                        hasSubmenu: c.hasSubmenu,
-                      }))}
+                      items={item.children.map(mapMenuChildToFloatingItem)}
                       ariaLabel={`${item.label} menu`}
                     />
                   )}

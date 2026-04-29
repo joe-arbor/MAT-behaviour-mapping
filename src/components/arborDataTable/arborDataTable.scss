@@ -71,9 +71,9 @@
       border: none;
       background: none;
       cursor: pointer;
-      font-size: var(--font-size-3-14);
-      color: var(--color-grey-900);
-      border-radius: 2px;
+      font-size: var(--type-body-p-size);
+      color: var(--color-grey-800);
+      border-radius: var(--corner-radius);
       &:hover {
         background: var(--color-grey-100);
       }
@@ -84,7 +84,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xsmall);
-    height: 32px;
+    height: var(--form-field-text-small-height);
     box-sizing: border-box;
     padding: 0 var(--spacing-small);
     border: 1px solid var(--color-grey-200);
@@ -98,7 +98,7 @@
     border: none;
     background: none;
     font-family: inherit;
-    font-size: var(--font-size-3-14);
+    font-size: var(--type-body-p-size);
     outline: none;
     flex: 1;
     min-width: 0;
@@ -123,7 +123,7 @@
   &__menu-section {
     padding: var(--spacing-xsmall) var(--spacing-small);
     font-size: var(--font-size-2-13);
-    font-weight: 600;
+    font-weight: var(--font-weight-semi-bold);
     color: var(--color-grey-600);
     text-transform: uppercase;
     letter-spacing: 0.02em;
@@ -139,9 +139,9 @@
     border: none;
     background: none;
     cursor: pointer;
-    font-size: var(--font-size-3-14);
-    color: var(--color-grey-900);
-    border-radius: 2px;
+    font-size: var(--type-body-p-size);
+    color: var(--color-grey-800);
+    border-radius: var(--corner-radius);
 
     &:hover {
       background: var(--color-grey-100);
@@ -168,10 +168,10 @@
     padding: var(--spacing-small);
   }
 
-  /* 32×32px icon-only buttons (Undo, Redo, Tips, Settings, Help, Full screen) */
+  /* Icon-only buttons (Undo, Redo, Tips, Settings, Help, Full screen) — height matches small form field */
   &__icon-32 {
-    width: 32px;
-    height: 32px;
+    width: var(--form-field-text-small-height);
+    height: var(--form-field-text-small-height);
     padding: 0;
     border: 1px solid var(--color-grey-200);
     border-radius: var(--corner-radius);
@@ -185,7 +185,7 @@
 
     &:hover:not(:disabled) {
       background: var(--color-grey-200);
-      color: var(--color-grey-900);
+      color: var(--color-grey-800);
     }
 
     &:disabled {
@@ -216,7 +216,7 @@
     color: var(--color-grey-700);
     &:hover {
       background: var(--color-grey-100);
-      color: var(--color-grey-900);
+      color: var(--color-grey-800);
     }
   }
 }
@@ -244,7 +244,7 @@
   }
 
   &__status {
-    font-size: var(--font-size-3-14);
+    font-size: var(--type-body-p-size);
     color: var(--color-grey-600);
   }
 
@@ -260,7 +260,7 @@
     border-radius: var(--corner-radius);
     background: var(--color-mono-white);
     cursor: pointer;
-    font-size: var(--font-size-3-14);
+    font-size: var(--type-body-p-size);
     color: var(--color-grey-800);
     &:hover:not(:disabled) {
       background: var(--color-grey-100);
@@ -272,38 +272,279 @@
   }
 
   &__page-info {
-    font-size: var(--font-size-3-14);
+    font-size: var(--type-body-p-size);
     color: var(--color-grey-700);
   }
 
   &__page-size {
+    font-family: var(--font-family-standard);
     padding: var(--spacing-xsmall) var(--spacing-small);
     border: 1px solid var(--color-grey-200);
     border-radius: var(--corner-radius);
-    font-size: var(--font-size-3-14);
+    font-size: var(--type-body-p-size);
     background: var(--color-mono-white);
     color: var(--color-grey-800);
     cursor: pointer;
   }
 }
 
-// Arbor theme overrides for AG Grid: zebra striping + blue row hover
+// ArborDataTable shell (no outer border — grid sits flush on page background)
 .ds-arbor-table-wrapper {
-  --ag-row-hover-color: var(--color-extended-colours-blue-050, #e1eef5);
-  .ag-row-odd {
+  box-sizing: border-box;
+  border-radius: var(--corner-radius);
+  background: var(--color-mono-white);
+  /* Allow column filter / menu popups (popupParent) to paint outside the rounded shell without clipping */
+  overflow: visible;
+
+  /* Scroll viewport height — matches AgGridReact layout */
+  .ag-grid-container {
+    width: 100%;
+    min-height: 30rem;
+    height: 30rem;
+    box-sizing: border-box;
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+  }
+}
+
+// AG Grid Alpine → Arbor design tokens (--ag-* variables documented in ag-theme-alpine.css)
+.ds-arbor-table-wrapper.ag-theme-alpine {
+  --ag-font-family: var(--type-body-p-family);
+  --ag-font-size: var(--type-body-p-size);
+  --ag-background-color: var(--color-mono-white);
+  --ag-foreground-color: var(--color-grey-800);
+  --ag-secondary-foreground-color: var(--card-default-color-text-secondary);
+  --ag-data-color: var(--color-grey-800);
+  --ag-header-background-color: var(--color-grey-050);
+  --ag-tooltip-background-color: var(--color-grey-050);
+  --ag-odd-row-background-color: var(--color-grey-050);
+  --ag-subheader-background-color: var(--color-mono-white);
+  --ag-control-panel-background-color: var(--color-grey-050);
+  --ag-border-color: var(--card-default-color-border);
+  /* Row dividers and internal chrome use secondary; align with container/card border (same token). */
+  --ag-secondary-border-color: var(--card-default-color-border);
+  --ag-borders: solid var(--border-weight);
+  --ag-border-radius: var(--corner-radius);
+  --ag-row-border-color: var(--card-default-color-border);
+
+  /* Brand green accent (checkboxes, column drag, range selection); form inputs use --ag-input-focus-* below */
+  --ag-alpine-active-color: var(--color-brand-600);
+  --ag-selected-row-background-color: color-mix(in srgb, var(--color-brand-100) 50%, var(--color-mono-white));
+  --ag-row-hover-color: color-mix(in srgb, var(--color-brand-050) 85%, var(--color-mono-white));
+  --ag-column-hover-color: color-mix(in srgb, var(--color-grey-100) 70%, transparent);
+  --ag-range-selection-background-color: color-mix(in srgb, var(--color-brand-100) 45%, transparent);
+  --ag-range-selection-border-color: var(--color-brand-600);
+  --ag-input-border-color: var(--form-field-text-default-color-border);
+  --ag-input-focus-border-color: var(--color-semantic-info-500);
+  --ag-input-focus-box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-semantic-info-500) 22%, transparent);
+  --ag-menu-border-color: var(--card-default-color-border);
+  --ag-card-shadow: 0 var(--spacing-xsmall) var(--spacing-medium) rgba(32, 32, 32, 0.1);
+  --ag-popup-shadow: var(--ag-card-shadow);
+  --ag-checkbox-checked-color: var(--color-brand-600);
+  --ag-checkbox-unchecked-color: var(--color-grey-400);
+  --ag-invalid-color: var(--color-semantic-destructive-600);
+  --ag-checkbox-background-color: var(--color-mono-white);
+  --ag-disabled-foreground-color: color-mix(in srgb, var(--color-grey-600) 55%, transparent);
+  --ag-chip-background-color: var(--color-grey-100);
+
+  /* Spacing / rhythm aligned to DS */
+  --ag-grid-size: var(--spacing-xsmall);
+  --ag-cell-horizontal-padding: var(--spacing-small);
+  --ag-row-height: 34px;
+  --ag-header-height: var(--size-control-medium);
+
+  /* Menus & panels */
+  --ag-menu-background-color: var(--color-mono-white);
+  --ag-panel-background-color: var(--color-grey-050);
+  --ag-filter-panel-apply-button-background-color: var(--color-brand-600);
+  --ag-filter-panel-apply-button-color: var(--color-mono-white);
+
+  /*
+   * Zebra striping: AG Grid labels row index 0 as `ag-row-even` (0 % 2 === 0), so "even" rows must be
+   * white for the first data row to start on white; "odd" rows get the alternate tint.
+   */
+  .ag-row-even {
     background: var(--color-mono-white);
   }
-  .ag-row-even {
+  .ag-row-odd {
     background: var(--color-grey-050);
   }
   .ag-row-hover {
     background: var(--ag-row-hover-color) !important;
   }
+
+  /* Column headers: lightest grey bar, PT Sans, darkest grey type */
+  .ag-header,
+  .ag-header-viewport,
+  .ag-header-container,
+  .ag-header-row,
+  .ag-header-cell {
+    background-color: var(--color-grey-050);
+    font-family: var(--font-family-standard);
+  }
+
+  .ag-header {
+    border-bottom: var(--border-weight) solid var(--color-grey-100);
+  }
+
+  .ag-header-cell {
+    color: var(--color-grey-800);
+    justify-content: flex-start;
+  }
+
+  /* DS Tooltip trigger inside AG Grid header label (inner header component) */
+  .ag-header-cell .ds-tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  /* Left-align all header titles (overrides numeric `ag-right-aligned-header`) */
+  .ag-header-cell-label,
+  .ag-header-group-cell-label {
+    justify-content: flex-start;
+    text-align: left;
+    column-gap: var(--spacing-xsmall);
+  }
+
+  /* Numeric cols use row-reverse by default — force normal row so icons stay after text */
+  .ag-right-aligned-header .ag-header-cell-label {
+    flex-direction: row !important;
+    justify-content: flex-start;
+  }
+
+  .ag-right-aligned-header .ag-header-cell-text {
+    text-align: left !important;
+  }
+
+  /*
+   * Numeric / rightAligned cols: AG Grid wraps header in .ag-cell-label-container
+   * (see ag-grid.css: row-reverse + space-between). Normalize like .ag-header-cell-label.
+   */
+  .ag-header-cell .ag-cell-label-container {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: flex-start;
+    column-gap: var(--spacing-xsmall);
+  }
+
+  .ag-cell-label-container .ag-header-cell-text {
+    order: 1;
+  }
+
+  .ag-cell-label-container .ag-sort-indicator-container,
+  .ag-cell-label-container .ag-header-cell-filter-button,
+  .ag-cell-label-container .ag-header-cell-menu-button {
+    order: 10;
+  }
+
+  .ag-header-cell-comp-wrapper > .ag-cell-label-container {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Title first; filter, column menu, sort — always to the right of the label text */
+  .ag-header-cell-label .ag-header-cell-text {
+    order: 1;
+  }
+
+  .ag-header-cell-label .ag-sort-indicator-container,
+  .ag-header-cell-label .ag-header-cell-filter-button,
+  .ag-header-cell-label .ag-header-cell-menu-button {
+    order: 10;
+  }
+
+  /* Icons that sit beside the label in the comp wrapper (not inside the label) */
+  .ag-header-cell-comp-wrapper > .ag-header-cell-filter-button,
+  .ag-header-cell-comp-wrapper > .ag-header-cell-menu-button {
+    order: 10;
+  }
+
+  .ag-header-cell-comp-wrapper > .ag-header-cell-label {
+    order: 1;
+  }
+
+  .ag-header-cell-comp-wrapper {
+    position: relative;
+    justify-content: flex-start;
+    column-gap: var(--spacing-xsmall);
+    flex-direction: row;
+  }
+
+  .ag-header-cell-label {
+    white-space: normal;
+    align-items: flex-start;
+    line-height: var(--type-body-line-height);
+  }
+
+  .ag-header-cell-text,
+  .ag-header-group-cell-label {
+    font-family: var(--font-family-standard);
+    font-weight: var(--font-weight-semi-bold);
+    font-size: var(--font-size-3-14);
+    color: var(--color-grey-800);
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    text-align: left;
+  }
+
+  .ag-cell {
+    font-family: var(--type-body-p-family);
+    font-size: var(--type-body-p-size);
+    font-weight: var(--type-body-p-weight);
+    color: var(--color-grey-800);
+  }
+
+  .ag-cell .ag-cell-value {
+    line-height: var(--type-body-line-height);
+  }
+
+  .ag-overlay-panel {
+    font-family: var(--type-body-p-family);
+    font-size: var(--type-body-p-size);
+    color: var(--color-grey-800);
+    line-height: var(--type-body-line-height);
+  }
+}
+
+/*
+ * Inner grid roots often match `[class*=ag-theme-]` / `.ag-theme-alpine`, which re-applies Alpine
+ * defaults (--ag-border-color: #babfc7, etc.). Those read darker than DS container borders — pin the
+ * same token as the MAT/arbor shell so horizontal row lines match the outer frame.
+ */
+.ds-arbor-table-wrapper.ag-theme-alpine .ag-root-wrapper,
+.ds-arbor-table-wrapper.ag-theme-alpine .ag-root,
+.ds-arbor-table-wrapper.ag-theme-alpine .ag-theme-alpine {
+  --ag-border-color: var(--card-default-color-border);
+  --ag-secondary-border-color: var(--card-default-color-border);
+  --ag-row-border-color: var(--card-default-color-border);
+  --ag-foreground-color: var(--color-grey-800);
+  --ag-data-color: var(--color-grey-800);
+  /* Inner scopes match `[class*=ag-theme-]` and reset --ag-row-height (~25px); pin to design row size */
+  --ag-row-height: 34px;
+}
+
+.ds-arbor-table-wrapper.ag-theme-alpine .ag-row {
+  border-bottom-color: var(--card-default-color-border);
 }
 
 // --- Extra AG Grid cell and table styling (Content) ---
 
 .ds-arbor-table-wrapper {
+  /* Centre content vertically in the row; avoid line-height on the cell box (fights inline-block / short rows) */
+  .ag-cell.ag-cell-not-inline-editing {
+    display: flex;
+    align-items: center;
+    line-height: normal;
+  }
+
+  .ag-cell-not-inline-editing .ag-cell-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .ag-cell-normal-height > div {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -322,13 +563,13 @@
     ul,
     ol {
       margin: 0;
-      padding-inline-start: 20px;
+      padding-inline-start: calc(var(--spacing-large) + var(--spacing-xsmall));
     }
   }
 
   .checkbox-column-cell {
     padding: 0 !important;
-    padding-left: 10px !important;
+    padding-left: var(--spacing-medium) !important;
     cursor: pointer;
 
     .ag-selection-checkbox {
@@ -338,33 +579,46 @@
 
   .checkbox-column-header {
     padding: 0 !important;
-    padding-left: 11px !important;
+    padding-left: var(--spacing-medium) !important;
   }
 
   .ag-pinned-left-cols-container .ag-row-selected {
-    box-shadow: inset 3px 0 0 0 var(--color-extended-colours-blue-800);
+    box-shadow: inset var(--focus-border) 0 0 0 var(--color-semantic-info-700);
   }
 
   .ag-header-cell .ag-header-cell-label {
-    padding-right: 4px;
+    padding-right: calc(var(--spacing-large) + var(--spacing-xsmall));
   }
 
+  .ag-header-cell .ag-header-cell-filter-button,
+  .ag-header-cell .ag-header-cell-menu-button {
+    position: absolute;
+    right: calc(var(--spacing-xsmall) * 1.5);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--spacing-large);
+    height: var(--spacing-large);
+    padding: 0;
+  }
+
+  .ag-header-cell .ag-icon-filter,
   .ag-header-cell .ag-icon-menu {
-    font-family: ArborCustom, var(--font-family-standard);
-    font-size: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-standard);
+    font-size: 0;
+    line-height: 1;
 
     &::before {
-      content: '\f062';
+      content: '\22EE';
+      font-size: var(--font-size-3-14);
+      font-weight: var(--font-weight-semi-bold);
+      line-height: 1;
     }
-
-    position: absolute;
-    right: 6px;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    padding: 0 3px;
   }
 
   .table--vertical-header-text .ag-header-cell-label .ag-header-cell-text {
@@ -386,30 +640,49 @@
     border-radius: 50%;
   }
 
+  /* Body: vertically centred in the row; default columns start-aligned (left in LTR) */
+  .ag-cell-wrapper:not(.ag-row-group) {
+    align-items: center;
+    justify-content: start;
+  }
+
+  .ag-cell-value {
+    text-align: start;
+  }
+
   .ag-center-aligned-cell {
     text-align: center;
+
+    .ag-cell-wrapper:not(.ag-row-group) {
+      justify-content: center;
+    }
   }
 
   .ag-right-aligned-cell {
-    text-align: right;
+    text-align: end;
+
+    .ag-cell-wrapper:not(.ag-row-group) {
+      justify-content: end;
+    }
   }
 
-  .table--disable-alternate-row .ag-row-odd {
+  .table--disable-alternate-row .ag-row-odd,
+  .table--disable-alternate-row .ag-row-even {
     background-color: var(--ag-background-color);
   }
 
   .ag-row.ag-row-last {
-    border-bottom: 1px solid var(--color-grey-200);
+    border-bottom: var(--border-weight) solid var(--card-default-color-border);
   }
 
   .table--cell-container .mis-cell-enhanced-person {
     display: flex;
-    --image-height: 38px;
+    --image-height: 2.375rem;
 
     .mis-cell-enhanced-person-image {
       width: var(--image-height);
       height: var(--image-height);
-      margin: auto 6px auto 0;
+      margin: auto calc(var(--spacing-xsmall) * 1.5) auto 0;
 
       img {
         height: var(--image-height);
@@ -435,7 +708,7 @@
   }
 
   .ag-theme-alpine--normal .table--cell-container .mis-cell-enhanced-person {
-    --image-height: 30px;
+    --image-height: 1.875rem;
   }
 
   &.ag-theme-alpine--condensed,
@@ -449,7 +722,7 @@
   }
 
   .ag-menu-option-part {
-    padding: 5px !important;
+    padding: var(--spacing-xsmall) !important;
   }
 
   .ag-fill-handle {
@@ -457,7 +730,7 @@
   }
 
   .ag-tooltip {
-    max-width: 300px;
+    max-width: 18.75rem;
   }
 
   .table__resize-button {
@@ -473,10 +746,133 @@
   }
 
   .table--column-borders .ag-cell {
-    border-right: 1px solid var(--color-grey-200);
+    border-right: var(--border-weight) solid var(--card-default-color-border);
   }
 
   .table--cell-borders .ag-cell {
-    border: 1px solid var(--color-grey-200);
+    border: var(--border-weight) solid var(--card-default-color-border);
+  }
+}
+
+/*
+ * Column filter & set-filter menus are often portaled under `body` — they still carry `.ag-theme-alpine`
+ * but not `.ds-arbor-table-wrapper`. Mirror core theme vars + Arbor form controls here.
+ */
+.ag-theme-alpine.ag-menu,
+.ag-theme-alpine.ag-popup-child,
+.ag-theme-alpine.ag-popup,
+.ag-popup.ag-theme-alpine {
+  --ag-font-family: var(--font-family-standard);
+  --ag-font-size: var(--type-body-p-size);
+  --ag-background-color: #ffffff;
+  --ag-foreground-color: var(--color-grey-800);
+  --ag-secondary-foreground-color: var(--card-default-color-text-secondary);
+  --ag-border-color: var(--card-default-color-border);
+  --ag-secondary-border-color: var(--card-default-color-border);
+  --ag-borders: solid var(--border-weight);
+  --ag-border-radius: 4px;
+  --ag-menu-background-color: #ffffff;
+  --ag-menu-border-color: var(--card-default-color-border);
+  --ag-panel-background-color: #ffffff;
+  --ag-control-panel-background-color: #ffffff;
+  --ag-input-border-color: var(--form-field-text-default-color-border);
+  --ag-input-focus-border-color: var(--color-semantic-info-500);
+  --ag-input-focus-box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-semantic-info-500) 22%, transparent);
+  --ag-alpine-active-color: var(--color-brand-600);
+  --ag-row-hover-color: color-mix(in srgb, var(--color-brand-050) 85%, var(--color-mono-white));
+  --ag-checkbox-checked-color: var(--color-brand-600);
+  --ag-grid-size: var(--spacing-xsmall);
+  --ag-widget-container-horizontal-padding: var(--spacing-small);
+  --ag-widget-container-vertical-padding: var(--spacing-small);
+  --ag-card-shadow: 0 var(--spacing-xsmall) var(--spacing-medium) rgba(32, 32, 32, 0.1);
+  --ag-popup-shadow: var(--ag-card-shadow);
+
+  /* Portaled filter / column menus: opaque white shell, 4px corners, PT Sans */
+  background-color: #ffffff;
+  border-radius: 4px;
+  font-family: var(--font-family-standard);
+
+  .ag-filter-body-wrapper,
+  .ag-filter-wrapper {
+    background-color: #ffffff;
+  }
+}
+
+/* Form-like controls inside filters (dropdown + text field share DS border radius and grey border) */
+.ds-arbor-table-wrapper.ag-theme-alpine,
+.ag-theme-alpine.ag-menu,
+.ag-theme-alpine.ag-popup-child,
+.ag-theme-alpine.ag-popup,
+.ag-popup.ag-theme-alpine {
+  .ag-picker-field-wrapper {
+    border-color: var(--form-field-text-default-color-border);
+    border-radius: var(--corner-radius);
+    background-color: var(--form-field-text-default-color-background);
+  }
+
+  .ag-picker-field-wrapper.ag-picker-has-focus,
+  .ag-picker-field-wrapper:focus-within {
+    border-color: var(--color-semantic-info-500);
+    box-shadow: var(--ag-input-focus-box-shadow);
+  }
+
+  .ag-picker-field-display {
+    font-family: var(--font-family-standard);
+  }
+
+  /* AG Grid uses :focus (not only :focus-visible) on inputs — mirror DS combobox focus */
+  input.ag-input-field-input,
+  textarea[class^='ag-'],
+  input[class^='ag-'][type='text'],
+  input[class^='ag-'][type='number'] {
+    border: var(--border-weight) solid var(--form-field-text-default-color-border) !important;
+    border-radius: var(--form-field-radius);
+    background-color: var(--form-field-text-default-color-background);
+    color: var(--color-grey-800);
+    font-family: var(--font-family-standard);
+    box-sizing: border-box;
+  }
+
+  input.ag-input-field-input:focus,
+  input.ag-input-field-input:focus-visible,
+  textarea[class^='ag-']:focus,
+  textarea[class^='ag-']:focus-visible,
+  input[class^='ag-'][type='text']:focus,
+  input[class^='ag-'][type='text']:focus-visible,
+  input[class^='ag-'][type='number']:focus,
+  input[class^='ag-'][type='number']:focus-visible {
+    outline: none;
+    border-color: var(--color-semantic-info-500) !important;
+    box-shadow: var(--ag-input-focus-box-shadow);
+  }
+
+  /* Space for search icon so placeholder text does not overlap */
+  .ag-mini-filter .ag-input-field-input,
+  .ag-set-filter-filter .ag-input-field-input {
+    padding-inline-start: calc(var(--ag-icon-size) + var(--spacing-medium));
+  }
+
+  .ag-mini-filter .ag-input-field {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    min-width: 0;
+  }
+
+  .ag-filter-apply-panel .ag-standard-button {
+    border-radius: var(--corner-radius);
+    border: var(--border-weight) solid var(--button-medium-secondary-default-color-border);
+    background: var(--button-medium-secondary-default-color-background);
+    color: var(--button-medium-secondary-default-color-text);
+    font-family: var(--font-family-standard);
+    font-size: var(--type-body-p-size);
+    padding: var(--spacing-xsmall) var(--spacing-medium);
+    min-height: var(--form-field-text-medium-height);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .ag-filter-apply-panel .ag-standard-button:hover:not(:disabled) {
+    background: var(--color-grey-050);
   }
 }

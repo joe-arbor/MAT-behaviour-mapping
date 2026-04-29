@@ -1,0 +1,48 @@
+// Behaviour section: icon sidebar + Favourites rail (from MatMisTemplate) + this column + main.
+
+.mat-behaviour-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+}
+
+// Clamp width so the column hugs the menu: default flex min-width:auto would follow
+// nowrap nav labels’ min-content (~293px) instead of the 280px layout cap.
+.mat-behaviour-layout__side {
+  flex-shrink: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+  max-width: min(280px, 100%);
+  min-height: 0;
+  box-sizing: border-box;
+  background: var(--color-grey-050);
+  border-right: var(--border-weight) solid var(--page-base-color-border);
+}
+
+.mat-behaviour-layout__side-menu.ds-side-menu {
+  width: min(280px, 100%);
+  min-width: 0;
+  max-width: 280px;
+  background: transparent;
+  border-right: none;
+}
+
+.mat-behaviour-layout__side-menu .ds-side-menu__nav {
+  background: transparent;
+}
+
+.mat-behaviour-layout__main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: var(--spacing-large);
+}

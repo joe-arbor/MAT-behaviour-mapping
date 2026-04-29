@@ -2,11 +2,13 @@
 
 .ds-combobox {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: var(--form-field-spacing-vertical-gap);
   font-family: var(--font-family-standard);
-  min-width: 160px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
 
   &--open {
@@ -20,6 +22,7 @@
   }
 
   &__trigger {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     width: 100%;
@@ -60,12 +63,16 @@
     flex-wrap: wrap;
     gap: var(--spacing-xsmall);
     align-items: center;
+    min-width: 0;
+    max-width: 100%;
   }
 
   &__chip {
     display: inline-flex;
     align-items: center;
     gap: 2px;
+    min-width: 0;
+    max-width: 100%;
     padding: 2px 4px 2px 6px;
     font-size: var(--font-size-2-13);
     background-color: var(--color-grey-100);
@@ -74,8 +81,16 @@
     color: var(--color-grey-900);
   }
 
+  &__chip-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__chip-remove,
   &__clear {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -147,6 +162,15 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     max-height: 240px;
     overflow-y: auto;
+
+    &--flip {
+      top: auto;
+      bottom: 100%;
+      border-top: var(--border-weight) solid var(--color-grey-200);
+      border-bottom: none;
+      border-radius: var(--corner-radius) var(--corner-radius) 0 0;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    }
   }
 
   &__option {

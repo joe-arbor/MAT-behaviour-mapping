@@ -1,6 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import classnames from 'classnames';
 import './combobox.scss';
+
+const LIST_MAX_HEIGHT_DEFAULT = 240;
+const LIST_EDGE_GAP = 8;
+const LIST_FLIP_THRESHOLD = 80;
 
 export interface ComboboxOption {
   value: string;
@@ -46,8 +50,14 @@ export const Combobox: React.FC<ComboboxProps> = ({
 
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState('');
+  const [listPlacement, setListPlacement] = useState<{ flip: boolean; maxHeight: number }>(() => ({
+    flip: false,
+    maxHeight: LIST_MAX_HEIGHT_DEFAULT,
+  }));
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const filteredOptions = filter.trim()
     ? options.filter(
@@ -106,6 +116,51 @@ export const Combobox: React.FC<ComboboxProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [open]);
 
+  const getNearestScrollParent = useCallback((start: HTMLElement | null): HTMLElement => {
+    let el: HTMLElement | null = start?.parentElement ?? null;
+    while (el) {
+      const { overflowY } = window.getComputedStyle(el);
+      if (/^(auto|scroll|overlay)$/.test(overflowY)) return el;
+      el = el.parentElement;
+    }
+    return document.documentElement;
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    const triggerEl = triggerRef.current;
+    const rootEl = rootRef.current;
+    if (!triggerEl || !rootEl) return;
+
+    const measure = () => {
+      const clip = getNearestScrollParent(rootEl);
+      const triggerRect = triggerEl.getBoundingClientRect();
+      const clipRect = clip.getBoundingClientRect();
+      const rawBelow = Math.max(0, clipRect.bottom - triggerRect.bottom - LIST_EDGE_GAP);
+      const rawAbove = Math.max(0, triggerRect.top - clipRect.top - LIST_EDGE_GAP);
+      const belowCap = Math.min(LIST_MAX_HEIGHT_DEFAULT, rawBelow);
+      const aboveCap = Math.min(LIST_MAX_HEIGHT_DEFAULT, rawAbove);
+      const flip = belowCap < LIST_FLIP_THRESHOLD && aboveCap > belowCap;
+      const maxHeight = Math.min(LIST_MAX_HEIGHT_DEFAULT, Math.max(1, flip ? aboveCap : belowCap));
+      setListPlacement({ flip, maxHeight });
+    };
+
+    measure();
+    const clip = getNearestScrollParent(rootEl);
+    window.addEventListener('resize', measure);
+    window.addEventListener('scroll', measure, { passive: true });
+    clip.addEventListener('scroll', measure, { passive: true });
+    const ro = new ResizeObserver(measure);
+    ro.observe(rootEl);
+    ro.observe(triggerEl);
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('scroll', measure);
+      clip.removeEventListener('scroll', measure);
+      ro.disconnect();
+    };
+  }, [open, filter, filteredOptions.length, getNearestScrollParent]);
+
   const triggerId = propId ? `${propId}-combobox` : undefined;
   const listId = propId ? `${propId}-list` : undefined;
 
@@ -126,6 +181,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         </label>
       )}
       <div
+        ref={triggerRef}
         className="ds-combobox__trigger"
         onClick={() => !disabled && inputRef.current?.focus()}
       >
@@ -157,7 +213,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
               open
                 ? filter
                 : !multiple && selectedValues.length > 0
-                  ? displayLabel(selectedValues[0])
+                  ? displayLabel(selectedValues[0] as string)
                   : ''
             }
             onChange={(e) => setFilter(e.target.value)}
@@ -195,8 +251,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
       </div>
       {open && (
         <ul
+          ref={listRef}
           id={listId}
-          className="ds-combobox__list"
+          className={classnames('ds-combobox__list', {
+            'ds-combobox__list--flip': listPlacement.flip,
+          })}
+          style={{ maxHeight: listPlacement.maxHeight }}
           role="listbox"
           aria-multiselectable={multiple}
         >

@@ -12,8 +12,10 @@ export interface ToastProps {
   children: React.ReactNode;
   /** Called when the toast is closed (by user or auto-dismiss) */
   onClose: () => void;
-  /** Override: if true, auto-dismiss after 2s; if false, persist until close. Default: true for info/success, false for warning/error */
+  /** Override: if true, auto-dismiss after autoDismissMs (default 2s); if false, persist until close. Default: true for info/success, false for warning/error */
   autoDismiss?: boolean;
+  /** When auto-dismiss is on, how long before closing (default 2000ms). */
+  autoDismissMs?: number;
   className?: string;
 }
 
@@ -34,15 +36,17 @@ export const Toast: React.FC<ToastProps> = ({
   children,
   onClose,
   autoDismiss,
+  autoDismissMs,
   className,
 }) => {
   const shouldAutoDismiss = autoDismiss ?? (variant === 'info' || variant === 'success');
+  const dismissAfterMs = autoDismissMs ?? AUTO_DISMISS_MS;
 
   useEffect(() => {
     if (!shouldAutoDismiss) return;
-    const t = setTimeout(onClose, AUTO_DISMISS_MS);
+    const t = setTimeout(onClose, dismissAfterMs);
     return () => clearTimeout(t);
-  }, [shouldAutoDismiss, onClose]);
+  }, [shouldAutoDismiss, onClose, dismissAfterMs]);
 
   const Icon = ICONS[variant];
 

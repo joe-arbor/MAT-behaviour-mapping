@@ -1,4 +1,3 @@
-import { Maximize2 } from 'lucide-react';
 import { Button } from '../button/Button';
 import './arborDataTable.scss';
 
@@ -75,8 +74,7 @@ export function ArborDataTableFooter({
       </div>
       <div className="ds-arbor-table-footer__right">
         {showExpand && onExpandClick && (
-          <Button variant="secondary" size="small" onClick={onExpandClick}>
-            <Maximize2 size={16} />
+          <Button variant="primary" color="grey" size="small" onClick={onExpandClick}>
             Expand table
           </Button>
         )}

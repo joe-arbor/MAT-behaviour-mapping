@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import type { ColDef } from 'ag-grid-community';
 
 /** Unique id for persisting table state (columns, sort, filter, page size). */
@@ -86,4 +86,7 @@ export interface ArborDataTableProps<T = any> {
   /** Help link or handler. */
   onHelp?: () => void | string;
   className?: string;
+  /** Custom AG Grid no-rows overlay (e.g. empty state with CTA). */
+  noRowsOverlayComponent?: ComponentType<any>;
+  noRowsOverlayComponentParams?: Record<string, unknown>;
 }

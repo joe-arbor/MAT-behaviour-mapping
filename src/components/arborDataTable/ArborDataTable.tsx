@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import type { GridApi, GridReadyEvent } from 'ag-grid-community';
+import type { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Section } from '../section/Section';
@@ -12,10 +12,37 @@ import {
   clearTableState,
 } from './arborDataTablePersistence';
 import type { ArborDataTableProps } from './arborDataTableTypes';
+import { ArborDataTableInnerTooltipHeader } from './ArborDataTableInnerTooltipHeader';
 import './arborDataTable.scss';
 
 const DEFAULT_PAGE_SIZE = 100;
 const SEARCH_DEBOUNCE_MS = 200;
+
+/** Use DS Tooltip for string `headerTooltip`; keeps AG Grid default header shell (sort, menu, filter). */
+function withDsHeaderTooltip<T>(col: ColDef<T>): ColDef<T> {
+  const headerTooltip = col.headerTooltip;
+  if (typeof headerTooltip !== 'string' || !headerTooltip.trim()) {
+    return col;
+  }
+  const prevParams = col.headerComponentParams as Record<string, unknown> | undefined;
+  if (prevParams?.innerHeaderComponent != null) {
+    return col;
+  }
+
+  const { headerTooltip: _omitTooltip, headerTooltipValueGetter: _omitGetter, ...rest } = col;
+
+  return {
+    ...rest,
+    headerComponentParams: {
+      ...prevParams,
+      innerHeaderComponent: ArborDataTableInnerTooltipHeader,
+      innerHeaderComponentParams: {
+        ...(prevParams?.innerHeaderComponentParams as object | undefined),
+        tooltipText: headerTooltip,
+      },
+    },
+  };
+}
 
 export function ArborDataTable<T = any>({
   tableId,
@@ -42,8 +69,12 @@ export function ArborDataTable<T = any>({
   onExpandTable,
   onHelp,
   className,
+  noRowsOverlayComponent,
+  noRowsOverlayComponentParams,
 }: ArborDataTableProps<T>) {
   const gridRef = useRef<AgGridReact>(null);
+  /** Host for column menus / filter popups so they inherit `.ds-arbor-table-wrapper.ag-theme-alpine` theme vars and Arbor overrides (default is `document.body`). */
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
   const [gridApi, setGridApi] = useState<GridApi<T> | null>(null);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [searchValue, setSearchValue] = useState('');
@@ -58,6 +89,12 @@ export function ArborDataTable<T = any>({
   const [columnBorders, setColumnBorders] = useState(false);
   const [cellBorders, setCellBorders] = useState(false);
 
+  /** AG Grid v33+ expects custom no-rows UI via `components.agNoRowsOverlay`, not legacy `noRowsOverlayComponent` alone. */
+  const gridComponents = useMemo(
+    () => (noRowsOverlayComponent ? { agNoRowsOverlay: noRowsOverlayComponent } : undefined),
+    [noRowsOverlayComponent],
+  );
+
   const persisted = loadTableState(tableId);
   // Daily attendance: never apply persisted filter/state so the register always shows full data
   const effectivePersisted = tableId === 'daily-attendance-registers' ? null : persisted;
@@ -71,6 +108,10 @@ export function ArborDataTable<T = any>({
     (event: GridReadyEvent<T>) => {
       const api = event.api;
       setGridApi(api);
+      const wrapper = tableWrapperRef.current;
+      if (wrapper) {
+        api.setGridOption('popupParent', wrapper);
+      }
 
       // Defer persistence and layout so the grid finishes its first paint (helps with React 18 Strict Mode).
       requestAnimationFrame(() => {
@@ -100,7 +141,15 @@ export function ArborDataTable<T = any>({
           );
         }
 
-        api.sizeColumnsToFit();
+        const fitColumns = () => {
+          try {
+            api.sizeColumnsToFit();
+          } catch {
+            /* ignore: zero-width container during flex layout */
+          }
+        };
+        fitColumns();
+        requestAnimationFrame(fitColumns);
 
         // If client-side data exists but a restored filter (or quick filter) shows 0 rows, clear filters so data is visible
         const displayed = api.getDisplayedRowCount?.() ?? 0;
@@ -121,6 +170,11 @@ export function ArborDataTable<T = any>({
     },
     [tableId, effectivePersisted, initialState, datasource, rowData?.length]
   );
+
+  useEffect(() => {
+    if (!gridApi || !tableWrapperRef.current) return;
+    gridApi.setGridOption('popupParent', tableWrapperRef.current);
+  }, [gridApi]);
 
   const onSelectionChanged = useCallback(() => {
     const api = gridRef.current?.api;
@@ -189,7 +243,7 @@ export function ArborDataTable<T = any>({
     : undefined;
 
   const effectiveColumnDefs = React.useMemo(() => {
-    const cols = [...columnDefs];
+    const cols = [...columnDefs.map(withDsHeaderTooltip)];
     if (rowSelection) {
       cols.unshift({
         headerCheckboxSelection: true,
@@ -233,7 +287,7 @@ export function ArborDataTable<T = any>({
   }, [onExpandTable]);
 
   const content = (
-    <div className={wrapperClass}>
+    <div ref={tableWrapperRef} className={wrapperClass}>
       {showToolbar && (
         <ArborDataTableToolbar
           selectedRowCount={selectedRowCount}
@@ -268,7 +322,7 @@ export function ArborDataTable<T = any>({
         />
       )}
 
-      <div className="ag-grid-container" style={{ minHeight: 320, height: 320, width: '100%' }}>
+      <div className="ag-grid-container">
         <AgGridReact<T>
           key={tableId}
           ref={gridRef}
@@ -279,9 +333,12 @@ export function ArborDataTable<T = any>({
             sortable: true,
             resizable: true,
             filter: true,
+            wrapHeaderText: true,
+            autoHeaderHeight: true,
             ...defaultColDef,
           }}
           getRowId={(params) => (params.data != null ? getRowId(params.data) : `row-${params.rowIndex ?? ''}`)}
+          rowHeight={34}
           rowSelection={rowSelection ? 'multiple' : undefined}
           onGridReady={onGridReady}
           onSelectionChanged={onSelectionChanged}
@@ -293,6 +350,13 @@ export function ArborDataTable<T = any>({
           rowClassRules={rowClassRules}
           animateRows={true}
           domLayout="normal"
+          loading={datasource ? undefined : false}
+          components={gridComponents}
+          overlayComponentParams={
+            noRowsOverlayComponentParams != null
+              ? { noRows: noRowsOverlayComponentParams }
+              : undefined
+          }
         />
       </div>
 

@@ -18,7 +18,41 @@ export const matMisTopNavMenuItems: TopNavMenuItem[] = [
     children: [
       { id: 'mat-analytics-group-context', label: 'Group Context', href: '#' },
       { id: 'mat-analytics-attendance', label: 'Attendance', href: '#' },
-      { id: 'mat-analytics-behaviour', label: 'Behaviour', href: '#', hasSubmenu: true },
+      {
+        id: 'mat-analytics-behaviour',
+        label: 'Behaviour',
+        children: [
+          { id: 'mat-behaviour-dashboard', label: 'Dashboard', href: '#' },
+          { id: 'mat-behaviour-exclusions-dashboard', label: 'Exclusions Dashboard', href: '#' },
+          { id: 'mat-behaviour-school-summary', label: 'School Summary', href: '#' },
+          { id: 'mat-behaviour-student-summary', label: 'Student Summary', href: '#' },
+          { id: 'mat-behaviour-suspensions-group', label: 'Student Suspensions Across Group', href: '#' },
+          { id: 'mat-behaviour-suspensions-dashboard', label: 'Suspensions Dashboard', href: '#' },
+          { id: 'mat-behaviour-trends', label: 'Trends', href: '#' },
+          { id: 'mat-behaviour-week-by-week', label: 'Week by Week', href: '#' },
+          {
+            id: 'mat-behaviour-category-reporting',
+            label: 'Category reporting',
+            children: [
+              {
+                id: 'mat-behaviour-category-reporting-page',
+                label: 'Category Reporting',
+                href: '/templates/mat-mis/behaviour/category-reporting',
+              },
+              {
+                id: 'mat-behaviour-category-mapping',
+                label: 'Category Mapping',
+                href: '/templates/mat-mis/behaviour/category-mapping',
+              },
+              {
+                id: 'mat-behaviour-category-setup',
+                label: 'Category Setup',
+                href: '/templates/mat-mis/behaviour/category-setup',
+              },
+            ],
+          },
+        ],
+      },
       { id: 'mat-analytics-assessment', label: 'Assessment', href: '#', hasSubmenu: true },
       { id: 'mat-analytics-staff-hr', label: 'Staff/HR', href: '#', hasSubmenu: true },
       { id: 'mat-analytics-custom-report-writer', label: 'Custom Report Writer', href: '#' },

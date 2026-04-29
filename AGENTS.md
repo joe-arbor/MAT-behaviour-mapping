@@ -1,5 +1,7 @@
 # Arbor Design System
 
+**Product context (MAT Behaviour Category):** See [`PROJECT_CONTEXT.md`](./PROJECT_CONTEXT.md) for goals, the 23 default categories, versioning, and problem/solution framing.
+
 **Objective:** This design system is built so the design team can easily build and prototype. Known UX/UI issues are accepted; the goal is easy composition and fast prototyping from Figma and the component library, not perfect end-user UX first.
 
 ## How we work

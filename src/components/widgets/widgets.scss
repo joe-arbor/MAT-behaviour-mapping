@@ -64,6 +64,52 @@
   text-overflow: ellipsis;
 }
 
+// Favourites panel — grey links, full-width row dividers (MAT MIS rail + homepage widget).
+.ds-widget--favourites {
+  .ds-section__header {
+    border-bottom: 1px solid var(--color-grey-200);
+  }
+
+  .ds-section__title {
+    color: var(--color-grey-700);
+  }
+
+  .ds-section__body {
+    padding: 0;
+    background: var(--color-mono-white);
+  }
+
+  .ds-widget__info {
+    color: var(--color-grey-600);
+
+    &:hover {
+      color: var(--color-grey-700);
+    }
+  }
+
+  .ds-widget__item {
+    border-bottom: 1px solid var(--color-grey-200);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .ds-widget__link {
+    padding: var(--spacing-small) var(--section-container-spacing-horizontal);
+    color: var(--color-grey-600);
+
+    &:hover {
+      color: var(--color-grey-800);
+      text-decoration: underline;
+    }
+  }
+
+  .ds-widget__star {
+    color: var(--color-grey-400);
+  }
+}
+
 .ds-widget__body {
   margin-top: var(--spacing-xsmall);
 }

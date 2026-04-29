@@ -18,6 +18,7 @@ export function MatMisTemplate() {
         menuItems={matMisTopNavMenuItems}
         searchPlaceholder="Search or ask..."
         onSearch={(value) => setLastSearch(value)}
+        arborLogoTo="/templates/mat-mis"
       />
       <div className="mat-mis-template__body">
         <Sidebar items={matMisSidebarItems} />

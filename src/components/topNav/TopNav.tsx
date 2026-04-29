@@ -7,6 +7,9 @@ import { FloatingNav } from '../floatingNav';
 import type { FloatingNavItem } from '../floatingNav';
 import './topNav.scss';
 
+/** Arbor wordmark for dark backgrounds (PNG asset). */
+const ARBOR_LOGO_DARK_URL = new URL('../../assets/arbor-logo-dark.png', import.meta.url).href;
+
 const DEBUG_LOG = (data: Record<string, unknown>) => {
   const payload = { sessionId: '130f04', location: 'TopNav.tsx', message: 'TopNav layout', data, timestamp: Date.now() };
   fetch('http://127.0.0.1:7622/ingest/8c9a920c-e800-47b1-bcc4-72c12ff2d909', {
@@ -45,6 +48,8 @@ export interface TopNavProps {
   onAskArborClick?: () => void;
   /** Optional class for the root. */
   className?: string;
+  /** Destination for the Arbor wordmark link (default: templates home). */
+  arborLogoTo?: string;
 }
 
 const defaultMenuItems: TopNavMenuItem[] = [
@@ -124,25 +129,16 @@ const defaultMenuItems: TopNavMenuItem[] = [
   },
 ];
 
-/** Arbor wordmark + four-circles icon; links to home. */
-function ArborLogo() {
+/** Arbor wordmark; links to home. */
+function ArborLogo({ to }: { to: string }) {
   return (
-    <Link to="/templates/home" className="ds-top-nav__arbor-logo" aria-label="Arbor home">
-      <svg
-        className="ds-top-nav__arbor-icon"
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden
-      >
-        <circle cx="10" cy="14" r="7" fill="var(--color-brand-400)" opacity="0.9" />
-        <circle cx="18" cy="10" r="7" fill="var(--color-chart-colours-yellow-1)" opacity="0.9" />
-        <circle cx="18" cy="18" r="7" fill="var(--color-chart-colours-orange-1)" opacity="0.9" />
-        <circle cx="10" cy="10" r="7" fill="var(--color-brand-600)" opacity="0.9" />
-      </svg>
-      <span className="ds-top-nav__arbor-text">Arbor</span>
+    <Link to={to} className="ds-top-nav__arbor-logo" aria-label="Arbor home">
+      <img
+        src={ARBOR_LOGO_DARK_URL}
+        alt=""
+        className="ds-top-nav__arbor-logo-img"
+        draggable={false}
+      />
     </Link>
   );
 }
@@ -172,6 +168,7 @@ export const TopNav: React.FC<TopNavProps> = ({
   onSearch,
   onAskArborClick,
   className,
+  arborLogoTo = '/templates/home',
 }) => {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -326,7 +323,7 @@ export const TopNav: React.FC<TopNavProps> = ({
               placeholder={searchPlaceholder}
               onSearch={onSearch}
             />
-            <ArborLogo />
+            <ArborLogo to={arborLogoTo} />
           </div>
         </div>
       </div>

@@ -21,3 +21,4 @@ build/
 # Test / coverage
 coverage/
 .nyc_output/
+.vercel

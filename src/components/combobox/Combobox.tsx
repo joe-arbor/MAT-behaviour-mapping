@@ -29,6 +29,7 @@ export interface ComboboxProps {
   disabled?: boolean;
   id?: string;
   className?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 export const Combobox: React.FC<ComboboxProps> = ({
@@ -42,6 +43,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   disabled = false,
   id: propId,
   className,
+  inputRef: forwardedInputRef,
 }) => {
   const defaultVal = multiple ? (defaultValue ?? []) : (defaultValue ?? '');
   const [uncontrolledValue, setUncontrolledValue] = useState<string | string[]>(defaultVal);
@@ -54,10 +56,22 @@ export const Combobox: React.FC<ComboboxProps> = ({
     flip: false,
     maxHeight: LIST_MAX_HEIGHT_DEFAULT,
   }));
-  const inputRef = useRef<HTMLInputElement>(null);
+  const internalInputRef = useRef<HTMLInputElement | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+
+  const setInputRef = useCallback(
+    (node: HTMLInputElement | null) => {
+      internalInputRef.current = node;
+      if (typeof forwardedInputRef === 'function') {
+        forwardedInputRef(node);
+      } else if (forwardedInputRef) {
+        (forwardedInputRef as { current: HTMLInputElement | null }).current = node;
+      }
+    },
+    [forwardedInputRef],
+  );
 
   const filteredOptions = filter.trim()
     ? options.filter(
@@ -183,7 +197,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
       <div
         ref={triggerRef}
         className="ds-combobox__trigger"
-        onClick={() => !disabled && inputRef.current?.focus()}
+        onClick={() => !disabled && internalInputRef.current?.focus()}
       >
         <div className="ds-combobox__input-wrap">
           {multiple && selectedValues.length > 0 ? (
@@ -205,7 +219,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             </span>
           ) : null}
           <input
-            ref={inputRef}
+            ref={setInputRef}
             id={triggerId}
             type="text"
             className="ds-combobox__input"

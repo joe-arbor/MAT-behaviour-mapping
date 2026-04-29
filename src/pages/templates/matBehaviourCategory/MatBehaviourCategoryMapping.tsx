@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArborDataTable } from '../../../components/arborDataTable';
 import { Button } from '../../../components/button/Button';
 import { Combobox } from '../../../components/combobox/Combobox';
@@ -8,7 +8,7 @@ import { Tooltip } from '../../../components/tooltip/Tooltip';
 import './matBehaviourCategory.scss';
 import {
   CATEGORY_MAPPING_TABLE_ID,
-  categoryMappingColumnDefs,
+  buildCategoryMappingColumnDefs,
   type CategoryMappingRow,
 } from './categoryMappingTable';
 import { DUMMY_CATEGORY_MAPPING_ROWS } from './categoryMappingDummyData';
@@ -50,12 +50,16 @@ function buildBehaviourTypeMappingRows(rows: CategoryMappingRow[]): BehaviourTyp
 export function MatBehaviourCategoryMapping() {
   const { mappings: behaviourTypeMappings, setMappings: setBehaviourTypeMappings } =
     useBehaviourCategoryMapping();
+  const mappingComboboxRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const [appliedFilters, setAppliedFilters] = useState<CategoryMappingFiltersState>(
     EMPTY_CATEGORY_MAPPING_FILTERS,
   );
   const [mappingSlideoverOpen, setMappingSlideoverOpen] = useState(false);
   const [draftBehaviourTypeMappings, setDraftBehaviourTypeMappings] =
     useState<BehaviourTypeMappings>({});
+  const [focusedMappingBehaviourType, setFocusedMappingBehaviourType] = useState<string | null>(
+    null,
+  );
   const [mappingToastMessage, setMappingToastMessage] = useState<string | null>(null);
 
   const dismissMappingToast = useCallback(() => {
@@ -82,15 +86,42 @@ export function MatBehaviourCategoryMapping() {
     [draftBehaviourTypeMappings],
   );
 
-  const openMappingSlideover = () => {
+  const openMappingSlideover = useCallback((focusBehaviourType: string | null = null) => {
     setDraftBehaviourTypeMappings({ ...behaviourTypeMappings });
+    setFocusedMappingBehaviourType(focusBehaviourType);
     setMappingSlideoverOpen(true);
-  };
+  }, [behaviourTypeMappings]);
+
+  const handleAddCategory = useCallback(
+    (row: CategoryMappingRow) => {
+      openMappingSlideover(row.behaviourType);
+    },
+    [openMappingSlideover],
+  );
+
+  const columnDefs = useMemo(
+    () => buildCategoryMappingColumnDefs({ onAddCategory: handleAddCategory }),
+    [handleAddCategory],
+  );
 
   const closeMappingSlideover = () => {
     setDraftBehaviourTypeMappings({ ...behaviourTypeMappings });
+    setFocusedMappingBehaviourType(null);
     setMappingSlideoverOpen(false);
   };
+
+  useEffect(() => {
+    if (!mappingSlideoverOpen || focusedMappingBehaviourType == null) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const input = mappingComboboxRefs.current[focusedMappingBehaviourType];
+      input?.scrollIntoView({ block: 'center', inline: 'nearest' });
+      input?.focus();
+      setFocusedMappingBehaviourType(null);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusedMappingBehaviourType, mappingSlideoverOpen]);
 
   const applyMappingChanges = () => {
     const nextMappings = Object.fromEntries(
@@ -118,7 +149,12 @@ export function MatBehaviourCategoryMapping() {
     <div className="mat-behaviour-category-page">
       <div className="mat-behaviour-category-page__header">
         <h1 className="template-page__title">Category Mapping</h1>
-        <Button type="button" variant="primary" color="green" onClick={openMappingSlideover}>
+        <Button
+          type="button"
+          variant="primary"
+          color="green"
+          onClick={() => openMappingSlideover()}
+        >
           Map behaviour
         </Button>
       </div>
@@ -132,7 +168,7 @@ export function MatBehaviourCategoryMapping() {
           tableId={CATEGORY_MAPPING_TABLE_ID}
           rowData={filteredRows}
           getRowId={(row) => row.id}
-          columnDefs={categoryMappingColumnDefs}
+          columnDefs={columnDefs}
           rowSelection={false}
         />
       </div>
@@ -178,6 +214,12 @@ export function MatBehaviourCategoryMapping() {
                   <td>{row.schoolCount}</td>
                   <td>
                     <Combobox
+                      id={`mapping-category-${row.behaviourType
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')}`}
+                      inputRef={(node) => {
+                        mappingComboboxRefs.current[row.behaviourType] = node;
+                      }}
                       options={BEHAVIOUR_CATEGORY_OPTIONS}
                       value={draftBehaviourTypeMappings[row.behaviourType] ?? ''}
                       onChange={(value) =>

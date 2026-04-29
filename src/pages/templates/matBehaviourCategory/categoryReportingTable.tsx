@@ -135,3 +135,13 @@ export function CategoryReportingNoRowsOverlay(_params: INoRowsOverlayParams) {
     </div>
   );
 }
+
+export function CategoryReportingNoFilterResultsOverlay(_params: INoRowsOverlayParams) {
+  return (
+    <div className="mat-behaviour-category-page__no-rows-overlay">
+      <p className="mat-behaviour-category-page__no-rows-overlay-message">
+        No category reporting data matches the selected filters
+      </p>
+    </div>
+  );
+}

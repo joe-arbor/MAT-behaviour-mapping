@@ -1,4 +1,4 @@
-import type { CategoryMappingRow } from './categoryMappingTable';
+import type { CategoryMappingRow, CategoryReportingSlice } from './categoryMappingTable';
 
 /** Deterministic PRNG (mulberry32) so rows stay stable across reloads. */
 function mulberry32(seed: number) {
@@ -115,6 +115,28 @@ const STAFF_NAMES = [
   'Andrew Singh',
 ] as const;
 
+export const REPORTING_YEAR_GROUPS = [
+  'Reception',
+  'Year 1',
+  'Year 2',
+  'Year 3',
+  'Year 4',
+  'Year 5',
+  'Year 6',
+  'Year 7',
+  'Year 8',
+  'Year 9',
+  'Year 10',
+  'Year 11',
+] as const;
+
+export const REPORTING_STUDENT_GROUPS = [
+  'Pupil premium',
+  'SEN / SEND',
+  'FSM',
+  'EAL',
+] as const;
+
 const SEVERITY_BY_BEHAVIOUR_TYPE: Partial<Record<(typeof BEHAVIOUR_TYPE_POOL)[number], number>> = {
   'Chewing gum': -1,
   'Incorrect uniform / PE kit': -1,
@@ -159,6 +181,42 @@ const SEVERITY_BY_BEHAVIOUR_TYPE: Partial<Record<(typeof BEHAVIOUR_TYPE_POOL)[nu
 /** Reference "today" for demo recency (Apr 2026). */
 const REFERENCE_END_MS = Date.UTC(2026, 3, 29);
 const DAYS_LOOKBACK = 110;
+
+function buildReportingSlices(
+  rowId: string,
+  totalIncidents: number,
+  rng: () => number,
+): CategoryReportingSlice[] {
+  if (totalIncidents <= 0) return [];
+
+  const sliceCount = Math.min(totalIncidents, 4 + Math.floor(rng() * 5));
+  let remaining = totalIncidents;
+  const slices: CategoryReportingSlice[] = [];
+
+  for (let i = 0; i < sliceCount; i++) {
+    const slicesLeft = sliceCount - i;
+    const incidents =
+      i === sliceCount - 1
+        ? remaining
+        : Math.max(1, Math.floor((remaining / slicesLeft) * (0.55 + rng() * 0.9)));
+    remaining -= incidents;
+
+    const daysAgo = Math.floor(rng() * DAYS_LOOKBACK);
+    const incidentDate = new Date(REFERENCE_END_MS - daysAgo * 86400000);
+
+    slices.push({
+      id: `${rowId}-slice-${i}`,
+      incidentDate: formatUkDate(incidentDate),
+      incidentDateIso: incidentDate.toISOString(),
+      yearGroup: REPORTING_YEAR_GROUPS[Math.floor(rng() * REPORTING_YEAR_GROUPS.length)]!,
+      studentGroup: REPORTING_STUDENT_GROUPS[Math.floor(rng() * REPORTING_STUDENT_GROUPS.length)]!,
+      incidents,
+    });
+  }
+
+  return slices.sort((a, b) => a.incidentDateIso.localeCompare(b.incidentDateIso));
+}
+
 function buildDummyCategoryMappingRows(seed = 0xc471_0471): CategoryMappingRow[] {
   const rng = mulberry32(seed);
   const rows: CategoryMappingRow[] = [];
@@ -172,7 +230,9 @@ function buildDummyCategoryMappingRows(seed = 0xc471_0471): CategoryMappingRow[]
       const behaviourType = pool[i]!;
       const id = `${schoolSlug}-${slugify(behaviourType)}-${schoolIndex}`;
       const skew = rng() * rng();
-      const usedInIncidents = Math.min(220, Math.floor(skew * 240 + rng() * 40));
+      const targetIncidentTotal = Math.min(220, Math.floor(skew * 240 + rng() * 40));
+      const reportingSlices = buildReportingSlices(id, targetIncidentTotal, rng);
+      const usedInIncidents = reportingSlices.reduce((sum, slice) => sum + slice.incidents, 0);
       const daysAgo = Math.floor(rng() * DAYS_LOOKBACK);
       const updatedAt = new Date(REFERENCE_END_MS - daysAgo * 86400000);
       const lastUpdatedIso = updatedAt.toISOString();
@@ -189,6 +249,7 @@ function buildDummyCategoryMappingRows(seed = 0xc471_0471): CategoryMappingRow[]
         lastUpdated,
         lastUpdatedIso,
         lastUpdatedBy,
+        reportingSlices,
       });
     }
   });

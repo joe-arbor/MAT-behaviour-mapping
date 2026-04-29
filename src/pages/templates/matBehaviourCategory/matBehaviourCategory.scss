@@ -157,6 +157,13 @@
   }
 }
 
+.mat-behaviour-category-page__reporting-filter-modal {
+  .ds-modal {
+    height: 680px;
+    max-height: min(680px, calc(100vh - 2 * var(--spacing-large)));
+  }
+}
+
 .mat-behaviour-category-page__filter-modal-fields {
   display: flex;
   flex-direction: column;
@@ -174,6 +181,25 @@
 .mat-behaviour-category-page__mapping-slideover {
   .ds-slideover__body {
     align-items: stretch;
+  }
+}
+
+.mat-behaviour-category-page__mapping-add-category-link {
+  padding: 0;
+  font: inherit;
+  color: var(--type-body-hyperlink-color);
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--hyperlink-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--focus-color-focus);
   }
 }
 

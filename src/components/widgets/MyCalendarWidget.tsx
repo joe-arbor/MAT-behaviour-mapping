@@ -19,7 +19,6 @@ export interface MyCalendarWidgetProps {
 
 export const MyCalendarWidget: React.FC<MyCalendarWidgetProps> = ({
   events = [],
-  dateLabel = 'Today',
   className,
 }) => {
   return (

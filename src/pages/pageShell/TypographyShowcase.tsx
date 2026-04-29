@@ -1,4 +1,3 @@
-import React from 'react';
 import './typographyShowcase.scss';
 
 export function TypographyShowcase() {

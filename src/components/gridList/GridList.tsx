@@ -121,6 +121,7 @@ export const GridList: React.FC<GridListProps> = ({
       if (Number.isNaN(fromIndex) || fromIndex === toIndex) return;
       const next = [...items];
       const [removed] = next.splice(fromIndex, 1);
+      if (!removed) return;
       next.splice(toIndex, 0, removed);
       onItemsChange(next);
     },

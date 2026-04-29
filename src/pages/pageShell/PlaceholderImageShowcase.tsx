@@ -1,4 +1,3 @@
-import React from 'react';
 import './placeholderImageShowcase.scss';
 
 const PLACEHOLDERS: { src: string; alt: string }[] = [

@@ -1,4 +1,3 @@
-import React from 'react';
 import { FavouritesWidget, MyCalendarWidget, HomePanels } from '../../components/widgets';
 import './widgetsShowcase.scss';
 

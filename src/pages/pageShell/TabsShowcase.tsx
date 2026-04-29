@@ -17,7 +17,7 @@ function TabsBlock({
   withIcon: boolean;
 }) {
   const sizeLabel = size === 'big' ? 'Big' : size === 'medium' ? 'Medium' : 'Small';
-  const ids = [`${prefix}-1`, `${prefix}-2`, `${prefix}-3`];
+  const ids = [`${prefix}-1`, `${prefix}-2`, `${prefix}-3`] as const;
   const activeId = ids[activeIndex];
   return (
     <div className="tabs-showcase__block">

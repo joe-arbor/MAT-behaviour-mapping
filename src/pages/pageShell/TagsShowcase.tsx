@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tag } from '../../components/tag/Tag';
 import { Tags } from '../../components/tag/Tags';
 import './tagsShowcase.scss';

@@ -95,7 +95,7 @@ export function ComboboxShowcase() {
             options={NAME_OPTIONS}
             multiple
             value={multiNames}
-            onChange={setMultiNames}
+            onChange={(value) => setMultiNames(Array.isArray(value) ? value : [value])}
             placeholder="Select people"
           />
         </div>

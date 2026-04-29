@@ -126,7 +126,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
                                 href={opt.href}
                                 className="ds-breadcrumbs__dropdown-link"
                                 role="menuitem"
-                                onClick={(e) => {
+                                onClick={() => {
                                   opt.onClick?.();
                                   setOpenDropdownId(null);
                                 }}

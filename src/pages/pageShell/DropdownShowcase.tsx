@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Dropdown } from '../../components/dropdown/Dropdown';
 import './dropdownShowcase.scss';
 

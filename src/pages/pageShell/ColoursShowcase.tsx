@@ -1,4 +1,3 @@
-import React from 'react';
 import './coloursShowcase.scss';
 
 type ColorRow = { token: string; value: string };

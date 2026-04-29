@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Sidebar } from '../../components/sidebar';
 import { SideMenu, SideMenuItem } from '../../components/sideMenu';
 import './sideNavShowcase.scss';

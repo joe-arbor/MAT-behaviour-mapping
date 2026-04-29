@@ -337,7 +337,7 @@ export function ArborDataTable<T = any>({
             autoHeaderHeight: true,
             ...defaultColDef,
           }}
-          getRowId={(params) => (params.data != null ? getRowId(params.data) : `row-${params.rowIndex ?? ''}`)}
+          getRowId={(params) => getRowId(params.data)}
           rowHeight={34}
           rowSelection={rowSelection ? 'multiple' : undefined}
           onGridReady={onGridReady}

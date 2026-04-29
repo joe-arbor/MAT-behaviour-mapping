@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TopNav } from '../../components/topNav';
 import { Slideover } from '../../components/slideover';
 import './topNavShowcase.scss';

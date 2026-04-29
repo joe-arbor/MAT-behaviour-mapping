@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tooltip } from '../../components/tooltip';
 import { Button } from '../../components/button/Button';
 import { Info } from 'lucide-react';

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ShowcaseContext } from './ShowcaseContext';
 import { COMPONENT_CATEGORIES } from './showcaseSections';
 import './welcomeShowcase.scss';

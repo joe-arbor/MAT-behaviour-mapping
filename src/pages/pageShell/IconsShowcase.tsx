@@ -4,11 +4,12 @@ import './iconsShowcase.scss';
 
 const ICON_SIZES = [12, 16, 24, 36] as const;
 const DEFAULT_SIZE = 24;
+type IconName = (typeof iconNames)[number];
 
 /** Sort icon names for display (stable alphabetical, kebab-case) */
-const sortedIconNames = [...iconNames].sort((a, b) => a.localeCompare(b, 'en'));
+const sortedIconNames: IconName[] = [...iconNames].sort((a, b) => a.localeCompare(b, 'en'));
 
-function filterIconNames(query: string): string[] {
+function filterIconNames(query: string): IconName[] {
   const q = query.trim().toLowerCase();
   if (!q) return sortedIconNames;
   const kebab = q.replace(/\s+/g, '-');

@@ -15,7 +15,7 @@ function parseDate(s: string): Date | null {
   // DD/MM/YYYY
   const dmy = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(trimmed);
   if (dmy) {
-    const [, day, month, year] = dmy;
+    const [, day = '', month = '', year = ''] = dmy;
     const d = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
     return isNaN(d.getTime()) ? null : d;
   }
@@ -28,7 +28,6 @@ function parseDate(s: string): Date | null {
 }
 
 function getDaysInMonth(year: number, month: number): Date[] {
-  const first = new Date(year, month, 1);
   const last = new Date(year, month + 1, 0);
   const days: Date[] = [];
   for (let d = 1; d <= last.getDate(); d++) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { CourseActionSidebar } from '../../components/courseActionSidebar';
 
 export function CourseActionSidebarShowcase() {

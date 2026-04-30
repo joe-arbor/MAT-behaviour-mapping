@@ -30,6 +30,10 @@ export interface ComboboxProps {
   id?: string;
   className?: string;
   inputRef?: React.Ref<HTMLInputElement>;
+  /** Flat trigger (e.g. inside data tables); no form-field border or fill */
+  variant?: 'default' | 'inline';
+  /** Show × to clear single-select value (default true) */
+  showClear?: boolean;
 }
 
 export const Combobox: React.FC<ComboboxProps> = ({
@@ -44,6 +48,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
   id: propId,
   className,
   inputRef: forwardedInputRef,
+  variant = 'default',
+  showClear = true,
 }) => {
   const defaultVal = multiple ? (defaultValue ?? []) : (defaultValue ?? '');
   const [uncontrolledValue, setUncontrolledValue] = useState<string | string[]>(defaultVal);
@@ -187,6 +193,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         'ds-combobox--open': open,
         'ds-combobox--disabled': disabled,
         'ds-combobox--multiple': multiple,
+        'ds-combobox--inline': variant === 'inline',
       })}
     >
       {label !== undefined && (
@@ -243,7 +250,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             aria-autocomplete="list"
             aria-disabled={disabled}
           />
-          {!multiple && selectedValues.length > 0 && (
+          {!multiple && showClear && selectedValues.length > 0 && (
             <button
               type="button"
               className="ds-combobox__clear"

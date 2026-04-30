@@ -18,6 +18,10 @@
     margin: 0 0 var(--spacing-large);
     font-size: var(--font-size-3-14);
     color: var(--color-grey-700);
+
+    &--tight {
+      margin-bottom: var(--spacing-small);
+    }
   }
 
   &__subheading {
@@ -42,6 +46,14 @@
 
     .ds-combobox {
       width: 100%;
+    }
+
+    &--table-demo {
+      max-width: 16rem;
+      padding: var(--spacing-small) var(--spacing-medium);
+      background: var(--color-grey-050);
+      border-bottom: var(--border-weight) solid var(--card-default-color-border);
+      box-sizing: border-box;
     }
   }
 }

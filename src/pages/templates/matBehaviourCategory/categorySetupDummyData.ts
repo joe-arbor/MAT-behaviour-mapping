@@ -10,7 +10,6 @@ function slugify(s: string): string {
     .replace(/^-|-$/g, '');
 }
 
-const DEFAULT_CATEGORY_VERSION = 'v1.0';
 const LAST_UPDATED_DISPLAY = '29/04/2026';
 const LAST_UPDATED_BY = 'Joe Carter';
 
@@ -32,7 +31,6 @@ export function buildCategorySetupRows(
       sentiment: getCategorySentiment(category),
       description: ARBOR_CATEGORY_DESCRIPTIONS[category] ?? '',
       source: 'Arbor default',
-      versionIntroduced: DEFAULT_CATEGORY_VERSION,
       status: 'Active',
       schoolsUsing: counts.schoolsUsing,
       behaviourTypesMapped: counts.behaviourTypesMapped,

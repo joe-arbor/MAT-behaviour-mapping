@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ArborDataTable } from '../../../components/arborDataTable';
 import { Button } from '../../../components/button/Button';
 import { Combobox } from '../../../components/combobox/Combobox';
 import { TextareaField, TextField } from '../../../components/formField';
+import { Modal } from '../../../components/modal/Modal';
 import { Slideover } from '../../../components/slideover';
 import './matBehaviourCategory.scss';
 import { useBehaviourCategoryMapping } from './BehaviourCategoryMappingContext';
@@ -14,8 +15,9 @@ import {
 import { DUMMY_CATEGORY_MAPPING_ROWS } from './categoryMappingDummyData';
 import {
   CATEGORY_SETUP_TABLE_ID,
-  categorySetupColumnDefs,
+  buildCategorySetupColumnDefs,
   type CategorySetupRow,
+  type CategoryStatus,
 } from './categorySetupTable';
 
 interface CategoryDraft {
@@ -54,6 +56,8 @@ export function MatBehaviourCategorySetup() {
   const [categoryDraft, setCategoryDraft] = useState<CategoryDraft>(EMPTY_CATEGORY_DRAFT);
   const [categoryNameError, setCategoryNameError] = useState('');
   const [customCategoryRows, setCustomCategoryRows] = useState<CategorySetupRow[]>([]);
+  const [statusByRowId, setStatusByRowId] = useState<Record<string, CategoryStatus>>({});
+  const [inactiveBlockedModalOpen, setInactiveBlockedModalOpen] = useState(false);
 
   const mappedRows = useMemo(
     () => applyBehaviourTypeMappings(DUMMY_CATEGORY_MAPPING_ROWS, mappings),
@@ -65,9 +69,29 @@ export function MatBehaviourCategorySetup() {
     [mappedRows],
   );
 
-  const rowData = useMemo(
-    () => [...buildCategorySetupRows(usageByCategory), ...customCategoryRows],
-    [customCategoryRows, usageByCategory],
+  const rowData = useMemo(() => {
+    const defaults = buildCategorySetupRows(usageByCategory).map((row) => ({
+      ...row,
+      status: statusByRowId[row.id] ?? row.status,
+    }));
+    const customs = customCategoryRows.map((row) => ({
+      ...row,
+      status: statusByRowId[row.id] ?? row.status,
+    }));
+    return [...defaults, ...customs];
+  }, [customCategoryRows, statusByRowId, usageByCategory]);
+
+  const handleStatusChange = useCallback((row: CategorySetupRow, next: CategoryStatus) => {
+    if (next === 'Inactive' && row.status === 'Active' && row.behaviourTypesMapped > 0) {
+      setInactiveBlockedModalOpen(true);
+      return;
+    }
+    setStatusByRowId((prev) => ({ ...prev, [row.id]: next }));
+  }, []);
+
+  const columnDefs = useMemo(
+    () => buildCategorySetupColumnDefs({ onStatusChange: handleStatusChange }),
+    [handleStatusChange],
   );
 
   const openAddCategorySlideover = () => {
@@ -98,7 +122,6 @@ export function MatBehaviourCategorySetup() {
         sentiment: categoryDraft.sentiment,
         description: categoryDraft.description.trim(),
         source: 'Custom',
-        versionIntroduced: 'Custom',
         status: 'Active',
         schoolsUsing: 0,
         behaviourTypesMapped: 0,
@@ -124,10 +147,33 @@ export function MatBehaviourCategorySetup() {
           tableId={CATEGORY_SETUP_TABLE_ID}
           rowData={rowData}
           getRowId={(row) => row.id}
-          columnDefs={categorySetupColumnDefs}
+          columnDefs={columnDefs}
           rowSelection={false}
         />
       </div>
+
+      <Modal
+        open={inactiveBlockedModalOpen}
+        onClose={() => setInactiveBlockedModalOpen(false)}
+        title="Cannot mark this category as inactive yet"
+        footer={
+          <Button
+            type="button"
+            variant="primary"
+            color="green"
+            onClick={() => setInactiveBlockedModalOpen(false)}
+          >
+            Close
+          </Button>
+        }
+      >
+        <p>
+          Disconnect all behaviour types from this category first (change their mappings on the
+          behaviour mapping page). After no behaviour types are linked to this category, you can
+          mark it as inactive.
+        </p>
+      </Modal>
+
       <Slideover
         open={addCategoryOpen}
         onClose={closeAddCategorySlideover}

@@ -29,6 +29,7 @@ export function ComboboxShowcase() {
   const [year, setYear] = useState<string>('');
   const [yearGroup, setYearGroup] = useState<string>('');
   const [singleName, setSingleName] = useState<string>('');
+  const [inlineStatus, setInlineStatus] = useState<string>('a1');
 
   return (
     <div className="combobox-showcase">
@@ -107,6 +108,21 @@ export function ComboboxShowcase() {
             options={LOCAL_OPTIONS}
             placeholder="Placeholder text"
             disabled
+          />
+        </div>
+
+        <h3 className="combobox-showcase__subheading">Inline (table cell)</h3>
+        <p className="combobox-showcase__intro combobox-showcase__intro--tight">
+          Flat appearance for data grids: no field border, no clear control; caret only.
+        </p>
+        <div className="combobox-showcase__row combobox-showcase__row--table-demo">
+          <Combobox
+            options={LOCAL_OPTIONS}
+            value={inlineStatus}
+            onChange={(v) => setInlineStatus(v as string)}
+            placeholder="Select"
+            variant="inline"
+            showClear={false}
           />
         </div>
       </section>

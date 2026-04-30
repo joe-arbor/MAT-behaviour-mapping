@@ -63,6 +63,35 @@
     border: none;
   }
 
+  .mat-behaviour-category-page__setup-status-ag-cell {
+    overflow: visible;
+  }
+
+  .mat-behaviour-category-page__setup-status-ag-cell:has(.ds-combobox--open) {
+    z-index: 1001;
+  }
+
+  .mat-behaviour-category-page__setup-status-cell {
+    min-width: 9rem;
+  }
+
+}
+
+/* Setup table Status column: Arbor cell inner wrapper uses overflow:hidden; combobox dropdown must extend past the row. */
+.mat-behaviour-category-page__setup-table {
+  .ag-row:has(.mat-behaviour-category-page__setup-status-ag-cell .ds-combobox--open) {
+    z-index: 1000;
+  }
+
+  .mat-behaviour-category-page__setup-status-ag-cell.ag-cell-normal-height > div {
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .mat-behaviour-category-page__setup-status-ag-cell.ag-cell-auto-height .ag-cell-value > div {
+    overflow: visible;
+    text-overflow: clip;
+  }
 }
 
 .mat-behaviour-category-page__no-rows-overlay {

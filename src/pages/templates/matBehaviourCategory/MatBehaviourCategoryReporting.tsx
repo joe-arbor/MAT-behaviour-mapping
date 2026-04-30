@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Breadcrumbs, type BreadcrumbItem } from '../../../components/breadcrumbs';
+import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { ArborDataTable } from '../../../components/arborDataTable';
 import './matBehaviourCategory.scss';
 import { useBehaviourCategoryMapping } from './BehaviourCategoryMappingContext';
@@ -20,30 +20,10 @@ import {
   categoryReportingColumnDefs,
   type CategoryReportingRow,
 } from './categoryReportingTable';
+import { buildMatBehaviourCategoryBreadcrumbs } from './matBehaviourCategoryBreadcrumbs';
 
-const CATEGORY_REPORTING_BREADCRUMBS: BreadcrumbItem[] = [
-  { label: 'MAT MIS', href: '/templates/mat-mis' },
-  { label: 'Analytics', href: '#' },
-  { label: 'Behaviour', href: '#' },
-  {
-    label: 'Behaviour Categories',
-    dropdownItems: [
-      {
-        label: 'Category Analysis',
-        href: '/templates/mat-mis/behaviour/category-reporting',
-      },
-      {
-        label: 'Map Behaviour Types',
-        href: '/templates/mat-mis/behaviour/category-mapping',
-      },
-      {
-        label: 'Manage Categories',
-        href: '/templates/mat-mis/behaviour/category-setup',
-      },
-    ],
-  },
-  { label: 'Category Analysis', isCurrent: true },
-];
+const CATEGORY_REPORTING_BREADCRUMBS =
+  buildMatBehaviourCategoryBreadcrumbs('Category Analysis');
 
 export function MatBehaviourCategoryReporting() {
   const { mappings } = useBehaviourCategoryMapping();

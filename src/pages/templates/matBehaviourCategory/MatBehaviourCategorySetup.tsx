@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { ArborDataTable } from '../../../components/arborDataTable';
 import { Button } from '../../../components/button/Button';
 import { Combobox } from '../../../components/combobox/Combobox';
@@ -19,6 +20,10 @@ import {
   type CategorySetupRow,
   type CategoryStatus,
 } from './categorySetupTable';
+import { buildMatBehaviourCategoryBreadcrumbs } from './matBehaviourCategoryBreadcrumbs';
+
+const CATEGORY_SETUP_BREADCRUMBS =
+  buildMatBehaviourCategoryBreadcrumbs('Manage Categories');
 
 interface CategoryDraft {
   category: string;
@@ -136,6 +141,10 @@ export function MatBehaviourCategorySetup() {
 
   return (
     <div className="mat-behaviour-category-page">
+      <Breadcrumbs
+        className="mat-behaviour-category-page__breadcrumbs"
+        items={CATEGORY_SETUP_BREADCRUMBS}
+      />
       <div className="mat-behaviour-category-page__header">
         <h1 className="template-page__title">Manage Categories</h1>
         <Button type="button" variant="primary" color="green" onClick={openAddCategorySlideover}>

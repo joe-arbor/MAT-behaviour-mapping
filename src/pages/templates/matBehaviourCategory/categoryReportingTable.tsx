@@ -40,84 +40,74 @@ export const categoryReportingColumnDefs: ColDef<CategoryReportingRow>[] = [
   {
     field: 'category',
     headerName: 'Category',
-    headerTooltip:
-      'The main reporting dimension. This column is always first so you scan categories before detail.',
+    headerTooltip: 'Behaviour category used for reporting across the trust',
     flex: 1.2,
     minWidth: 160,
   },
   {
     field: 'sentiment',
     headerName: 'Sentiment',
-    headerTooltip:
-      'Positive or Negative for fast scanning and comparing the two sets without reading every label.',
+    headerTooltip: 'Shows whether the category is positive or negative',
     minWidth: 120,
   },
   {
     field: 'description',
     headerName: 'Description',
-    headerTooltip:
-      'Optional in some views; useful early on while users are still learning the 23 default categories.',
+    headerTooltip: 'Explains what this category includes',
     flex: 1.4,
     minWidth: 200,
   },
   {
     field: 'incidents',
     headerName: 'Incidents',
-    headerTooltip:
-      'Total count of logged behaviour incidents mapped to that category in the selected period.',
+    headerTooltip: 'Logged incidents in this category for the selected filters',
     minWidth: 100,
     valueFormatter: formatNumber,
   },
   {
     field: 'percentOfAll',
     headerName: '% of all behaviour incidents',
-    headerTooltip:
-      'Share of all behaviour incidents—helps users understand relative weight, not just raw count.',
+    headerTooltip: 'Percentage of filtered incidents in this category',
     minWidth: 200,
     valueFormatter: formatPercent,
   },
   {
     field: 'schoolsWithIncidents',
     headerName: 'Schools with incidents',
-    headerTooltip:
-      'Number of schools in the MAT where that category appears—trust-wide patterns vs localised ones.',
+    headerTooltip: 'Schools with at least one incident in this category',
     minWidth: 160,
     valueFormatter: formatNumber,
   },
   {
     field: 'pupilsInvolved',
     headerName: 'Pupils involved',
-    headerTooltip:
-      'Unique pupil count so the table is not dominated only by repeat incidents.',
+    headerTooltip: 'Unique pupils involved in this category',
     minWidth: 130,
     valueFormatter: formatNumber,
   },
   {
     field: 'ratePer100Pupils',
     headerName: 'Rate per 100 pupils',
-    headerTooltip:
-      'Fair comparison across schools of different sizes.',
+    headerTooltip: 'Incidents per 100 pupils, for comparing schools of different sizes',
     minWidth: 150,
     valueFormatter: formatNumber,
   },
   {
     field: 'highestSchool',
     headerName: 'Highest school',
-    headerTooltip:
-      'The school with the highest count or rate for that category—a clear next step for follow-up.',
+    headerTooltip: 'School with the most incidents in this category',
     minWidth: 160,
   },
   {
     field: 'lastRecorded',
     headerName: 'Last recorded',
-    headerTooltip:
-      'Date of the most recent incident in that category—recency and safeguarding-style scanning.',
+    headerTooltip: 'Date of the most recent incident in this category',
     minWidth: 140,
     valueFormatter: (p) => (p.value ? String(p.value) : ''),
   },
 ];
 
-/** Empty-state overlay with primary CTA to Category Mapping (registered as `agNoRowsOverlay`). */
+/** Empty-state overlay with primary CTA to Map Behaviour Types (registered as `agNoRowsOverlay`). */
 export function CategoryReportingNoRowsOverlay(_params: INoRowsOverlayParams) {
   const navigate = useNavigate();
   return (
@@ -130,7 +120,7 @@ export function CategoryReportingNoRowsOverlay(_params: INoRowsOverlayParams) {
         variant="primary"
         onClick={() => navigate(CATEGORY_REPORTING_MAP_BEHAVIOUR_PATH)}
       >
-        Map behaviour
+        Map behaviour types
       </Button>
     </div>
   );
@@ -140,7 +130,7 @@ export function CategoryReportingNoFilterResultsOverlay(_params: INoRowsOverlayP
   return (
     <div className="mat-behaviour-category-page__no-rows-overlay">
       <p className="mat-behaviour-category-page__no-rows-overlay-message">
-        No category reporting data matches the selected filters
+        No category analysis data matches the selected filters
       </p>
     </div>
   );

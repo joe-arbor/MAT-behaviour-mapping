@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SideMenu, type SideMenuItem } from '../../components/sideMenu';
 import {
@@ -21,9 +21,28 @@ function toggleFavoriteInTree(item: SideMenuItem, targetId: string): SideMenuIte
   return item;
 }
 
+function syncSideMenuItem(currentItems: SideMenuItem[], latestItem: SideMenuItem): SideMenuItem {
+  const currentItem = currentItems.find((item) => item.id === latestItem.id);
+
+  return {
+    ...latestItem,
+    isFavorite: currentItem?.isFavorite ?? latestItem.isFavorite,
+    children: latestItem.children?.map((child) =>
+      syncSideMenuItem(currentItem?.children ?? [], child),
+    ),
+  };
+}
+
 export function MatBehaviourLayout() {
   const location = useLocation();
   const [items, setItems] = useState<SideMenuItem[]>(() => buildMatBehaviourSideMenuItems());
+
+  useEffect(() => {
+    const latestItems = buildMatBehaviourSideMenuItems();
+    setItems((currentItems) =>
+      latestItems.map((latestItem) => syncSideMenuItem(currentItems, latestItem)),
+    );
+  }, []);
 
   const selectedId = useMemo(
     () => findSideMenuSelectedId(location.pathname, items),

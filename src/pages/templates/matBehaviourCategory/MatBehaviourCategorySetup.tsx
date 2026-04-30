@@ -114,7 +114,7 @@ export function MatBehaviourCategorySetup() {
   return (
     <div className="mat-behaviour-category-page">
       <div className="mat-behaviour-category-page__header">
-        <h1 className="template-page__title">Category Setup</h1>
+        <h1 className="template-page__title">Manage Categories</h1>
         <Button type="button" variant="primary" color="green" onClick={openAddCategorySlideover}>
           Add behaviour category
         </Button>

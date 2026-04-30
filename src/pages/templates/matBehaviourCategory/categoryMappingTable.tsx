@@ -75,22 +75,21 @@ export function buildCategoryMappingColumnDefs({
     {
       field: 'behaviourType',
       headerName: 'Behaviour type',
-      headerTooltip: 'The core thing being mapped.',
+      headerTooltip: 'Behaviour type being mapped',
       flex: 1.4,
       minWidth: 180,
     },
     {
       field: 'school',
       headerName: 'School',
-      headerTooltip:
-        'Needed because the same label may mean slightly different things in different schools.',
+      headerTooltip: 'School this mapping belongs to',
       flex: 1,
       minWidth: 140,
     },
     {
       field: 'behaviourCategory',
       headerName: 'Behaviour category',
-      headerTooltip: "Shows Arbor's proposed default category, if one exists.",
+      headerTooltip: 'Category selected for this mapping',
       flex: 1.2,
       minWidth: 160,
       cellRenderer: (params: ICellRendererParams<CategoryMappingRow>) => (
@@ -100,31 +99,28 @@ export function buildCategoryMappingColumnDefs({
     {
       field: 'severity',
       headerName: 'Severity',
-      headerTooltip:
-        'Rating from +5 to -5. Positive and negative values both become more severe the further they are from 0.',
+      headerTooltip: 'How severe this behaviour type is',
       minWidth: 110,
       valueFormatter: formatSeverity,
     },
     {
       field: 'usedInIncidents',
       headerName: 'Used in incidents',
-      headerTooltip:
-        'Count of how often that behaviour type appears. This helps users prioritise high-impact mappings first.',
+      headerTooltip: 'How often this appears in incidents',
       minWidth: 140,
       valueFormatter: formatUsedInIncidents,
     },
     {
       field: 'lastUpdated',
       headerName: 'Last updated',
-      headerTooltip: 'Useful for audit and recency.',
+      headerTooltip: 'When this mapping was last changed',
       minWidth: 140,
       valueFormatter: (p) => (p.value ? String(p.value) : ''),
     },
     {
       field: 'lastUpdatedBy',
       headerName: 'Last updated by',
-      headerTooltip:
-        'Useful in a MAT context where multiple trust staff may be working through the setup.',
+      headerTooltip: 'Who last changed this mapping',
       minWidth: 160,
     },
   ];

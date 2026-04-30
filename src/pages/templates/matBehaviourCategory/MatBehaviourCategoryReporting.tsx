@@ -26,23 +26,23 @@ const CATEGORY_REPORTING_BREADCRUMBS: BreadcrumbItem[] = [
   { label: 'Analytics', href: '#' },
   { label: 'Behaviour', href: '#' },
   {
-    label: 'Category reporting',
+    label: 'Behaviour Categories',
     dropdownItems: [
       {
-        label: 'Category Reporting',
+        label: 'Category Analysis',
         href: '/templates/mat-mis/behaviour/category-reporting',
       },
       {
-        label: 'Category Mapping',
+        label: 'Map Behaviour Types',
         href: '/templates/mat-mis/behaviour/category-mapping',
       },
       {
-        label: 'Category Setup',
+        label: 'Manage Categories',
         href: '/templates/mat-mis/behaviour/category-setup',
       },
     ],
   },
-  { label: 'Category Reporting', isCurrent: true },
+  { label: 'Category Analysis', isCurrent: true },
 ];
 
 export function MatBehaviourCategoryReporting() {
@@ -78,7 +78,7 @@ export function MatBehaviourCategoryReporting() {
         className="mat-behaviour-category-page__breadcrumbs"
         items={CATEGORY_REPORTING_BREADCRUMBS}
       />
-      <h1 className="template-page__title">Category Reporting</h1>
+      <h1 className="template-page__title">Category Analysis</h1>
       <CategoryReportingFilterBar
         allRows={mappedRows}
         applied={appliedFilters}

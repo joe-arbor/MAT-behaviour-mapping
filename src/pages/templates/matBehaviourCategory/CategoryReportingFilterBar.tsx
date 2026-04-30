@@ -103,7 +103,7 @@ export function CategoryReportingFilterBar({
         className="mat-behaviour-category-page__filter-modal mat-behaviour-category-page__reporting-filter-modal"
         open={open}
         onClose={handleClose}
-        title="Filter category reporting"
+        title="Filter category analysis"
         footer={
           <>
             <Button type="button" variant="secondaryV1" color="grey" onClick={handleClose}>

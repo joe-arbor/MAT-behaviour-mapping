@@ -97,7 +97,7 @@ export function CategoryMappingFilterBar({
         className="mat-behaviour-category-page__filter-modal"
         open={open}
         onClose={handleClose}
-        title="Filter category mapping"
+        title="Filter map behaviour types"
         footer={
           <>
             <Button type="button" variant="secondaryV1" color="grey" onClick={handleClose}>

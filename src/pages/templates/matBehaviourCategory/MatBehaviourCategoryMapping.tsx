@@ -148,14 +148,14 @@ export function MatBehaviourCategoryMapping() {
   return (
     <div className="mat-behaviour-category-page">
       <div className="mat-behaviour-category-page__header">
-        <h1 className="template-page__title">Category Mapping</h1>
+        <h1 className="template-page__title">Map Behaviour Types</h1>
         <Button
           type="button"
           variant="primary"
           color="green"
           onClick={() => openMappingSlideover()}
         >
-          Map behaviour
+          Map behaviour types
         </Button>
       </div>
       <CategoryMappingFilterBar

@@ -32,21 +32,21 @@ export const matMisTopNavMenuItems: TopNavMenuItem[] = [
           { id: 'mat-behaviour-week-by-week', label: 'Week by Week', href: '#' },
           {
             id: 'mat-behaviour-category-reporting',
-            label: 'Category reporting',
+            label: 'Behaviour Categories',
             children: [
               {
                 id: 'mat-behaviour-category-reporting-page',
-                label: 'Category Reporting',
+                label: 'Category Analysis',
                 href: '/templates/mat-mis/behaviour/category-reporting',
               },
               {
                 id: 'mat-behaviour-category-mapping',
-                label: 'Category Mapping',
+                label: 'Map Behaviour Types',
                 href: '/templates/mat-mis/behaviour/category-mapping',
               },
               {
                 id: 'mat-behaviour-category-setup',
-                label: 'Category Setup',
+                label: 'Manage Categories',
                 href: '/templates/mat-mis/behaviour/category-setup',
               },
             ],

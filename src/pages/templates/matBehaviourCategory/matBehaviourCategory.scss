@@ -362,8 +362,8 @@
     width: 6rem;
   }
 
-  th:nth-child(3),
-  td:nth-child(3) {
+  th:last-child:not(:nth-child(2)),
+  td:last-child:not(:nth-child(2)) {
     width: 18rem;
   }
 }

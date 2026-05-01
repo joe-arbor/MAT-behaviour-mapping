@@ -409,9 +409,11 @@ export function MatBehaviourCategoryMapping() {
                     Number of schools
                   </Tooltip>
                 </th>
-                <th scope="col">
-                  <Tooltip content="Map to category">Behaviour category</Tooltip>
-                </th>
+                {mappingSlideoverScope.mode === 'full' && (
+                  <th scope="col">
+                    <Tooltip content="Map to category">Behaviour category</Tooltip>
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -425,42 +427,44 @@ export function MatBehaviourCategoryMapping() {
                         ]
                       : row.schoolCount}
                   </td>
-                  <td>
-                    <Combobox
-                      id={`mapping-category-${row.behaviourType
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')}`}
-                      inputRef={(node) => {
-                        mappingComboboxRefs.current[row.behaviourType] = node;
-                      }}
-                      options={BEHAVIOUR_CATEGORY_OPTIONS}
-                      value={draftBehaviourTypeMappings[row.behaviourType] ?? ''}
-                      onChange={(value) =>
-                        setDraftBehaviourTypeMappings((current: BehaviourTypeMappings) => ({
-                          ...current,
-                          [row.behaviourType]: Array.isArray(value) ? '' : value,
-                        }))
-                      }
-                      placeholder="Select category"
-                    />
-                  </td>
+                  {mappingSlideoverScope.mode === 'full' && (
+                    <td>
+                      <Combobox
+                        id={`mapping-category-${row.behaviourType
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, '-')}`}
+                        inputRef={(node) => {
+                          mappingComboboxRefs.current[row.behaviourType] = node;
+                        }}
+                        options={BEHAVIOUR_CATEGORY_OPTIONS}
+                        value={draftBehaviourTypeMappings[row.behaviourType] ?? ''}
+                        onChange={(value) =>
+                          setDraftBehaviourTypeMappings((current: BehaviourTypeMappings) => ({
+                            ...current,
+                            [row.behaviourType]: Array.isArray(value) ? '' : value,
+                          }))
+                        }
+                        placeholder="Select category"
+                      />
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="mat-behaviour-category-page__mapping-slideover-actions">
-            <Button
-              type="button"
-              variant="secondary"
-              color="grey"
-              onClick={clearDraftMappingChanges}
-              disabled={!hasVisibleDraftBehaviourTypeMappings}
-            >
-              {mappingSlideoverScope.mode === 'scoped'
-                ? 'Clear selected mappings'
-                : 'Clear all mappings'}
-            </Button>
-          </div>
+          {mappingSlideoverScope.mode === 'full' && (
+            <div className="mat-behaviour-category-page__mapping-slideover-actions">
+              <Button
+                type="button"
+                variant="secondary"
+                color="grey"
+                onClick={clearDraftMappingChanges}
+                disabled={!hasVisibleDraftBehaviourTypeMappings}
+              >
+                Clear all mappings [demo only]
+              </Button>
+            </div>
+          )}
         </div>
       </Slideover>
       {mappingToastMessage != null && (

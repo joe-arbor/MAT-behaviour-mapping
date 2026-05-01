@@ -78,6 +78,8 @@ export function buildCategoryMappingColumnDefs({
       headerTooltip: 'Behaviour type being mapped',
       flex: 1.4,
       minWidth: 180,
+      sort: 'asc',
+      sortIndex: 0,
     },
     {
       field: 'school',

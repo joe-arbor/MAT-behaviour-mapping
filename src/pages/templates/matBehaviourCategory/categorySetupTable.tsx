@@ -78,6 +78,8 @@ export function buildCategorySetupColumnDefs(
       headerTooltip: 'The behaviour category schools use for reporting',
       flex: 1.2,
       minWidth: 160,
+      sort: 'asc',
+      sortIndex: 0,
     },
     {
       field: 'sentiment',

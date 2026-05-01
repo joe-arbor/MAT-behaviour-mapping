@@ -43,6 +43,8 @@ export const categoryReportingColumnDefs: ColDef<CategoryReportingRow>[] = [
     headerTooltip: 'Behaviour category used for reporting across the trust',
     flex: 1.2,
     minWidth: 160,
+    sort: 'asc',
+    sortIndex: 0,
   },
   {
     field: 'sentiment',

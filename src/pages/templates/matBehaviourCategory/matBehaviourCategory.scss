@@ -24,6 +24,10 @@
   background: var(--color-grey-050);
 }
 
+.mat-behaviour-category-page__info-banner {
+  margin-top: var(--spacing-medium);
+}
+
 .mat-behaviour-category-page__reporting-table,
 .mat-behaviour-category-page__mapping-table,
 .mat-behaviour-category-page__setup-table {
@@ -312,6 +316,10 @@
 
 .mat-behaviour-category-page__mapping-slideover-bulk-field {
   margin-bottom: var(--spacing-medium);
+
+  .ds-combobox__label {
+    font-weight: var(--font-weight-bold);
+  }
 }
 
 .mat-behaviour-category-page__mapping-slideover-table {

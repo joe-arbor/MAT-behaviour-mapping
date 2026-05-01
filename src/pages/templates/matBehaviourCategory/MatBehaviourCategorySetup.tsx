@@ -1,6 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Info } from 'lucide-react';
 import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { ArborDataTable } from '../../../components/arborDataTable';
+import { Banner } from '../../../components/banner/Banner';
 import { Button } from '../../../components/button/Button';
 import { Combobox } from '../../../components/combobox/Combobox';
 import { TextareaField, TextField } from '../../../components/formField';
@@ -151,6 +153,13 @@ export function MatBehaviourCategorySetup() {
           Add behaviour category
         </Button>
       </div>
+      <Banner
+        variant="info"
+        icon={<Info size={24} aria-hidden />}
+        className="mat-behaviour-category-page__info-banner"
+      >
+        Manage the behaviour categories used to group school behaviour types.
+      </Banner>
       <div className="mat-behaviour-category-page__setup-table">
         <ArborDataTable<CategorySetupRow>
           tableId={CATEGORY_SETUP_TABLE_ID}

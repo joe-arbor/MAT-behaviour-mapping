@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Info } from 'lucide-react';
 import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { ArborDataTable } from '../../../components/arborDataTable';
 import { Banner } from '../../../components/banner/Banner';
@@ -43,6 +44,7 @@ type MappingSlideoverScope =
       mode: 'scoped';
       behaviourTypes: string[];
       schoolCount: number;
+        selectedSchoolCountsByBehaviourType: Record<string, number>;
       affectedSchoolCount: number;
     };
 
@@ -67,6 +69,7 @@ export function MatBehaviourCategoryMapping() {
   const { mappings: behaviourTypeMappings, setMappings: setBehaviourTypeMappings } =
     useBehaviourCategoryMapping();
   const mappingComboboxRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const scopedBulkComboboxRef = useRef<HTMLInputElement | null>(null);
   const [appliedFilters, setAppliedFilters] = useState<CategoryMappingFiltersState>(
     EMPTY_CATEGORY_MAPPING_FILTERS,
   );
@@ -124,6 +127,16 @@ export function MatBehaviourCategoryMapping() {
       );
       const behaviourTypeSet = new Set(behaviourTypes);
       const schoolCount = new Set(selectedRows.map((row) => row.school)).size;
+      const selectedSchoolCountsByBehaviourType = Object.fromEntries(
+        behaviourTypes.map((behaviourType) => [
+          behaviourType,
+          new Set(
+            DUMMY_CATEGORY_MAPPING_ROWS
+              .filter((row) => row.behaviourType === behaviourType)
+              .map((row) => row.school),
+          ).size,
+        ]),
+      );
       const affectedSchoolCount = new Set(
         DUMMY_CATEGORY_MAPPING_ROWS.filter((row) => behaviourTypeSet.has(row.behaviourType)).map(
           (row) => row.school,
@@ -136,6 +149,7 @@ export function MatBehaviourCategoryMapping() {
         mode: 'scoped',
         behaviourTypes,
         schoolCount,
+        selectedSchoolCountsByBehaviourType,
         affectedSchoolCount,
       });
       setMappingSlideoverOpen(true);
@@ -235,6 +249,16 @@ export function MatBehaviourCategoryMapping() {
     return () => window.cancelAnimationFrame(frame);
   }, [focusedMappingBehaviourType, mappingSlideoverOpen]);
 
+  useEffect(() => {
+    if (!mappingSlideoverOpen || mappingSlideoverScope.mode !== 'scoped') return;
+
+    const frame = window.requestAnimationFrame(() => {
+      scopedBulkComboboxRef.current?.focus();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [mappingSlideoverOpen, mappingSlideoverScope.mode]);
+
   const applyMappingChanges = () => {
     const nextMappings = Object.fromEntries(
       Object.entries(draftBehaviourTypeMappings).filter(([, category]) => category),
@@ -284,19 +308,12 @@ export function MatBehaviourCategoryMapping() {
   const scopedMappingCopy =
     mappingSlideoverScope.mode === 'scoped'
       ? (() => {
-          const affectedSchoolLabel =
-            mappingSlideoverScope.affectedSchoolCount === 1 ? 'school' : 'schools';
-          const behaviourTypeCopy =
-            mappingSlideoverScope.behaviourTypes.length === 1
-              ? `"${mappingSlideoverScope.behaviourTypes[0]}"`
-              : 'these behaviour types';
-          const outsideSelectionCopy =
-            mappingSlideoverScope.affectedSchoolCount > mappingSlideoverScope.schoolCount
-              ? ', including schools outside your selection'
-              : '';
+          const behaviourTypeCount = mappingSlideoverScope.behaviourTypes.length;
+          const behaviourTypeLabel =
+            behaviourTypeCount === 1 ? 'behaviour type' : 'behaviour types';
 
           return {
-            impactMessage: `Behaviour types use one category across schools. The category you choose will apply to ${behaviourTypeCopy} in ${mappingSlideoverScope.affectedSchoolCount} ${affectedSchoolLabel}${outsideSelectionCopy}.`,
+            impactMessage: `${behaviourTypeCount} ${behaviourTypeLabel} selected. We’ll apply each category to matching behaviour types with the same spelling across schools.`,
           };
         })()
       : null;
@@ -318,6 +335,13 @@ export function MatBehaviourCategoryMapping() {
           Map behaviour types
         </Button>
       </div>
+      <Banner
+        variant="info"
+        icon={<Info size={24} aria-hidden />}
+        className="mat-behaviour-category-page__info-banner"
+      >
+        Map school behaviour types to categories for consistent reporting across schools.
+      </Banner>
       <CategoryMappingFilterBar
         allRows={mappedRows}
         applied={appliedFilters}
@@ -362,6 +386,18 @@ export function MatBehaviourCategoryMapping() {
               {scopedMappingCopy.impactMessage}
             </Banner>
           )}
+          {mappingSlideoverScope.mode === 'scoped' && (
+            <Combobox
+              id="mapping-category-selected-behaviour-types"
+              className="mat-behaviour-category-page__mapping-slideover-bulk-field"
+              label="Apply category to all selected behaviour types"
+              options={BEHAVIOUR_CATEGORY_OPTIONS}
+              value={scopedBulkCategoryValue}
+              onChange={setScopedBulkCategory}
+              placeholder="Select category"
+              inputRef={scopedBulkComboboxRef}
+            />
+          )}
           <table className="mat-behaviour-category-page__mapping-slideover-table">
             <thead>
               <tr>
@@ -369,14 +405,8 @@ export function MatBehaviourCategoryMapping() {
                   <Tooltip content="School-defined behaviour types">Behaviour type</Tooltip>
                 </th>
                 <th scope="col">
-                  <Tooltip
-                    content={
-                      mappingSlideoverScope.mode === 'scoped'
-                        ? 'Schools selected for this bulk action'
-                        : 'Total schools using this behaviour type'
-                    }
-                  >
-                    {mappingSlideoverScope.mode === 'scoped' ? 'Selected schools' : 'School count'}
+                  <Tooltip content="Total schools using this behaviour type">
+                    Number of schools
                   </Tooltip>
                 </th>
                 <th scope="col">
@@ -385,47 +415,37 @@ export function MatBehaviourCategoryMapping() {
               </tr>
             </thead>
             <tbody>
-              {mappingSlideoverScope.mode === 'scoped' ? (
-                <tr>
-                  <td>{mappingSlideoverScope.behaviourTypes.join(', ')}</td>
-                  <td>{mappingSlideoverScope.schoolCount}</td>
+              {visibleBehaviourTypeMappingRows.map((row) => (
+                <tr key={row.behaviourType}>
+                  <td>{row.behaviourType}</td>
+                  <td>
+                    {mappingSlideoverScope.mode === 'scoped'
+                      ? mappingSlideoverScope.selectedSchoolCountsByBehaviourType[
+                          row.behaviourType
+                        ]
+                      : row.schoolCount}
+                  </td>
                   <td>
                     <Combobox
-                      id="mapping-category-selected-behaviour-types"
+                      id={`mapping-category-${row.behaviourType
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')}`}
+                      inputRef={(node) => {
+                        mappingComboboxRefs.current[row.behaviourType] = node;
+                      }}
                       options={BEHAVIOUR_CATEGORY_OPTIONS}
-                      value={scopedBulkCategoryValue}
-                      onChange={setScopedBulkCategory}
+                      value={draftBehaviourTypeMappings[row.behaviourType] ?? ''}
+                      onChange={(value) =>
+                        setDraftBehaviourTypeMappings((current: BehaviourTypeMappings) => ({
+                          ...current,
+                          [row.behaviourType]: Array.isArray(value) ? '' : value,
+                        }))
+                      }
                       placeholder="Select category"
                     />
                   </td>
                 </tr>
-              ) : (
-                visibleBehaviourTypeMappingRows.map((row) => (
-                  <tr key={row.behaviourType}>
-                    <td>{row.behaviourType}</td>
-                    <td>{row.schoolCount}</td>
-                    <td>
-                      <Combobox
-                        id={`mapping-category-${row.behaviourType
-                          .toLowerCase()
-                          .replace(/[^a-z0-9]+/g, '-')}`}
-                        inputRef={(node) => {
-                          mappingComboboxRefs.current[row.behaviourType] = node;
-                        }}
-                        options={BEHAVIOUR_CATEGORY_OPTIONS}
-                        value={draftBehaviourTypeMappings[row.behaviourType] ?? ''}
-                        onChange={(value) =>
-                          setDraftBehaviourTypeMappings((current: BehaviourTypeMappings) => ({
-                            ...current,
-                            [row.behaviourType]: Array.isArray(value) ? '' : value,
-                          }))
-                        }
-                        placeholder="Select category"
-                      />
-                    </td>
-                  </tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
           <div className="mat-behaviour-category-page__mapping-slideover-actions">
